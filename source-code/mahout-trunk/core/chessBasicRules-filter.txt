@@ -1,0 +1,5 @@
+N [amove(amove-pos(1_3),amove-val(0)), num-of-bwins(1)]
+P [num-of-awins(0), num-of-bwins(2)]
+N [num-of-bwins(1)]
+N [amove(amove-pos(6_3),amove-val(0)), num-of-bwins(1)]
+N [amove(amove-pos(5_3),amove-val(0)), num-of-bwins(1)]
