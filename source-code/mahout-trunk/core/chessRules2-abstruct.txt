@@ -1,0 +1,3 @@
+P [for_all(amove,amove.val(0)), for_all(amove,bmove,followedBy(amove.val(0),bmove.val(1))), num-of-awins(0), num-of-bwins(2), num-of-bwins(2-4)]
+N [num-of-awins(0-4), num-of-bwins(0-4)]
+P [for_all(amove,amove.val(0)), for_all(amove,bmove,followedBy(amove.val(0),bmove.val(1))), num-of-awins(0), num-of-bwins(2-4)]
