@@ -15,7 +15,9 @@ public class Test {
 		
 		
 		SimpleMatrix n = new SimpleMatrix(2,3);
-		//System.out.println(new File(".").getCanonicalPath());
+		int[] bla = new int[0];
+		
+		//bla[0]=1;
 		
 
 		//WifiExperimentRunner we = new WifiExperimentRunner();
