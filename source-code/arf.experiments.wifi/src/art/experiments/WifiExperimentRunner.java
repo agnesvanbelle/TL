@@ -53,7 +53,7 @@ public class WifiExperimentRunner {
 		h3.add("B");
 		housesMap.put("C", h3);
 
-
+		
 		for (String house: houses) {
 			//this house becomes target 
 			

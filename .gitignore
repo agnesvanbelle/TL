@@ -1,9 +1,10 @@
 bin
 .metadata 
+.e4css
 
 *.class
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
