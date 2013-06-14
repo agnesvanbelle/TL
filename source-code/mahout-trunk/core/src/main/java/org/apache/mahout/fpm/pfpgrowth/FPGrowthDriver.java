@@ -245,7 +245,7 @@ public static void runFPGrowthDriver(String[] args) throws IOException,
 		String rulesOutput =
 			//"/Users/dagga/Desktop/ClassWork/Thesis/MAHOUT/MAHOUT_WS/game.tree.analysis/houseInfoA/split08-19-15-27-18/rules.txt"; 
 			params.get("output");
-		String outputFile = "/Users/dagga/Desktop/ClassWork/Thesis/MAHOUT/MAHOUT_WS/trunk/core/testdata/test-output/output.txt";
+		String outputFile = "../arf.experiments.wifi/test-output/output.txt";
 		params.set("output", outputFile);
 		params.set("method", "sequential");
 		params.set("splitterPattern", ":");

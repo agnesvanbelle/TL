@@ -59,6 +59,8 @@ public class WifiExperimentRunner {
 			
 			for (int noDays: noDaysArray) {
 			
+			System.out.println("House: " + house + " Day: " + noDays);
+			
 			String rootDir = ROOT_DIR + house;
 			
 			//file with lines consisting of a date range and a sensor id (that fire during this interval) 
@@ -85,12 +87,16 @@ public class WifiExperimentRunner {
 			Set<String> actionDates = actionMap.keySet();
 			Map<String, List<String>> sensorMap = saveSensorLinesByDate(
 					sensorReadings, actionDates);
-			 
+			
+		
 			// create a directory where the results of an experiment (that uses noDays days) will be stored
 			String rootDirHouse = rootDir + "/house" + house + noDays; 
 			Utils.deleteDir(rootDirHouse);
 			
 			new File(rootDirHouse).mkdir();
+			
+			System.out.println(rootDirHouse);
+			//System.exit(0);
 			
 			//save training and testing lines
 			List<String> allDates = new ArrayList<String>(actionMap.keySet());
