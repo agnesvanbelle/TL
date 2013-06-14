@@ -25,7 +25,7 @@ public class WifiExperimentRunner {
 	private static final boolean USE_CLASS = true;
 	//number of instances 
 	private static final int NO_INSTANCES = 1;
-	private static final String ROOT_DIR = "houseInfo";
+	private static final String ROOT_DIR = "../arf.experiments.wifi/houseInfo";
 	
 	//number of days in target training data
 	private static final int[] noDaysArray = {21}; //{2,3,6,11,21}; //{6,11,21};
@@ -33,7 +33,7 @@ public class WifiExperimentRunner {
 	//if true, ranges will be added for variable values
 	private static final boolean withRanges = false;
 
-	private static final String classMapFile = "classMap.txt";
+	private static final String classMapFile = "../arf.experiments.wifi/classMap.txt";
 	
 	public static void main(String[] args) {
 		AbstractPredicateWriter apw = new AbstractPredicateWriter();
