@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.ejml.simple.SimpleMatrix;
-import art.experiments.WifiExperimentRunner;
+//import art.experiments.WifiExperimentRunner;
 
 public class Test {
 	
@@ -21,7 +21,7 @@ public class Test {
 		
 
 		//WifiExperimentRunner we = new WifiExperimentRunner();
-		WifiExperimentRunner.main(null);
+		//WifiExperimentRunner.main(null);
 	}
 
 }

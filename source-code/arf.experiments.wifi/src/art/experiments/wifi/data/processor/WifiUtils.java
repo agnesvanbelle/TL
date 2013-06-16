@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 public class WifiUtils {
 
 	public static List<String> getLines(String inputFile) {
+		//System.out.println(inputFile);
 		Pattern pattern = Pattern.compile("\\n");	
 		Scanner scan = null;
 		try {

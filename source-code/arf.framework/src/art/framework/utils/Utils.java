@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class Utils {
 
@@ -40,9 +41,10 @@ public class Utils {
 	
 	public static Map<String,String> readExamples(String file) {
 		Map<String, String> examples = new HashMap<String, String>();
-	
+		BufferedReader br = null;
+		
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(file));
+			br = new BufferedReader(new FileReader(file));
 			String line = null;
 			while ((line = br.readLine()) != null) {
 				line = line.replace("[", "").replace("]", "");
@@ -60,7 +62,17 @@ public class Utils {
 			System.out.println("[ERROR] Unexpected exception while reading from file: " + file);
 			System.out.println(e);
 			System.exit(1);
+		} finally {
+			if (br != null ) {
+				try {
+					br.close();
+				}catch (Exception e){
+					System.err.println("COuldn't close file " + file);
+					e.printStackTrace();
+				}
+			}
 		}
+		
 		
 		
 		return examples;
@@ -85,8 +97,18 @@ public class Utils {
 	        }
 	    }
 
-	    // The directory is now empty so delete it
-	    return dir.delete();
+	    // The directory is now empty if it had files/subdirs - try to delete it
+	    boolean deleted = false;
+	    try {
+	    	dir.delete();	    
+	    	deleted = true;
+	    } catch (Exception e) {
+	        // File permission problems are caught here.
+	        System.err.println("Error deleting dir " + dirName);
+	        e.printStackTrace();
+	    }
+
+	    return deleted;
 	}
 
 	public static void deleteFile(String fileName) {
