@@ -18,7 +18,6 @@ import art.experiments.wifi.data.processor.WifiUtils;
 import art.framework.example.parser.AbstractPredicateWriter;
 import art.framework.utils.Constants;
 import art.framework.utils.Utils;
-import tl.experiments.StaticUtils;
 
 public class WifiExperimentRunner {
 
@@ -53,7 +52,7 @@ public class WifiExperimentRunner {
 		h3.add("B");
 		housesMap.put("C", h3);
 		System.out.println("housesMap:");
-		StaticUtils.printMap(housesMap);
+		WifiUtils.printMap(housesMap);
 		
 		for (String house: houses) {
 			//this house becomes target 
@@ -80,8 +79,8 @@ public class WifiExperimentRunner {
 			List<String> sensorReadings = WifiUtils.getLines(sensorFile);
 			List<String> actionReadings = WifiUtils.getLines(actionFile);					
 			
-			//StaticUtils.printList(sensorReadings);
-			//StaticUtils.printList(actionReadings);
+			//WifiUtils.printList(sensorReadings);
+			//WifiUtils.printList(actionReadings);
 			
 			System.out.println("sensorReadings size: " + sensorReadings.size());
 			System.out.println("actionReadings size: " + actionReadings.size());
@@ -91,7 +90,7 @@ public class WifiExperimentRunner {
 			saveActionLinesByDate(actionReadings, actionMap);
 			
 			//System.out.println("actionMap:");
-			//StaticUtils.printMap(actionMap);
+			//WifiUtils.printMap(actionMap);
 			System.out.println("actionMap (per day) size: " + actionMap.size());
 			
 			//construct a map of date to sensor readings 
@@ -100,7 +99,7 @@ public class WifiExperimentRunner {
 					sensorReadings, actionDates);
 			
 			//System.out.println("sensorMap:");
-			//StaticUtils.printMap(sensorMap);
+			//WifiUtils.printMap(sensorMap);
 			System.out.println("sensorMap (per day) size: " + actionMap.size());
 		
 			
@@ -135,11 +134,11 @@ public class WifiExperimentRunner {
 					rand, testActionInstances, testSensorInstances,
 					trainActionInstances, trainSensorInstances);
 			
-			//StaticUtils.printMapNewlines(testActionInstances);
+			//WifiUtils.printMapNewlines(testActionInstances);
 			System.out.println("nr. train/test sets in testActionInstances: ");			
 			System.out.println(testActionInstances.keySet().size());
 			
-			//StaticUtils.printMapNewlines(trainActionInstances);
+			//WifiUtils.printMapNewlines(trainActionInstances);
 			System.out.println("nr. train/test sets in trainActionInstances: ");			
 			System.out.println(trainActionInstances.keySet().size());
 			
@@ -148,6 +147,7 @@ public class WifiExperimentRunner {
 			String confTr = "0.3"; //confidence cut off used to extract rules with FP growth for transfer model (source houses)
 			
 			// for each train/test set
+			// it comes in dir _rootDir named after the train+test day numbers
 			for (String dirName: testActionInstances.keySet()) {
 				File rootDir_ = new File(rootDir, "split" + dirName);
 				Utils.deleteDir(rootDir_.getAbsolutePath());
@@ -171,13 +171,14 @@ public class WifiExperimentRunner {
 				Utils.saveLines(actions, actionTrainFile);
 				
 				
-				StaticUtils.stop();
+				
 				
 				//======== build no transfer model ======== 
 				getFeatureRepresentationOfTrainAndTestDataForNoTransferCase(apw, sensorMapFile, actionMapFile,
 						rootDirHouse, dirName, rootDir_, sensorTrainFile,
 						actionTrainFile, sensorTestFile, actionTestFile, conf);
 				
+				WifiUtils.stop();
 				//saveSensorModel(sensorModels, "sensorModelOrig");
 
 				//======== get rules from all domains for transfer ======== 
@@ -348,26 +349,56 @@ public class WifiExperimentRunner {
 		WifiAligner.getAlignedSensorData(sensorTrainFile, actionTrainFile, sensorMapFile,
 				 actionMapFile, consecutiveIntervals, sensorModels);
 		
+		
+		System.out.println("consecutiveIntervals: ");
+		WifiUtils.printEventInfoMap(consecutiveIntervals);
+		/* e.g.
+		   8-2-2008-use-toilet-154 --> 
+			type = BathroomDoor actionType = use-toilet sensorDurations = 1 1  sensorStarts = 673 675  sensorEnds = 672 675  actionDuration = 3 actionStart = 672 actionEnd = 675
+			type = Toilet actionType = use-toilet sensorDurations = 1  sensorStarts = 676  sensorEnds = 675  actionDuration = 3 actionStart = 672 actionEnd = 675
+			type = BathroomDoor actionType = use-toilet sensorDurations = 1 1  sensorStarts = 673 675  sensorEnds = 672 675  actionDuration = 3 actionStart = 672 actionEnd = 675
+		 */
+		System.out.println("sensorModels: ");
+		WifiUtils.printSensorTreeMap(sensorModels);
+		/* e.g.
+		   KitchHeat --> 
+			|||action name leave-house sensor durations: [1] s.d. median: 1 no firings: [1] no firings median: 1 action durations: [385] a.d. median: 385 ,  sensor starts: [1035] s.d. starts median: 1035 sensor ends: [1034] s.d. ends median: 1035 action starts: [649] s.d. starts median: 649 action ends: [1034] s.d. ends median: 1034|||
+			|||action name prep-dinner sensor durations: [1, 1, 1, 10071] s.d. median: 1 no firings: [1, 3] no firings median: 2 action durations: [25, 45] a.d. median: 35 ,  sensor starts: [1096, 1107, 1120, 1136] s.d. starts median: 1114 sensor ends: [1096, 1107, 1119, 1145] s.d. ends median: 1114 action starts: [1095, 1134] s.d. starts median: 1115 action ends: [1120, 1179] s.d. ends median: 1150|||
+			|||action name prep-breakfast sensor durations: [1, 1, 1, 1] s.d. median: 1 no firings: [1, 1, 1, 1] no firings median: 1 action durations: [3, 3, 6, 6] a.d. median: 5 ,  sensor starts: [580, 554, 549, 503] s.d. starts median: 552 sensor ends: [579, 553, 549, 502] s.d. ends median: 552 action starts: [578, 552, 544, 501] s.d. starts median: 548 action ends: [584, 555, 550, 504] s.d. ends median: 553|||
+		 */
+		
 		//using consecutiveIntervals and sensorModels maps give data logic representation
 		String outputTargetFile = new File(rootDir_, Constants.WIFI_EXAMPLES_FILE  + "-train-notr").getAbsolutePath();	
 		WifiAligner.getPredicates(consecutiveIntervals, sensorModels, outputTargetFile, true);
 		
 		//given a simple logic data representation obtained above, create abstract data representation
 		//by making generalizations over predicates
+		// make two files:
+		// WIFI_ABSTRUCT_EXAMPLES_FILE + "-train-notr"
+		// WIFI_CLASS_MAP_FILE + "-train-notr"
+		// NOTE: this doesn't seem to add much..
+		// NOTE: full path+filename is appended at the end of the files
 		String outputAbstructTargetFile = new File(rootDir_, 
 				Constants.WIFI_ABSTRUCT_EXAMPLES_FILE + "-train-notr").getAbsolutePath();
 		String outputMapTargetFile = new File(rootDir_, Constants.WIFI_CLASS_MAP_FILE + "-train-notr").getAbsolutePath();
 		WifiAligner.saveAbstructRelations(outputTargetFile,outputAbstructTargetFile, outputMapTargetFile, withRanges, null);
 		
+		
+		
 		//extract rules/features from the abstract data
+		// NOTE: uses RFE algorithm ( with FPgrowth)
+		// uses train data
 		String targetRulesFile = new File(rootDir_, "rules-target.txt").getAbsolutePath();
 		getRules(outputMapTargetFile, targetRulesFile, conf);
 		
+		//WifiUtils.stop();
+		
 		//represent training data in terms of extracted rules
+		// NOTE: for SVM
 		String svmFileTrain = new File(rootDirHouse, "/train/wifi-" + dirName +"-train-notr-SVM").getAbsolutePath(); 
 		apw.getFeatureRepresentationOfData(outputTargetFile, svmFileTrain, targetRulesFile, classMapFile, USE_CLASS); 
 
-		//construct and evaluate the model
+		// also do for test data (but use extracted rules of train data?)
 		String svmFileTest = new File(rootDirHouse, "/test/wifi-" + dirName + "-test-notr-SVM").getAbsolutePath(); 
 		getFeatureRepresentationOfTestData(rootDir_, sensorTestFile, actionTestFile, 
 				 sensorMapFile, actionMapFile, sensorModels, svmFileTest, 
@@ -419,7 +450,7 @@ public class WifiExperimentRunner {
 				stop++;
 			}
 			//System.out.println("instanceDates:");
-			//StaticUtils.printList(instanceDates);
+			//WifiUtils.printList(instanceDates);
 			
 			for (int i = 0; i < instanceDates.size(); i++) {
 				List<String> idSet = new ArrayList<String>();
@@ -436,7 +467,7 @@ public class WifiExperimentRunner {
 				idSet.add(dateInfotest[0]); 
 				
 				//System.out.println("idSet:");
-				//StaticUtils.printList(idSet);
+				//WifiUtils.printList(idSet);
 				
 				
 				//create test and training sets
@@ -452,7 +483,7 @@ public class WifiExperimentRunner {
 				trainDates.remove(i);
 				
 				//System.out.println("trainDates:");
-				//StaticUtils.printList(trainDates);
+				//WifiUtils.printList(trainDates);
 				
 				for (String trainDate: trainDates) {
 					String[] dateInfo = trainDate.split("-");
@@ -512,7 +543,7 @@ public class WifiExperimentRunner {
 		// use non-transfer model
 		WifiAligner.getAlignedSensorData(sensorTestFile, actionTestFile,
 				sensorMapFile, actionMapFile, consecutiveIntervalsTest,
-				sensorModelsTest); // TODO: this is where models don't overlap
+				sensorModelsTest); // NOTE: TODO: this is where models don't overlap
 		
 		WifiAligner.getPredicates(consecutiveIntervalsTest, sensorModels /*old  model*/, outputFileTest, true);
 		
@@ -546,6 +577,7 @@ public class WifiExperimentRunner {
 
 	
 	/**
+	 * Fills sensorModelsTarget
 	 * 
 	 * @param housesMap - maps each house id, e.g. A,B,C to the remaining houses, e.g. A-> B,C
 	 * @param house - current house id
@@ -573,6 +605,7 @@ public class WifiExperimentRunner {
 					sensorModels);
 			sensorModelsAll.add(sensorModels);
 		}
+		// NOTE: here sensor models are merged
 		mergeSensorModels(sensorModelsTarget, sensorModelsAll);
 	}
 
@@ -583,11 +616,11 @@ public class WifiExperimentRunner {
 			for (Map<String, Sensor> sensorModels: sensorModelsAll) {
 				for (String sensor: sensorModels.keySet()) {
 					Sensor ss = sensorModels.get(sensor);
-					if (ss == null) {
+					if (ss == null) { //can not happen
 						continue;
 					}
 					Sensor ts = sensorModelsTarget.get(sensor);
-					if (ts == null) {
+					if (ts == null) {                                                                                                                                                                
 						sensorModelsTarget.put(sensor, ss);
 					} else {
 						ts.merge(ss);

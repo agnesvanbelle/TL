@@ -186,5 +186,29 @@ public class EventInfo {
 	public String getSensorStartsRange() {
 		return sensorStartsRange;
 	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("type = " + type);
+		sb.append(" actionType = " + actionType);
+		sb.append(" sensorDurations = ");
+		for (Integer i : sensorDurations) {
+			sb.append(i + " ");
+		}
+		sb.append(" sensorStarts = ");
+		for (Integer i : sensorStarts) {
+			sb.append(i + " ");
+		}
+		sb.append(" sensorEnds = ");
+		for (Integer i : sensorEnds) {
+			sb.append(i + " ");
+		}
+		
+		sb.append(" actionDuration = " + actionDuration);
+		sb.append(" actionStart = " + actionStart);
+		sb.append(" actionEnd = " + actionEnd);
+		return sb.toString();
+		
+	}
 }
 
