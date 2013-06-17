@@ -10,4 +10,14 @@ public class DataPoint
 		this.length = length;
 		this.ID     = ID;
 	}
+	
+	public int startBlock(int blockSize)
+	{
+		return start / blockSize;
+	}
+	
+	public int lengthBlock(int blockSize)
+	{
+		return length / blockSize;
+	}
 }

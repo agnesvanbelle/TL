@@ -1,15 +1,31 @@
 package data;
 
-public class Activity
+public class NameContainer
 {
-	private final String name;
+	private static int ID_NEXT = 0;
 	
-	Activity(String name)
+	public final int    ID;
+	public final String name; // Equal names <-> Equal NameContainers.
+	
+	public NameContainer metacontainer; // Parent container (for meta-features and such).
+	
+	NameContainer()
 	{
-		this.name = name;
+		this.ID   = ID_NEXT++;
+		this.name = "entity-" + ID;
+		
+		metacontainer = null;
 	}
 	
-	// Automatically generated methods by Eclipse:
+	NameContainer(String name)
+	{
+		this.ID   = ID_NEXT++;
+		this.name = name;
+		
+		metacontainer = null;
+	}
+	
+	// Methods generated automatically by Eclipse:
 
 	@Override
 	public int hashCode() {
@@ -27,7 +43,7 @@ public class Activity
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Activity other = (Activity) obj;
+		NameContainer other = (NameContainer) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

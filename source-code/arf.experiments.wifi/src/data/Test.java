@@ -9,7 +9,5 @@ public class Test
 		HouseData houseC = new HouseData("houseC");
 		HouseData houseD = new HouseData("houseD");
 		HouseData houseE = new HouseData("houseE");
-		
-		HouseData.activitiesMap("Toileting", "use-toilet");
 	}
 }

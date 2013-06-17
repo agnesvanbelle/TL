@@ -5,66 +5,93 @@ import java.util.*;
 
 public class HouseData
 {
-	// List of all activities across houses (if mappings are added, some activities might be repeated):
+	// Example mapping levels for sensorData() and activityData():
 	
-	private static final ArrayList<Activity> activities = new ArrayList<Activity>();
+	public static final int MAPPING_LEVEL_FEATURE         = 0;
+	public static final int MAPPING_LEVEL_METAFEATURE     = 1;
+	public static final int MAPPING_LEVEL_METAMETAFEATURE = 2;
 	
-	// Mapping from activity IDs within the current house to activity IDs across houses:
+	// Internal types of data:
 	
-	private final HashMap<Integer, Integer> activityMapping = new HashMap<Integer, Integer>();
+	private static final int TYPE_DATA_SENSOR   = 0;
+	private static final int TYPE_DATA_ACTIVITY = 1;
+	
+	// All sensors and activities across houses:
+	
+	private static final HashMap<Integer, NameContainer>[] indexID   = new HashMap[2]; // Index per IDs.
+	private static final HashMap<String,  NameContainer>[] indexName = new HashMap[2]; // Index per names.
 	
 	// House data:
 	
-	private final ArrayList<DataPoint> sensorData = new ArrayList<DataPoint>();
-	private final ArrayList<DataPoint> labelData  = new ArrayList<DataPoint>();
+	private final ArrayList<DataPoint>[]                   dataTime = new ArrayList[2]; // Index per chronological order.
+	private final HashMap<Integer, ArrayList<DataPoint>>[] dataID   = new HashMap[2];   // Index per IDs.
+	
+	// Private-to-public IDs mapping:
+	
+	private final HashMap<Integer, NameContainer>[] mapping = new HashMap[2];
 	
 	// Dynamic methods:
 	
 	/**
 	 * Loads the data from a given house and creates a HouseData object containing it.
-	 * @param houseName Name of the house to load. The data files must be located under the 'data/' folder, and the files 'houseName.activities', 'houseName.labels' and 'houseName.sensors' must be present.
+	 * @param houseName Name of the house to load. The data files must be located under the 'data/' folder, see the 'README.txt' file.
 	 */
 	public HouseData(String houseName)
 	{
+		loadNames(houseName, TYPE_DATA_SENSOR);
+		loadNames(houseName, TYPE_DATA_ACTIVITY);
+		
+		loadData(houseName, TYPE_DATA_SENSOR);
+		loadData(houseName, TYPE_DATA_ACTIVITY);
+	}
+	
+	private void loadNames(String houseName, int typeData)
+	{
+		indexName[typeData] = new HashMap<String,  NameContainer>();
+		indexID[typeData]   = new HashMap<Integer, NameContainer>();
+		mapping[typeData]   = new HashMap<Integer, NameContainer>();
+		
 		BufferedReader br = null;
 		 
 		try
 		{
-			// Loading of activities:
+			switch (typeData)
+			{
+				case TYPE_DATA_SENSOR:
+					br = new BufferedReader(new FileReader("data/" + houseName + ".sensor_names"));
+				break;
+				case TYPE_DATA_ACTIVITY:
+					br = new BufferedReader(new FileReader("data/" + houseName + ".activity_names"));
+				break;
+			}
 			
 			String line;
- 
-			br = new BufferedReader(new FileReader("data/" + houseName + ".activities"));
  
 			while ((line = br.readLine()) != null)
 			{
 				String[] columns = line.split("\t");
 				
-				Activity activity = new Activity(columns[1]);
-				
-				int index = activities.indexOf(activity);
-				
-				if (index >= 0)
+				NameContainer entity;
+
+				if (indexName[typeData].containsKey(columns[1]))
 				{
-					activityMapping.put(Integer.parseInt(columns[0]), index);
+					entity = indexName[typeData].get(columns[1]);
 				}
 				else
 				{
-					activityMapping.put(Integer.parseInt(columns[0]), activities.size());
-					activities.add(activity);
+					entity = new NameContainer(columns[1]);
+					
+					indexName[typeData].put(entity.name, entity);
+					indexID[typeData].put(entity.ID, entity);
 				}
+				
+				mapping[typeData].put(Integer.parseInt(columns[0]), entity);
 			}
-			
-			// Loading of sensor and label data:
-			
-			loadData(sensorData, "data/" + houseName + ".sensors");
-			loadData(labelData,  "data/" + houseName + ".labels");
- 
 		}
-		catch (IOException e)
+		catch (IOException ex)
 		{
-			e.printStackTrace();
-		} 
+			// File not found; do nothing...
+		}
 
 		try 
 		{
@@ -79,21 +106,62 @@ public class HouseData
 		}
 	}
 	
-	private void loadData(ArrayList<DataPoint> dataObject, String dataFile)
+	private void loadData(String houseName, int typeData)
 	{
+		dataTime[typeData] = new ArrayList<DataPoint>();
+		dataID[typeData]   = new HashMap<Integer, ArrayList<DataPoint>>();
+		
 		BufferedReader br = null;
 		 
 		try
 		{
+			switch (typeData)
+			{
+				case TYPE_DATA_SENSOR:
+					br = new BufferedReader(new FileReader("data/" + houseName + ".sensors"));
+				break;
+				case TYPE_DATA_ACTIVITY:
+					br = new BufferedReader(new FileReader("data/" + houseName + ".activities"));
+				break;
+			}
+			
 			String line;
- 
-			br = new BufferedReader(new FileReader(dataFile));
  
 			while ((line = br.readLine()) != null)
 			{
 				String[] columns = line.split("\t");
 				
-				dataObject.add(new DataPoint(Integer.parseInt(columns[0]), Integer.parseInt(columns[1]), Integer.parseInt(columns[2])));
+				int start  = Integer.parseInt(columns[0]);
+				int length = Integer.parseInt(columns[1]);
+				int ID     = Integer.parseInt(columns[2]);
+				
+				NameContainer entity;
+				
+				if (mapping[typeData].containsKey(ID))
+				{
+					entity = mapping[typeData].get(ID);
+				}
+				else
+				{
+					entity = new NameContainer();
+					
+					indexName[typeData].put(entity.name, entity);
+					indexID[typeData].put(entity.ID, entity);
+					
+					mapping[typeData].put(ID, entity);
+				}
+				
+				DataPoint data = new DataPoint(start, length, ID);
+				
+				dataTime[typeData].add(data);
+				
+				if (!dataID[typeData].containsKey(ID))
+				{
+					dataID[typeData].put(ID, new ArrayList<DataPoint>());
+				}
+				
+				dataID[typeData].get(ID).add(data);
+				
 			} 
 		}
 		catch (IOException e)
@@ -114,52 +182,101 @@ public class HouseData
 		}
 	}
 	
+	// Basic dynamic methods:
+	
 	/**
-	 * Returns the number of entries of the sensor data for this house.
-	 * @return The number of entries of the sensor data for this house.
+	 * Returns an array with information about the sensors present in the data for this house.
+	 * The sensors are returned in the order implicitly assumed throughout the methods of this class.
+	 * @return An array with information about the sensors present in the data for this house.
 	 */
-	public int sensorDataSize()
+	public NameContainer[] sensorList()
 	{
-		return sensorData.size();
+		return dataID[TYPE_DATA_SENSOR].keySet().toArray(new NameContainer[0]);
 	}
 	
 	/**
-	 * Returns the number of entries of the label data for this house.
-	 * @return The number of entries of the label data for this house.
-	 */
-	public int labelDataSize()
-	{
-		return labelData.size();
-	}
-	
-	/**
-	 * Returns the sensor data stored for this house.
+	 * Returns the raw sensor data stored for this house. No sensor IDs will be shared across houses.
+	 * @param mappingLevel Number of sensor mapping levels to apply. MAPPING_LEVEL_* constants can be used for convenience.
 	 * @return An array of data point objects.
 	 */
-	public DataPoint[] sensorData() // TODO
+	public DataPoint[] sensorData(int mappingLevel)
 	{
-		return null;
+		return returnData(mappingLevel, TYPE_DATA_SENSOR);
 	}
 	
 	/**
-	 * Returns the label data stored for this house, applying the mappings between activities specified so far.
+	 * Returns the raw activity data stored for this house.
+	 * @param mappingLevel Number of activity mapping levels to apply. MAPPING_LEVEL_* constants can be used for convenience.
 	 * @return An array of data point objects.
 	 */
-	public DataPoint[] labelData()
+	public DataPoint[] activityData(int mappingLevel)
 	{
-		DataPoint[] output = new DataPoint[labelData.size()];
+		return returnData(mappingLevel, TYPE_DATA_ACTIVITY);
+	}
+	
+	private DataPoint[] returnData(int mappingLevel, int typeData)
+	{
+		DataPoint[] output = new DataPoint[dataTime[typeData].size()];
 		
-		// Final mapping of label IDs:
-		
-		int index = 0;
-		
-		for (DataPoint data: labelData)
+		for (int i = 0; i < output.length; i++)
 		{
-			Activity activity = activities.get(activityMapping.get(data.ID));
+			DataPoint data = dataTime[typeData].get(i);
 			
-			int mappedID = activities.indexOf(activity);
+			int mappedID = mapApply(data.ID, mappingLevel, typeData);
 			
-			output[index++] = new DataPoint(data.start, data.length, mappedID);
+			output[i] = new DataPoint(data.start, data.length, mappedID);
+		}
+		
+		return output;
+	}
+	
+	private int mapApply(int ID, int mappingLevel, int typeData)
+	{
+		NameContainer entity = mapping[typeData].get(ID);
+		
+		for (int l = 0; l < mappingLevel; l++)
+		{
+			if (entity.metacontainer != null)
+			{
+				entity = entity.metacontainer;
+			}
+		}
+		
+		return entity.ID;
+	}
+	
+	// Advanced dynamic methods:
+	
+	/**
+	 * Suitable for feeding the alpha-beta meta-feature extraction algorithm.
+	 * @param beta Beta parameter, expressed in seconds.
+	 * @return
+	 */
+	public int[][] profileAlphaBeta(int beta)
+	{
+		NameContainer[] sensors = sensorList();
+		
+		int[][] output = new int[sensors.length][sensors.length];
+		
+		for (int i = 0; i < sensors.length; i++)
+		{
+			int IDPrev = sensors[i].ID;
+			
+			for (int j = 0; j < sensors.length; j++)
+			{
+				int IDNext = sensors[j].ID;
+				
+				for (DataPoint dataPrev: dataID[TYPE_DATA_SENSOR].get(IDPrev))
+				{
+					for (DataPoint dataNext: dataID[TYPE_DATA_SENSOR].get(IDNext))
+					{
+						if (dataNext.start - dataPrev.start >= beta)
+						{
+							output[i][j]++;
+						}
+					}
+				}
+			}
 		}
 		
 		return output;
@@ -168,25 +285,39 @@ public class HouseData
 	// Static methods:
 	
 	/**
+	 * Maps one sensor into another, so that the source sensor is from that moment on regarded as being the target sensor. The mapping cannot be undone.
+	 * @param sensorNameSource Name of the source sensor that will disappear.
+	 * @param sensorNameTarget Name of the target sensor that will be augmented. It will be created if it does not exist.
+	 */
+	public static void mapSensors(String sensorNameSource, String sensorNameTarget)
+	{
+		mapEntities(sensorNameSource, sensorNameTarget, TYPE_DATA_SENSOR);
+	}
+	
+	/**
 	 * Maps one activity into another, so that the source activity is from that moment on regarded as being the target activity. The mapping cannot be undone.
 	 * @param activityNameSource Name of the source activity that will disappear.
-	 * @param activityNameTarget Name of the target activity that will be augmented.
+	 * @param activityNameTarget Name of the target activity that will be augmented. It will be created if it does not exist.
 	 */
-	public static void activitiesMap(String activityNameSource, String activityNameTarget)
+	public static void mapActivities(String activityNameSource, String activityNameTarget)
 	{
-		Activity activitySource = new Activity(activityNameSource);
-		Activity activityTarget = new Activity(activityNameTarget);
-		
-		int indexSource = activities.indexOf(activitySource);
-		int indexTarget = activities.indexOf(activityTarget);
-		
-		if (indexSource >= 0 && indexTarget >= 0)
+		mapEntities(activityNameSource, activityNameTarget, TYPE_DATA_ACTIVITY);
+	}
+	
+	private static void mapEntities(String entityNameSource, String entityNameTarget, int typeData)
+	{
+		if (indexName[typeData].containsKey(entityNameTarget))
 		{
-			activities.set(indexSource, activities.get(indexTarget));
+			indexName[typeData].get(entityNameSource).metacontainer = indexName[typeData].get(entityNameTarget);
 		}
 		else
 		{
-			System.out.println("WARNING: Incorrect activity name. No mapping was done. Check that both activity names are correctly spelled within the mapping.");
+			NameContainer entity = new NameContainer(entityNameTarget);
+			
+			indexName[typeData].put(entityNameTarget, entity);
+			indexID[typeData].put(entity.ID, entity);
+			
+			indexName[typeData].get(entityNameSource).metacontainer = entity;
 		}
 	}
 }

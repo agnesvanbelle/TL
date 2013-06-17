@@ -1,19 +1,21 @@
 DATA FORMAT
 
-	".sensors" and ".labels" files:
+	".sensors" and ".activities" files:
 
-		Columns within these files provide the following information:
+		These files contain the data itself, and thus they must be present. Their contents must be ordered by ascending values of the first column. Columns within these files provide the following information:
 
-		1.- Start time of the event, expressed in seconds elapsed since 00:00:00, January 1, 1970 (standard Greenwich time zone).
-		2.- Length of the event, expressed in seconds.
-		3.- ID of the event. For ".sensors" files, this is the ID of a particular sensor within that house. For ".labels" files, this is the ID of an activity, as defined in the ".activities" file.
+		1.- Start time of the sensor/activity event, expressed in seconds elapsed since 00:00:00, January 1, 1970 (standard Greenwich time zone).
+		2.- Length of the sensor/activity event, expressed in seconds.
+		3.- ID of the sensor/activity.
 
-	".activities" files:
+	".sensor_names" and ".activity_names" files:
 
-		Columns within these files provide the following information:
+		These files contain human-readable names for  sensor/activity IDs. Their presence is optional. Columns within these files provide the following information:
 
-		1.- ID of the activity, as used in the ".labels" file. These IDs must be unique.
-		2.- Name of the activity. Equal names across files have as a result all activities being regarded as a single one.
+		1.- ID of the sensor/activity.
+		2.- Name of the sensor/activity. Equal names across files have as a result all occurrences being regarded as a single one.
+
+		Names shared across ".activity_names" files will be treated as a single activity. Names shared across ".sensor_names" files are not allowed.
 
 
 DATA SOURCE
