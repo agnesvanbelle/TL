@@ -102,7 +102,7 @@ public class WifiExperimentRunner {
 			//WifiUtils.printMap(sensorMap);
 			System.out.println("sensorMap (per day) size: " + actionMap.size());
 		
-			
+			//WifiUtils.stop();
 			
 			
 			
