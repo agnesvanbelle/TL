@@ -75,7 +75,7 @@ public class AbstractPredicateWriter {
 				sbClasses.deleteCharAt(sbClasses.length()-1);
 			}
 			
-			if (saveToOneFile) {
+			if (saveToOneFile) { // NOTE here this path+filename is appended
 				mapBW.write(sbClasses.toString() + "," + outputFile + "\n");
 			} else {
 				mapBW.write(sb.toString());
@@ -255,8 +255,8 @@ public class AbstractPredicateWriter {
 
 	 */
 	public void getFeatureRepresentationOfData(String intputFile, String outputFile, 
-			String rulesFile, List<String> propertyPairs, 
-			Map<String, ValueRange> propertyValueRangeMap, String classMapFile, boolean useClass) 
+			String rulesFile, List<String> propertyPairs  /* == null */, 
+			Map<String, ValueRange> propertyValueRangeMap /* == null */, String classMapFile, boolean useClass) 
 	{
 		List<Rule> rules = readRules(rulesFile, ", ");
 		

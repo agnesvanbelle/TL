@@ -51,6 +51,9 @@ public class WifiAligner {
 
 
 	/**
+	 * Fills in consecutiveIntervals and sensorModels maps
+	 * also discretizes/merges the time intervals
+	 * 
 	 * Aligns times of sensor firings and activities and constructs 
 	 * events (objects that aggregate information about time, sensor firings, and activity that took place).  
 	 * It stores events in a map, that maps a unique id (constructed from date, action description, and instance id)
@@ -80,14 +83,19 @@ public class WifiAligner {
 
 		Map<String, String> sensorMap = getReadingsMap(sensorMapInfo, 2);
 		Map<String,String> actionMap = getReadingsMap(actionMapInfo, 1);
-			
+		
+		// sensorEventMap
 		Map<String, List<TimeInterval>> sensorEventMap = new TreeMap<String, List<TimeInterval>>();
 		List<String> dates = new ArrayList<String>();
-		getReadings(sensorReadings, sensorMap, sensorEventMap, dates, true /*merge consec intervals*/);
+		
+		// NOTE: getReadings discretizes the time( interval)s
+		getReadings(sensorReadings, sensorMap, sensorEventMap, dates, true /*merge consec intervals*/);		
 		//saveReadings(timeMap, dates, new File(rootDir,"sensorOut.txt").getAbsolutePath());
 		
+		// actionEventMap
 		Map<String, List<TimeInterval>> actionEventMap = new TreeMap<String, List<TimeInterval>>();
 		List<String> actionDates = new ArrayList<String>();
+		
 		getReadings(actionReadings, actionMap, actionEventMap, actionDates, true/*merge consec intervals*/);
 		//saveReadings(timeActionMap, actionDates, new File(rootDir,"actionOut.txt").getAbsolutePath());
 		
@@ -456,7 +464,15 @@ public class WifiAligner {
 		return null;
 	}
 
-	
+	/**
+	 * discretizes (merges) the raw time data
+	 * 
+	 * @param sensorReadings
+	 * @param sensorMap
+	 * @param timeMap
+	 * @param dates
+	 * @param doMerge
+	 */
 	private static void getReadings(List<String> sensorReadings,
 			Map<String, String> sensorMap, Map<String, List<TimeInterval>> timeMap,
 			List<String> dates, boolean doMerge) {

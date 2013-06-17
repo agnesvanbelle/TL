@@ -109,4 +109,30 @@ public class Sensor {
 	public Map<String, ActionInfo> getActions() {
 		return actionInfoMap;
 	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (String actionName: actionInfoMap.keySet()) {
+			sb.append("\n|||action name " + actionName);
+			ActionInfo actionInfo = actionInfoMap.get(actionName);
+			sb.append(", sensor durations: " + actionInfo.getSensorDurations());
+			sb.append(", s.d. median: " + actionInfo.getSensorDurationPercentile(50, true));
+			sb.append(", no firings: " + actionInfo.getNoFirings());
+			sb.append(", no firings median: " + actionInfo.getNoFiringsPercentile(50, true));
+			sb.append(", action durations: " + actionInfo.getActionDurations());
+			sb.append(", a.d. median: " + actionInfo.getActionDurationPercentile(50, true));
+			sb.append(" ");
+			sb.append(", sensor starts: " + actionInfo.getSensorStarts()); 
+			sb.append(", s.d. starts median: " + actionInfo.getSensorStartsPercentile(50, true)); 
+			sb.append(", sensor ends: " + actionInfo.getSensorEnds()); 
+			sb.append(", s.d. ends median: " + actionInfo.getSensorStartsPercentile(50, true)); 
+			sb.append(", action starts: " + actionInfo.getActionStarts()); 
+			sb.append(", s.d. starts median: " + actionInfo.getActionStartsPercentile(50, true)); 
+			sb.append(", action ends: " + actionInfo.getActionEnds()); 
+			sb.append(", s.d. ends median: " + actionInfo.getActionEndsPercentile(50, true)); 
+			sb.append("|||");			
+
+		}
+		return sb.toString();
+	}
 }

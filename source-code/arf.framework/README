@@ -1,8 +1,10 @@
 The API for data conversion to a predicate form can be found in arf.framework.
 The arf.experiments.games uses this API for a games domain, while arf.experiments.wifi uses it for wifi domain. 
 The mahout packages include FPGrowth algorithm that can be used for rule extraction. 
-The following use case operations can be carried out using this code: 1. convert data to a simple logic form, 
-2. convert the simple logic form to abstract logic form 3. extract rules from 1 or 2 
+The following use case operations can be carried out using this code: 
+1. convert data to a simple logic form, 
+2. convert the simple logic form to abstract logic form 
+3. extract rules from 1 or 2 
 4. convert data to SVM format in terms of rules from step 3.
 
 Below are some code/phseudocode that outlines the usage.

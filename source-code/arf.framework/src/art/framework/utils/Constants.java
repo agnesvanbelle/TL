@@ -30,6 +30,7 @@ public class Constants {
 	public static final String OBJECT = "object_";
 	public static final String CONNECT = "connect_";
 	public static final String TOTAL = "total";
+	
 	public static final String CHESS_EXAMPLES_FILE = "chessExamples";
 	public static final String CHESS_ABSTRUCT_EXAMPLES_FILE = "chessAbstructExamples";
 	public static final String POSITIVE = "P";
@@ -38,6 +39,7 @@ public class Constants {
 	public static final String SPACE = " ";
 	public static final String COLON = ":";
 	public static final String NEW_LINE = "\n";
+	
 	public static final String ACT_TYPE = "act-type";
 	public static final String ACT_INTERVAL = "act-interval";
 	public static final String ACT_DURATION = "act-duration";
@@ -51,7 +53,8 @@ public class Constants {
 	public static final String TTT_CLASS_MAP_FILE = "tttClassMap";
 	public static final String NMM_CLASS_MAP_FILE = "nmmClassMap";
 	public static final String WIFI_CLASS_MAP_FILE = "wifiClassMap";
-	public static final String WIFI_ABSTRUCT_EXAMPLES_FILE = "wifiAbstructExamples";
+	public static final String WIFI_ABSTRUCT_EXAMPLES_FILE = "wifiAbstractExamples";
+	
 	public static final String SENSOR_START = "start-time";
 	public static final String SENSOR_END = "end-time";
 	public static final String SENSOR_NO_FIRINGS = "no-firings";
