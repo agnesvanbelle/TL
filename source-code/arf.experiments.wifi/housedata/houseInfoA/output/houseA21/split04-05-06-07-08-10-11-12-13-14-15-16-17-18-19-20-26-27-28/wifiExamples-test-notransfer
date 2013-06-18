@@ -1,7 +1,0 @@
-go-to-bed:sensor(act-duration(356-487),end-time(383-523),fire-duration(1-778),no-firings(2-3),sensor-type(SleepDoor),start-time(344-626))
-leave-house:sensor(act-duration(1-2),end-time(516-1133),fire-duration(1-1),no-firings(1-1),sensor-type(BathroomDoor),start-time(520-1134)):sensor(act-duration(315-583),end-time(658-1139),fire-duration(1-1),no-firings(2-2),sensor-type(Outside),start-time(658-1139))
-take-shower:sensor(act-duration(1-2),end-time(502-1129),fire-duration(1-1),no-firings(1-1),sensor-type(Toilet),start-time(511-1131))
-use-toilet:sensor(act-duration(1-1),end-time(329-455),fire-duration(1-1),no-firings(1-1),sensor-type(SleepDoor),start-time(335-456)):sensor(act-duration(1-2),end-time(516-1133),fire-duration(1-1),no-firings(1-1),sensor-type(BathroomDoor),start-time(520-1134)):sensor(act-duration(2-2),end-time(40-1397),fire-duration(2-4),no-firings(1-1),sensor-type(Toilet),start-time(48-1397))
-use-toilet:sensor(act-duration(1-2),end-time(502-1129),fire-duration(1-1),no-firings(1-1),sensor-type(Toilet),start-time(511-1131)):sensor(act-duration(2-2),end-time(347-1374),fire-duration(2-3),no-firings(1-1),sensor-type(BathroomDoor),start-time(410-1410))
-use-toilet:sensor(act-duration(1-2),end-time(516-1133),fire-duration(1-1),no-firings(1-1),sensor-type(BathroomDoor),start-time(520-1134))
-use-toilet:sensor(act-duration(1-2),end-time(516-1133),fire-duration(1-1),no-firings(1-1),sensor-type(BathroomDoor),start-time(520-1134))
