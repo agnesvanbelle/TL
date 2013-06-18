@@ -25,6 +25,7 @@ public class HouseData
 	
 	public final String houseName;
 	
+	private HashMap<Integer, double[][]> sensorProfiles; 				
 	private final ArrayList<DataPoint>[]                   dataTime = new ArrayList[2]; // Index per chronological order.
 	private final HashMap<Integer, ArrayList<DataPoint>>[] dataID   = new HashMap[2];   // Index per IDs.
 	
@@ -40,13 +41,15 @@ public class HouseData
 	 */
 	public HouseData(String houseName)
 	{
-		this.houseName = houseName;
+		this.houseName = houseName;		
 		
 		loadNames(houseName, TYPE_DATA_SENSOR);
 		loadNames(houseName, TYPE_DATA_ACTIVITY);
 		
 		loadData(houseName, TYPE_DATA_SENSOR);
 		loadData(houseName, TYPE_DATA_ACTIVITY);
+		
+		 sensorProfiles = new HashMap<Integer, double[][]>();
 	}
 	
 	private void loadNames(String houseName, int typeData)
@@ -87,15 +90,7 @@ public class HouseData
 				}
 				else
 				{
-					if (typeData == TYPE_DATA_SENSOR)
-					{
-						entity = new NameContainer(columns[1] + "-" + houseName);
-					}
-					else
-					{
-						entity = new NameContainer(columns[1]);
-					}
-					
+					entity = new NameContainer(columns[1]);
 					
 					indexName[typeData].put(entity.name, entity);
 					indexID[typeData].put(entity.ID, entity);
@@ -261,32 +256,41 @@ public class HouseData
 		return entity.ID;
 	}
 	
-	// Advanced dynamic methods:
-	
-	/**
-	 * This method calculates a sensor profile which is a 2D histogram of firings over the time of the day they started (first index) and their duration (second index).
-	 * @param sensor Object representing the sensor whose profile will be calculated.
-	 * @param blockSizeStart Size of the time blocks in which a day will be divided into, in seconds.
-	 * @param blockBaseLength Base for the logarithmic scale used to accumulate the lengths of the firings. Larger values yield smaller numbers of different steps, and thus a lower resolution.
-	 * @param maxLength Maximum informative length of a firing. Lengths above this value will simply be treated as being this value.
-	 * @return A matrix profile whose elements represent the number of times a given sensor fired for a certain period of time (second index) within a certain period of time within a day (first index).
-	 */
-	public int[][] profileSensor(NameContainer sensor, int blockSizeStart, float blockBaseLength, int maxLength)
-	{
-		// TODO: Make this method work with meta-features as well.
-		
-		int blockNumStart  = (24 * 3600) / blockSizeStart;
-		int blockNumLength = (int) (Math.log(maxLength) / Math.log(blockBaseLength)) + 1;
-		
-		int[][] output = new int[blockNumStart][blockNumLength];
-		
-		for (DataPoint data: dataID[TYPE_DATA_SENSOR].get(sensor.ID))
+	public double[][] getProfileSensor(int ID, int blockSizeStart, int blockNumLength){
+		if(sensorProfiles.containsKey(ID))
 		{
-			int length = Math.min(data.length, maxLength);
+			return sensorProfiles.get(ID);
+		}
+		else
+		{
+			double[][] profile = buildProfileSensor( ID,  blockSizeStart,  blockNumLength);
+			sensorProfiles.put(ID, profile);
+			return profile;
+		}
+	}
+	
+	// Advanced dynamic methods:
+	// Provides normalized histogram of sensor activiation start times and durations
+	public double[][] buildProfileSensor(int ID, int blockSizeStart, int blockNumLength)
+	{
+		int nr_start_time_bins = (24 * 3600) / blockSizeStart;
+		double[][] output = new double[nr_start_time_bins][blockNumLength];
+		double total = 0.0;
+		
+		for (DataPoint data: dataID[TYPE_DATA_SENSOR].get(ID))
+		{
+			int blockLength = (int) Math.log(data.length);
 			
-			int blockLength = (int) (Math.log(length) / Math.log(blockBaseLength));
-			
-			output[data.startBlock(blockSizeStart)][blockLength]++;
+			output[data.startBlock(blockSizeStart)][blockLength] += 1.0;
+			total += 1.0;
+		}
+		
+		for(int i = 0; i < nr_start_time_bins; i++)
+		{
+			for(int j = 0 ; j < blockNumLength; j++)
+			{
+				output[i][j] /= total;
+			}
 		}
 		
 		return output;

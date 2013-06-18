@@ -19,8 +19,9 @@ public class Meta_feature_building{
 	public static void alpha_beta_clustering(ArrayList<HouseData> data, int[] alphas, int[] betas)
 	{
 		int index = 0;
+		
 		for(HouseData house: data){
-			
+			System.out.println("house: " + house.houseName);
 			// Get sensornamers, alpha and beta for this house
 			int alpha = alphas[index];
 			int beta = betas[index];
@@ -31,7 +32,7 @@ public class Meta_feature_building{
 			
 			ConcurrentSkipListSet<Integer> sensorsSet = new ConcurrentSkipListSet<Integer>();
 			ArrayList<ConcurrentSkipListSet<Integer>> groups = new ArrayList<ConcurrentSkipListSet<Integer>>();
-			ConcurrentSkipListSet<Integer> sensorsList = new ConcurrentSkipListSet<Integer> ();
+			
 			// For each sensor combination
 			for(int i =0;i<sensors.length;i++)
 			{
@@ -56,18 +57,18 @@ public class Meta_feature_building{
 						// Check if the sensor(s) can be added to a cluster or if two clusters need to be merged 
 						if(index_i == -1 && index_j==-1){
 							groups.add(new ConcurrentSkipListSet<Integer>());
-							groups.get(groups.size()-1).add(index_i);
-							groups.get(groups.size()-1).add(index_j);
-							sensorsSet.add(index_i);
-							sensorsSet.add(index_j);
+							groups.get(groups.size()-1).add(i);
+							groups.get(groups.size()-1).add(j);
+							sensorsSet.add(i);
+							sensorsSet.add(j);
 						}
 						else if(index_i == -1){
-							groups.get(index_j).add(index_i);
-							sensorsSet.add(index_i);
+							groups.get(index_j).add(i);
+							sensorsSet.add(i);
 						}
 						else if(index_j == -1){
-							groups.get(index_i).add(index_j);
-							sensorsSet.add(index_j);
+							groups.get(index_i).add(j);
+							sensorsSet.add(j);
 						}
 						else if(index_j != index_i){
 							groups.get(index_i).addAll(groups.get(index_j));
@@ -98,8 +99,11 @@ public class Meta_feature_building{
 				String meta_feature_name = "metaFeature_" + house.houseName + "_" + group_index;
 				for(int sensor_index: groups.get(group_index))
 				{
+					System.out.print("sensor" + sensors[sensor_index].name + " ");
 					HouseData.mapSensors(sensors[sensor_index].name, meta_feature_name);
+					System.out.println(sensors[sensor_index].metacontainer.name);
 				}
+				System.out.println(" ");
 			}
 		}
 	}
