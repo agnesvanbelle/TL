@@ -191,7 +191,7 @@ public class HouseData
 	 */
 	public NameContainer[] sensorList()
 	{
-		return dataID[TYPE_DATA_SENSOR].keySet().toArray(new NameContainer[0]);
+		return mapping[TYPE_DATA_SENSOR].values().toArray(new NameContainer[0]);
 	}
 	
 	/**
@@ -247,32 +247,51 @@ public class HouseData
 	
 	// Advanced dynamic methods:
 	
+	public int[][] profileSensor(int ID, int blockSizeStart, int blockNumLength)
+	{
+		int[][] output = new int[(24 * 3600) / blockSizeStart][blockNumLength];
+		
+		for (DataPoint data: dataID[TYPE_DATA_SENSOR].get(ID))
+		{
+			int blockLength = (int) Math.log(data.length);
+			
+			output[data.startBlock(blockSizeStart)][blockLength]++;
+		}
+		
+		return output;
+	}
+	
 	/**
-	 * Suitable for feeding the alpha-beta meta-feature extraction algorithm.
+	 * This method calculates a matrix profile whose elements represent the number of times the second (indexed) sensor fired within beta seconds of the first (indexed) sensor.
+	 * The output of this method is suitable for feeding the alpha-beta meta-feature extraction algorithm.
+	 * The value -1 is output for those elements which cannot be calculated.
 	 * @param beta Beta parameter, expressed in seconds.
-	 * @return
+	 * @return A matrix of integers. The sensors are indexed in the same order as returned from sensorList().
 	 */
 	public int[][] profileAlphaBeta(int beta)
 	{
-		NameContainer[] sensors = sensorList();
+		Integer[] sensors = mapping[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
 		
 		int[][] output = new int[sensors.length][sensors.length];
 		
 		for (int i = 0; i < sensors.length; i++)
 		{
-			int IDPrev = sensors[i].ID;
-			
 			for (int j = 0; j < sensors.length; j++)
 			{
-				int IDNext = sensors[j].ID;
-				
-				for (DataPoint dataPrev: dataID[TYPE_DATA_SENSOR].get(IDPrev))
+				if (i == j) // Metric not applicable if both sensors are the same one!
 				{
-					for (DataPoint dataNext: dataID[TYPE_DATA_SENSOR].get(IDNext))
+					output[i][j] = -1;
+				}
+				else
+				{
+					for (DataPoint dataPrev: dataID[TYPE_DATA_SENSOR].get(sensors[i]))
 					{
-						if (dataNext.start - dataPrev.start >= beta)
+						for (DataPoint dataNext: dataID[TYPE_DATA_SENSOR].get(sensors[j]))
 						{
-							output[i][j]++;
+							if (dataNext.start >= dataPrev.start && dataNext.start - dataPrev.start <= beta)
+							{
+								output[i][j]++;
+							}
 						}
 					}
 				}
@@ -314,7 +333,7 @@ public class HouseData
 		{
 			NameContainer entity = new NameContainer(entityNameTarget);
 			
-			indexName[typeData].put(entityNameTarget, entity);
+			indexName[typeData].put(entity.name, entity);
 			indexID[typeData].put(entity.ID, entity);
 			
 			indexName[typeData].get(entityNameSource).metacontainer = entity;

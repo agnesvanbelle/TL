@@ -12,7 +12,7 @@ public class NameContainer
 	NameContainer()
 	{
 		this.ID   = ID_NEXT++;
-		this.name = "entity-" + ID;
+		this.name = "entity-" + ID; // Entities with no name get a generic one.
 		
 		metacontainer = null;
 	}
