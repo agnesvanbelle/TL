@@ -29,7 +29,7 @@ public class Meta_feature_building{
 			// Get frequencies for a time difference <beta
 			int[][] frequencies = house.profileAlphaBeta(beta);
 			
-			
+			ConcurrentSkipListSet<Integer> sensorsSet = new ConcurrentSkipListSet<Integer>();
 			ArrayList<ConcurrentSkipListSet<Integer>> groups = new ArrayList<ConcurrentSkipListSet<Integer>>();
 			ConcurrentSkipListSet<Integer> sensorsList = new ConcurrentSkipListSet<Integer> ();
 			// For each sensor combination
@@ -58,12 +58,16 @@ public class Meta_feature_building{
 							groups.add(new ConcurrentSkipListSet<Integer>());
 							groups.get(groups.size()-1).add(index_i);
 							groups.get(groups.size()-1).add(index_j);
+							sensorsSet.add(index_i);
+							sensorsSet.add(index_j);
 						}
 						else if(index_i == -1){
-							groups.get(index_j).add(index_j);
+							groups.get(index_j).add(index_i);
+							sensorsSet.add(index_i);
 						}
 						else if(index_j == -1){
 							groups.get(index_i).add(index_j);
+							sensorsSet.add(index_j);
 						}
 						else if(index_j != index_i){
 							groups.get(index_i).addAll(groups.get(index_j));
@@ -75,9 +79,28 @@ public class Meta_feature_building{
 				
 			}
 			
-			//Check of alle sensor ID's erin zitten, eenlingen toevoegen indien nodig
+			//Check if all sensor ID's are in a group and if not add singletons as a group
+			if(sensorsSet.size()<sensors.length)
+			{
+				for(int i =0;i<sensors.length;i++){
+					if(!sensorsSet.contains(i))
+					{
+						groups.add(new ConcurrentSkipListSet<Integer>());
+						groups.get(groups.size()-1).add(i);
+					}
+				}
+			}
 			
-			//Meta feature ID's meegeven aan HouseData
+			
+			//Map sensors with meta feature ID's in houseData
+			for(int group_index = 0; group_index<groups.size();group_index++)
+			{
+				String meta_feature_name = "metaFeature_" + house.houseName + "_" + group_index;
+				for(int sensor_index: groups.get(group_index))
+				{
+					HouseData.mapSensors(sensors[sensor_index].name, meta_feature_name);
+				}
+			}
 		}
 	}
 	
