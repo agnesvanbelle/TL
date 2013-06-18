@@ -1,0 +1,6 @@
+brush-teeth:sensor(act-duration(1-3),end-time(549-1327),fire-duration(1-1),no-firings(1-2),sensor-type(BathroomDoor),start-time(550-1328))
+get-drink:sensor(act-duration(1-3),end-time(1243-1297),fire-duration(1-1),no-firings(1-1),sensor-type(KitchStor),start-time(1243-1298)):sensor(act-duration(1-3),end-time(560-567),fire-duration(1-1),no-firings(1-1),sensor-type(Kitchen),start-time(560-567))
+leave-house:sensor(act-duration(360-575),end-time(618-1201),fire-duration(1-1),no-firings(2-2),sensor-type(Outside),start-time(618-1201))
+leave-house:sensor(act-duration(360-575),end-time(618-1201),fire-duration(1-1),no-firings(2-2),sensor-type(Outside),start-time(618-1201))
+use-toilet:sensor(act-duration(1-3),end-time(531-1274),fire-duration(1-1),no-firings(1-1),sensor-type(Toilet),start-time(555-1275)):sensor(act-duration(1-3),end-time(549-1327),fire-duration(1-1),no-firings(1-2),sensor-type(BathroomDoor),start-time(550-1328))
+use-toilet:sensor(act-duration(1-3),end-time(549-1327),fire-duration(1-1),no-firings(1-2),sensor-type(BathroomDoor),start-time(550-1328)):sensor(act-duration(2-2),end-time(182-1298),fire-duration(58-494),no-firings(1-1),sensor-type(Toilet),start-time(675-1355))

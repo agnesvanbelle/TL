@@ -1,0 +1,8 @@
+leave-house:sensor(act-duration(1-1),end-time(892-1375),fire-duration(1-334),no-firings(1-1),sensor-type(KitchStor),start-time(581-1349)):sensor(act-duration(151-502),end-time(792-1105),fire-duration(1-225),no-firings(1-2),sensor-type(Outside),start-time(793-1105))
+leave-house:sensor(act-duration(151-502),end-time(792-1105),fire-duration(1-225),no-firings(1-2),sensor-type(Outside),start-time(793-1105))
+leave-house:sensor(act-duration(1-1),end-time(1341-1341),fire-duration(1-1),no-firings(1-1),sensor-type(Outside),start-time(1341-1341))
+prep-breakfast:sensor(act-duration(1-1),end-time(892-1375),fire-duration(1-334),no-firings(1-1),sensor-type(KitchStor),start-time(581-1349)):sensor(act-duration(1-2),end-time(582-757),fire-duration(1-3),no-firings(1-1),sensor-type(Kitchen),start-time(582-774))
+prep-dinner:sensor(act-duration(1-1),end-time(739-1287),fire-duration(1-132),no-firings(1-1),sensor-type(Kitchen),start-time(740-1287)):sensor(act-duration(1-1),end-time(892-1375),fire-duration(1-334),no-firings(1-1),sensor-type(KitchStor),start-time(581-1349))
+take-shower:sensor(act-duration(1-2),end-time(530-975),fire-duration(1-563),no-firings(1-1),sensor-type(Toilet),start-time(499-1087))
+use-toilet:sensor(act-duration(1-2),end-time(530-975),fire-duration(1-563),no-firings(1-1),sensor-type(Toilet),start-time(499-1087)):sensor(act-duration(2-3),end-time(95-1087),fire-duration(1-1),no-firings(1-1),sensor-type(BathroomDoor),start-time(96-1087))
+use-toilet:sensor(act-duration(2-3),end-time(95-1087),fire-duration(1-1),no-firings(1-1),sensor-type(BathroomDoor),start-time(96-1087)):sensor(act-duration(21-37),end-time(1102-1211),fire-duration(41-356),no-firings(1-1),sensor-type(Toilet),start-time(162-1106))

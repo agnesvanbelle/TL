@@ -23,7 +23,7 @@ public class WifiExperimentRunner {
 
 	private static final boolean USE_CLASS = true;
 	//number of instances 
-	private static final int NO_INSTANCES = 1;
+	private static final int NO_INSTANCES = 5;
 	private static final String ROOT_DIR = "../arf.experiments.wifi/housedata/houseInfo";
 	
 	//number of days in target training data
@@ -35,6 +35,10 @@ public class WifiExperimentRunner {
 	private static final String classMapFile = "../arf.experiments.wifi/housedata/classMap.txt";
 	
 	public static void main(String[] args) {
+		
+		
+
+
 		AbstractPredicateWriter apw = new AbstractPredicateWriter();
 
 		String[] houses = {"A","B","C"};
@@ -56,24 +60,47 @@ public class WifiExperimentRunner {
 		
 		for (String house: houses) {
 			//this house becomes target 
-			
+			// check if input directory for house exists
+			String rootDir = ROOT_DIR + house ;
+			File inputDir = new File(rootDir + "/input/");
+			if (!inputDir.exists()){
+				System.out.println("directory with input files not found: " + rootDir + "/input/");
+				System.exit(1);
+				
+			}
+			// check if output directory for house exists
+			File outputDir = new File(rootDir + "/output/");
+			// if the output directory does not exist, create it
+			if (!outputDir.exists()) {
+				System.out.println("creating directory: " + outputDir);
+				boolean result = outputDir.mkdir();  
+				if(!result){    
+					System.out.println("directory with output files could not be created: " + rootDir + "/output/");
+					System.exit(1);
+				}	
+			}
+			else { // delete contents
+				Utils.deleteDir(rootDir + "/output/");				
+				new File(rootDir + "/output/").mkdir();
+			}
+						
 			for (int noDays: noDaysArray) {
 			
 			System.out.println("House: " + house + " Day: " + noDays);
 			
-			String rootDir = ROOT_DIR + house;
+			
 			
 			//file with lines consisting of a date range and a sensor id (that fire during this interval) 
-			String sensorFile = new File(rootDir,"house" + house + "-ss.txt").getAbsolutePath();
+			String sensorFile = new File(rootDir + "/input","house" + house + "-ss.txt").getAbsolutePath();
 			
 			//file with lines consisting of a date range and an action id (that happens during this interval) 
-			String actionFile = new File(rootDir,"house" + house + "-as.txt").getAbsolutePath();
+			String actionFile = new File(rootDir + "/input" ,"house" + house + "-as.txt").getAbsolutePath();
 			
 			//file with corresponding sensor ids, descriptions, and meta-features
-			String sensorMapFile = new File(rootDir,"sensorMap" + house +"-ids.txt").getAbsolutePath();
+			String sensorMapFile = new File(rootDir + "/input" ,"sensorMap" + house +"-ids.txt").getAbsolutePath();
 			
 			//file with mapping  action ids to their descriptions
-			String actionMapFile = new File(rootDir,"actionMap" + house + ".txt").getAbsolutePath();
+			String actionMapFile = new File(rootDir + "/input" ,"actionMap" + house + ".txt").getAbsolutePath();
 			
 			//read in lines with dates and activities
 			List<String> sensorReadings = WifiUtils.getLines(sensorFile);
@@ -108,7 +135,9 @@ public class WifiExperimentRunner {
 			
 			// create a directory where the results of an experiment (that uses noDays days) will be stored
 			// e.g. houseData.houseInfoA.houseA21
-			String rootDirHouse = rootDir + "/house" + house + noDays; 
+			
+			
+			String rootDirHouse = rootDir + "/output/house" + house + noDays; 
 			Utils.deleteDir(rootDirHouse);
 			
 			new File(rootDirHouse).mkdir();
@@ -116,7 +145,7 @@ public class WifiExperimentRunner {
 			//System.out.println(rootDirHouse);
 			
 			
-			//save training and testing lines
+			//make training and testing lines
 			List<String> allDates = new ArrayList<String>(actionMap.keySet());
 			Random rand = new Random(System.currentTimeMillis());
 			Map<String, List<String>> testActionInstances = new HashMap<String, List<String>>();
@@ -147,9 +176,9 @@ public class WifiExperimentRunner {
 			String confTr = "0.3"; //confidence cut off used to extract rules with FP growth for transfer model (source houses)
 			
 			// for each train/test set
-			// it comes in dir _rootDir named after the train+test day numbers
+			// it comes in dir _rootDir/output/split+[named after the train(+test) day numbers]
 			for (String dirName: testActionInstances.keySet()) {
-				File rootDir_ = new File(rootDir, "split" + dirName);
+				File rootDir_ = new File(rootDirHouse, "split" + dirName);
 				Utils.deleteDir(rootDir_.getAbsolutePath());
 				rootDir_.mkdir();
 				
@@ -593,7 +622,7 @@ public class WifiExperimentRunner {
 		List<Map<String, Sensor>> sensorModelsAll = new ArrayList<Map<String,Sensor>>();
 		
 		for (String sourceHouse: sourceDomains) {
-			String rootDir_ = ROOT_DIR + sourceHouse;
+			String rootDir_ = ROOT_DIR + sourceHouse + "/input";
 			String sensorFile_ = new File(rootDir_, "house" + sourceHouse + "-ss.txt").getAbsolutePath();
 			String actionFile_ = new File(rootDir_, "house" + sourceHouse + "-as.txt").getAbsolutePath();
 			String sensorMapFile_ = new File(rootDir_, "sensorMap" + sourceHouse +"-ids.txt").getAbsolutePath();
