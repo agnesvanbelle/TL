@@ -27,7 +27,7 @@ public class WifiExperimentRunner {
 	private static final String ROOT_DIR = "../arf.experiments.wifi/housedata/houseInfo";
 	
 	//number of days in target training data
-	private static final int[] noDaysArray = {21};//{2,3,6,11,21}; //{6,11,21};
+	private static final int[] noDaysArray = /*{21};*/{2,3,6,11,21}; //{6,11,21};
 	
 	//if true, ranges will be added for variable values
 	private static final boolean withRanges = false;
@@ -178,7 +178,7 @@ public class WifiExperimentRunner {
 						rootDirHouse, dirName, rootDir_, sensorTrainFile,
 						actionTrainFile, sensorTestFile, actionTestFile, conf);
 				
-				WifiUtils.stop();
+				//WifiUtils.stop();
 				//saveSensorModel(sensorModels, "sensorModelOrig");
 
 				//======== get rules from all domains for transfer ======== 
@@ -249,9 +249,9 @@ public class WifiExperimentRunner {
 				
 				//Utils.deleteDir(rootDir_.getAbsolutePath());
 			} 			
-			break; //remove if want to execute for different numbers of days
+			//break; //remove if want to execute for different numbers of days
 		}
-			break; // remove if want to execute for all houses
+			//break; // remove if want to execute for all houses
 		}
 		System.out.println("hi");
 	}
@@ -464,7 +464,7 @@ public class WifiExperimentRunner {
 				// NOTE: if below line is commented,
 				// noDays train/test combi's will be added, one
 				// for each day in instanceDates (the test day)
-				idSet.add(dateInfotest[0]); 
+				//idSet.add(dateInfotest[0]); 
 				
 				//System.out.println("idSet:");
 				//WifiUtils.printList(idSet);
