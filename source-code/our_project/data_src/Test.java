@@ -52,5 +52,9 @@ public class Test
 			
 			System.out.println();
 		}
+		
+		// Example 4:
+		
+		System.out.println(houseE.sensorList()[0].name);
 	}
 }
