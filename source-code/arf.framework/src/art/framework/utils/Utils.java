@@ -36,7 +36,7 @@ public class Utils {
 	}
 	
 	public static void saveContent(String fileName, String content) {
-		saveContent(fileName, content, false);
+		saveContent(fileName, content, false /*append*/);
 	}
 	
 	public static Map<String,String> readExamples(String file) {

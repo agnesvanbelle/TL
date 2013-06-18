@@ -1,0 +1,12 @@
+brush-teeth:sensor(act-duration(1-2),end-time(531-1255),fire-duration(1-1),no-firings(1-1),sensor-type(Toilet),start-time(532-1255))
+brush-teeth:sensor(act-duration(2-2),end-time(517-529),fire-duration(2-2),no-firings(1-1),sensor-type(BathroomDoor),start-time(518-531))
+go-to-bed
+leave-house:sensor(act-duration(535-535),end-time(684-1111),fire-duration(1-1),no-firings(2-2),sensor-type(Outside),start-time(685-1111))
+leave-house:sensor(act-duration(535-535),end-time(684-1111),fire-duration(1-1),no-firings(2-2),sensor-type(Outside),start-time(685-1111))
+prep-breakfast:sensor(act-duration(1-1),end-time(566-566),fire-duration(1-1),no-firings(1-1),sensor-type(Kitchen),start-time(566-566)):sensor(act-duration(2-3),end-time(1220-1285),fire-duration(1-1),no-firings(1-1),sensor-type(KitchStor),start-time(1220-1285)):sensor(act-duration(3-3),end-time(1292-1292),fire-duration(1-1),no-firings(1-1),sensor-type(Kitchen),start-time(1293-1293))
+take-shower:sensor(act-duration(1-2),end-time(531-1255),fire-duration(1-1),no-firings(1-1),sensor-type(Toilet),start-time(532-1255)):sensor(act-duration(2-2),end-time(517-529),fire-duration(2-2),no-firings(1-1),sensor-type(BathroomDoor),start-time(518-531))
+take-shower:sensor(act-duration(1-2),end-time(531-1255),fire-duration(1-1),no-firings(1-1),sensor-type(Toilet),start-time(532-1255))
+use-toilet
+use-toilet:sensor(act-duration(1-2),end-time(531-1255),fire-duration(1-1),no-firings(1-1),sensor-type(Toilet),start-time(532-1255)):sensor(act-duration(2-2),end-time(517-529),fire-duration(2-2),no-firings(1-1),sensor-type(BathroomDoor),start-time(518-531))
+use-toilet:sensor(act-duration(1-2),end-time(531-1255),fire-duration(1-1),no-firings(1-1),sensor-type(Toilet),start-time(532-1255)):sensor(act-duration(2-2),end-time(517-529),fire-duration(2-2),no-firings(1-1),sensor-type(BathroomDoor),start-time(518-531))
+use-toilet:sensor(act-duration(1-2),end-time(531-1255),fire-duration(1-1),no-firings(1-1),sensor-type(Toilet),start-time(532-1255)):sensor(act-duration(2-2),end-time(517-529),fire-duration(2-2),no-firings(1-1),sensor-type(BathroomDoor),start-time(518-531))
