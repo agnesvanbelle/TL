@@ -51,9 +51,13 @@ public class HouseData
 	
 	private void loadNames(String houseName, int typeData)
 	{
-		indexName[typeData] = new HashMap<String,  NameContainer>();
-		indexID[typeData]   = new HashMap<Integer, NameContainer>();
-		mapping[typeData]   = new HashMap<Integer, NameContainer>();
+		if (indexName[typeData] == null)
+		{
+			indexName[typeData] = new HashMap<String,  NameContainer>();
+			indexID[typeData]   = new HashMap<Integer, NameContainer>();
+		}
+
+		mapping[typeData] = new HashMap<Integer, NameContainer>();
 		
 		BufferedReader br = null;
 		 
