@@ -23,6 +23,8 @@ public class HouseData
 	
 	// House data:
 	
+	public final String houseName;
+	
 	private final ArrayList<DataPoint>[]                   dataTime = new ArrayList[2]; // Index per chronological order.
 	private final HashMap<Integer, ArrayList<DataPoint>>[] dataID   = new HashMap[2];   // Index per IDs.
 	
@@ -38,6 +40,8 @@ public class HouseData
 	 */
 	public HouseData(String houseName)
 	{
+		this.houseName = houseName;
+		
 		loadNames(houseName, TYPE_DATA_SENSOR);
 		loadNames(houseName, TYPE_DATA_ACTIVITY);
 		

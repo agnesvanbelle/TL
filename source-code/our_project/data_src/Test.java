@@ -24,13 +24,13 @@ public class Test
 		
 		// Example 2:
 		
+		System.out.println("Example 2:");
+		
 		HouseData.mapSensors("entity-8",  "New metafeature");
 		HouseData.mapSensors("entity-9",  "New metafeature");
 		HouseData.mapSensors("entity-10", "New metafeature");
 		
 		data = houseA.sensorData(HouseData.MAPPING_LEVEL_METAFEATURE);
-		
-		System.out.println("Example 2:");
 		
 		for (DataPoint p: data)
 		{
