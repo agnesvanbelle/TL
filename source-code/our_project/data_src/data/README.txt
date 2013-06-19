@@ -1,5 +1,7 @@
 DATA FORMAT
 
+	The data is presented in columns within files. All columns are separated by one tab.
+
 	".sensors" and ".activities" files:
 
 		These files contain the data itself, and thus they must be present. Their contents must be ordered by ascending values of the first column. Columns within these files provide the following information:

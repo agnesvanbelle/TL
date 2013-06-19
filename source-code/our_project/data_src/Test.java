@@ -2,6 +2,11 @@ package data;
 
 public class Test
 {
+	/**
+	 * Runs these tests to check that everything is working fine.
+	 * They also serve as examples of how this package can be used.
+	 * @param args Not used.
+	 */
 	@SuppressWarnings("unused")
 	public static void main(String[] args)
 	{
@@ -26,9 +31,9 @@ public class Test
 		
 		System.out.println("Example 2:");
 		
-		HouseData.mapSensors("entity-8",  "New metafeature");
-		HouseData.mapSensors("entity-9",  "New metafeature");
-		HouseData.mapSensors("entity-10", "New metafeature");
+		HouseData.mapSensors("Hall-Bedroom door",  "New metafeature");
+		HouseData.mapSensors("Hall-Toilet door",   "New metafeature");
+		HouseData.mapSensors("Hall-Bathroom door", "New metafeature");
 		
 		data = houseA.sensorData(HouseData.MAPPING_LEVEL_METAFEATURE);
 		
@@ -55,6 +60,11 @@ public class Test
 		
 		// Example 4:
 		
-		System.out.println(houseE.sensorList()[0].name);
+		System.out.println("Example 4:");
+		
+		for (NameContainer sensor: houseE.sensorList())
+		{
+			System.out.println(sensor.name);
+		}
 	}
 }

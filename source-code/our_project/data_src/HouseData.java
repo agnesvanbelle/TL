@@ -328,7 +328,10 @@ public class HouseData
 	public int[][] profileAlphaBeta(int beta)
 	{
 		Integer[] sensors = mapping[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
-		
+		for (Integer i: dataID[TYPE_DATA_SENSOR].keySet())
+		{
+			System.err.println(i);
+		}
 		int[][] output = new int[sensors.length][sensors.length];
 		
 		for (int i = 0; i < sensors.length; i++)
@@ -359,6 +362,26 @@ public class HouseData
 	}
 	
 	// Static methods:
+	
+	public NameContainer sensorContainer(int ID)
+	{
+		return indexID[TYPE_DATA_SENSOR].get(ID);
+	}
+	
+	public NameContainer sensorContainer(String name)
+	{
+		return indexName[TYPE_DATA_SENSOR].get(name);
+	}
+	
+	public NameContainer activityContainer(int ID)
+	{
+		return indexID[TYPE_DATA_ACTIVITY].get(ID);
+	}
+	
+	public NameContainer activityContainer(String name)
+	{
+		return indexName[TYPE_DATA_ACTIVITY].get(name);
+	}
 	
 	/**
 	 * Maps one sensor into another, so that the source sensor is from that moment on regarded as being the target sensor. The mapping cannot be undone.
