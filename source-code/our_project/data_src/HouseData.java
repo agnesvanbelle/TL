@@ -55,13 +55,20 @@ public class HouseData
 	
 	private void loadNames(String houseName, int typeData)
 	{
+		// Index creation when not present already:
+		
 		if (indexName[typeData] == null)
 		{
 			indexName[typeData] = new HashMap<String,  NameContainer>();
 			indexID[typeData]   = new HashMap<Integer, NameContainer>();
 		}
+		
+		dataTime[typeData] = new ArrayList<DataPoint>();
+		dataID[typeData]   = new HashMap<Integer, ArrayList<DataPoint>>();
 
-		mapping[typeData] = new HashMap<Integer, NameContainer>();
+		mapping[typeData]  = new HashMap<Integer, NameContainer>();
+		
+		// Name loading:
 		
 		BufferedReader br = null;
 		 
@@ -83,21 +90,26 @@ public class HouseData
 			{
 				String[] columns = line.split("\t");
 				
+				int    ID   = Integer.parseInt(columns[0]);
+				String name = columns[1];
+				
 				NameContainer entity;
 
-				if (indexName[typeData].containsKey(columns[1]))
+				if (indexName[typeData].containsKey(name))
 				{
-					entity = indexName[typeData].get(columns[1]);
+					entity = indexName[typeData].get(name);
 				}
 				else
 				{
-					entity = new NameContainer(columns[1]);
+					entity = new NameContainer(name);
 					
 					indexName[typeData].put(entity.name, entity);
 					indexID[typeData].put(entity.ID, entity);
 				}
 				
-				mapping[typeData].put(Integer.parseInt(columns[0]), entity);
+				dataID[typeData].put(ID, new ArrayList<DataPoint>());
+				
+				mapping[typeData].put(ID, entity);
 			}
 		}
 		catch (IOException ex)
@@ -119,12 +131,9 @@ public class HouseData
 	}
 	
 	private void loadData(String houseName, int typeData)
-	{
-		dataTime[typeData] = new ArrayList<DataPoint>();
-		dataID[typeData]   = new HashMap<Integer, ArrayList<DataPoint>>();
-		
+	{		
 		BufferedReader br = null;
-		 
+		
 		try
 		{
 			switch (typeData)
@@ -328,10 +337,7 @@ public class HouseData
 	public int[][] profileAlphaBeta(int beta)
 	{
 		Integer[] sensors = mapping[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
-		for (Integer i: dataID[TYPE_DATA_SENSOR].keySet())
-		{
-			System.err.println(i);
-		}
+		
 		int[][] output = new int[sensors.length][sensors.length];
 		
 		for (int i = 0; i < sensors.length; i++)
