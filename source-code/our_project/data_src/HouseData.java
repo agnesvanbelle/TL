@@ -28,10 +28,6 @@ public class HouseData
 	private final ArrayList<DataPoint>[]                   dataTime = new ArrayList[2]; // Index per chronological order.
 	private final HashMap<Integer, ArrayList<DataPoint>>[] dataID   = new HashMap[2];   // Index per IDs.
 	
-	// Private-to-public IDs mapping:
-	
-	private final HashMap<Integer, NameContainer>[] mapping = new HashMap[2];
-	
 	// Sensor profile cache:
 	
 	private final HashMap<Integer, float[][]> sensorProfiles = new HashMap<Integer, float[][]>(); 
@@ -44,16 +40,18 @@ public class HouseData
 	 */
 	public HouseData(String houseName)
 	{
-		this.houseName = houseName;		
+		HashMap<Integer, NameContainer>[] mapping = new HashMap[2]; // Private-to-public IDs mapping.
+	
+		this.houseName = houseName;
 		
-		loadNames(houseName, TYPE_DATA_SENSOR);
-		loadNames(houseName, TYPE_DATA_ACTIVITY);
+		loadNames(mapping, TYPE_DATA_SENSOR);
+		loadNames(mapping, TYPE_DATA_ACTIVITY);
 		
-		loadData(houseName, TYPE_DATA_SENSOR);
-		loadData(houseName, TYPE_DATA_ACTIVITY);
+		loadData(mapping, TYPE_DATA_SENSOR);
+		loadData(mapping, TYPE_DATA_ACTIVITY);
 	}
 	
-	private void loadNames(String houseName, int typeData)
+	private void loadNames(HashMap<Integer, NameContainer>[] mapping, int typeData)
 	{
 		// Index creation when not present already:
 		
@@ -107,8 +105,6 @@ public class HouseData
 					indexID[typeData].put(entity.ID, entity);
 				}
 				
-				dataID[typeData].put(ID, new ArrayList<DataPoint>());
-				
 				mapping[typeData].put(ID, entity);
 			}
 		}
@@ -130,7 +126,7 @@ public class HouseData
 		}
 	}
 	
-	private void loadData(String houseName, int typeData)
+	private void loadData(HashMap<Integer, NameContainer>[] mapping, int typeData)
 	{		
 		BufferedReader br = null;
 		
@@ -172,17 +168,16 @@ public class HouseData
 					mapping[typeData].put(ID, entity);
 				}
 				
-				DataPoint data = new DataPoint(start, length, ID);
+				DataPoint data = new DataPoint(start, length, entity.ID);
 				
 				dataTime[typeData].add(data);
 				
-				if (!dataID[typeData].containsKey(ID))
+				if (!dataID[typeData].containsKey(entity.ID))
 				{
-					dataID[typeData].put(ID, new ArrayList<DataPoint>());
+					dataID[typeData].put(entity.ID, new ArrayList<DataPoint>());
 				}
 				
-				dataID[typeData].get(ID).add(data);
-				
+				dataID[typeData].get(entity.ID).add(data);
 			} 
 		}
 		catch (IOException e)
@@ -206,13 +201,13 @@ public class HouseData
 	// Basic dynamic methods:
 	
 	/**
-	 * Returns an array with information about the sensors present in the data for this house.
+	 * Returns an array with the sensor IDs present in the data for this house.
 	 * The sensors are returned in the order implicitly assumed throughout the methods of this class.
-	 * @return An array with information about the sensors present in the data for this house.
+	 * @return An array with the sensor IDs present in the data for this house.
 	 */
-	public NameContainer[] sensorList()
+	public Integer[] sensorList()
 	{
-		return mapping[TYPE_DATA_SENSOR].values().toArray(new NameContainer[0]);
+		return dataID[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
 	}
 	
 	/**
@@ -253,7 +248,7 @@ public class HouseData
 	
 	private int mapApply(int ID, int mappingLevel, int typeData)
 	{
-		NameContainer entity = mapping[typeData].get(ID);
+		NameContainer entity = indexID[typeData].get(ID);
 		
 		for (int l = 0; l < mappingLevel; l++)
 		{
@@ -270,7 +265,7 @@ public class HouseData
 	
 	/**
 	 * Returns a normalized histogram of sensor activations over start times and firing lengths.
-	 * @param ID ID of the sensor whose profile will be calculated.
+	 * @param ID Sensor ID whose profile will be calculated.
 	 * @param blockSizeStart Length of the blocks in which a day will be divided, in seconds.
 	 * @param blockNumLength Number of discrete blocks into which firing lengths will be mapped.
 	 * @param maxLength Maximum informative firing length. Lengths above this value will simply be regarded as being this value.
@@ -320,7 +315,7 @@ public class HouseData
 		return output;
 	}
 	
-	public NormalDistribution profileRelative()
+	public NormalDistribution profileRelative(NameContainer sensorA, NameContainer sensorB)
 	{
 		// TODO
 		
@@ -336,7 +331,7 @@ public class HouseData
 	 */
 	public int[][] profileAlphaBeta(int beta)
 	{
-		Integer[] sensors = mapping[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
+		Integer[] sensors = sensorList();
 		
 		int[][] output = new int[sensors.length][sensors.length];
 		
@@ -369,22 +364,22 @@ public class HouseData
 	
 	// Static methods:
 	
-	public NameContainer sensorContainer(int ID)
+	public static NameContainer sensorContainer(int ID)
 	{
 		return indexID[TYPE_DATA_SENSOR].get(ID);
 	}
 	
-	public NameContainer sensorContainer(String name)
+	public static NameContainer sensorContainer(String name)
 	{
 		return indexName[TYPE_DATA_SENSOR].get(name);
 	}
 	
-	public NameContainer activityContainer(int ID)
+	public static NameContainer activityContainer(int ID)
 	{
 		return indexID[TYPE_DATA_ACTIVITY].get(ID);
 	}
 	
-	public NameContainer activityContainer(String name)
+	public static NameContainer activityContainer(String name)
 	{
 		return indexName[TYPE_DATA_ACTIVITY].get(name);
 	}

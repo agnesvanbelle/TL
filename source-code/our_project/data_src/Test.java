@@ -62,9 +62,9 @@ public class Test
 		
 		System.out.println("Example 4:");
 		
-		for (NameContainer sensor: houseE.sensorList())
+		for (int ID: houseA.sensorList())
 		{
-			System.out.println(sensor.name);
+			System.out.println(ID + " --> " + HouseData.sensorContainer(ID).name);
 		}
 	}
 }
