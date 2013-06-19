@@ -62,14 +62,14 @@ public class Test
 		
 		System.out.println("Example 4:");
 		
-		for (int ID: houseA.sensorList())
+		for (int ID: houseE.sensorList())
 		{
 			System.out.println(ID + " --> " + HouseData.sensorContainer(ID).name);
 		}
 		
 		// Example 5:
 		
-		System.out.println("Example 4:");
+		System.out.println("Example 5:");
 		
 		NormalDistribution r1 = houseA.profileRelative(1, 2); // Hall-Toilet door vs Hall-Bathroom door
 		NormalDistribution r2 = houseA.profileRelative(1, 8); // Hall-Toilet door vs Toilet Flush
