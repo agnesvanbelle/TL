@@ -24,14 +24,17 @@ public class HouseData
 	// House data:
 	
 	public final String houseName;
-	
-	private HashMap<Integer, double[][]> sensorProfiles; 				
+					
 	private final ArrayList<DataPoint>[]                   dataTime = new ArrayList[2]; // Index per chronological order.
 	private final HashMap<Integer, ArrayList<DataPoint>>[] dataID   = new HashMap[2];   // Index per IDs.
 	
 	// Private-to-public IDs mapping:
 	
 	private final HashMap<Integer, NameContainer>[] mapping = new HashMap[2];
+	
+	// Sensor profile cache:
+	
+	private final HashMap<Integer, float[][]> sensorProfiles = new HashMap<Integer, float[][]>(); 
 	
 	// Dynamic methods:
 	
@@ -48,8 +51,6 @@ public class HouseData
 		
 		loadData(houseName, TYPE_DATA_SENSOR);
 		loadData(houseName, TYPE_DATA_ACTIVITY);
-		
-		 sensorProfiles = new HashMap<Integer, double[][]>();
 	}
 	
 	private void loadNames(String houseName, int typeData)
@@ -256,44 +257,65 @@ public class HouseData
 		return entity.ID;
 	}
 	
-	public double[][] getProfileSensor(int ID, int blockSizeStart, int blockNumLength){
-		if(sensorProfiles.containsKey(ID))
+	// Advanced dynamic methods:
+	
+	/**
+	 * Returns a normalized histogram of sensor activations over start times and firing lengths.
+	 * @param ID ID of the sensor whose profile will be calculated.
+	 * @param blockSizeStart Length of the blocks in which a day will be divided, in seconds.
+	 * @param blockNumLength Number of discrete blocks into which firing lengths will be mapped.
+	 * @param maxLength Maximum informative firing length. Lengths above this value will simply be regarded as being this value.
+	 * @return A matrix of sensor activations over start times (first index) and firing lengths (second index).
+	 */
+	public float[][] profileSensor(int ID, int blockSizeStart, int blockNumLength, int maxLength)
+	{
+		if (!sensorProfiles.containsKey(ID))
 		{
-			return sensorProfiles.get(ID);
-		}
-		else
-		{
-			double[][] profile = buildProfileSensor( ID,  blockSizeStart,  blockNumLength);
+			float[][] profile = buildProfileSensor(ID, blockSizeStart, blockNumLength, maxLength);
+			
 			sensorProfiles.put(ID, profile);
-			return profile;
 		}
+		
+		return sensorProfiles.get(ID);
 	}
 	
-	// Advanced dynamic methods:
-	// Provides normalized histogram of sensor activiation start times and durations
-	public double[][] buildProfileSensor(int ID, int blockSizeStart, int blockNumLength)
+	private float[][] buildProfileSensor(int ID, int blockSizeStart, int blockNumLength, int maxLength)
 	{
 		int nr_start_time_bins = (24 * 3600) / blockSizeStart;
-		double[][] output = new double[nr_start_time_bins][blockNumLength];
-		double total = 0.0;
+		
+		float[][] output = new float[nr_start_time_bins][blockNumLength];
+		
+		long total = 0;
 		
 		for (DataPoint data: dataID[TYPE_DATA_SENSOR].get(ID))
 		{
-			int blockLength = (int) Math.log(data.length);
+			// Linear scale for the firing length mapping:
 			
-			output[data.startBlock(blockSizeStart)][blockLength] += 1.0;
-			total += 1.0;
+			int blockLength = (int) (((float) Math.min(data.length, maxLength) / maxLength) * (blockNumLength - 1));
+			
+			output[data.startBlock(blockSizeStart)][blockLength]++;
+			
+			total++;
 		}
 		
-		for(int i = 0; i < nr_start_time_bins; i++)
+		// Normalization:
+		
+		for (int i = 0; i < nr_start_time_bins; i++)
 		{
-			for(int j = 0 ; j < blockNumLength; j++)
+			for (int j = 0 ; j < blockNumLength; j++)
 			{
 				output[i][j] /= total;
 			}
 		}
 		
 		return output;
+	}
+	
+	public NormalDistribution profileRelative()
+	{
+		// TODO
+		
+		return null;
 	}
 	
 	/**
