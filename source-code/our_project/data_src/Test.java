@@ -66,5 +66,17 @@ public class Test
 		{
 			System.out.println(ID + " --> " + HouseData.sensorContainer(ID).name);
 		}
+		
+		// Example 5:
+		
+		System.out.println("Example 4:");
+		
+		NormalDistribution r1 = houseA.profileRelative(1, 2); // Hall-Toilet door vs Hall-Bathroom door
+		NormalDistribution r2 = houseA.profileRelative(1, 8); // Hall-Toilet door vs Toilet Flush
+		
+		System.out.println(r1.mu + ", " + r1.sigma);
+		System.out.println(r2.mu + ", " + r2.sigma);
+		System.out.println(r1.KLDivergence(r2));
+		System.out.println(r2.KLDivergence(r1));
 	}
 }

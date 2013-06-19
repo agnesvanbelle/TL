@@ -315,11 +315,34 @@ public class HouseData
 		return output;
 	}
 	
-	public NormalDistribution profileRelative(NameContainer sensorA, NameContainer sensorB)
+	/**
+	 * Returns the relative profile between two sensors, modeled as a normal distribution of the differences of their firing times.
+	 * @param sensorA First sensor ID.
+	 * @param sensorB Second sensor ID.
+	 * @return The relative profile between two sensors, modeled as a normal distribution of the differences of their firing times.
+	 */
+	public NormalDistribution profileRelative(int sensorA, int sensorB)
 	{
-		// TODO
+		ArrayList<Integer> values = new ArrayList<Integer>();
 		
-		return null;
+		for (DataPoint dataA: dataID[TYPE_DATA_SENSOR].get(sensorA))
+		{
+			int minDiff = Integer.MAX_VALUE;
+			
+			for (DataPoint dataB: dataID[TYPE_DATA_SENSOR].get(sensorB))
+			{
+				int diff = dataA.start - dataB.start;
+				
+				if (Math.abs(diff) < Math.abs(minDiff))
+				{
+					minDiff = diff;
+				}
+			}
+			
+			values.add(minDiff);
+		}
+		
+		return new NormalDistribution(values);
 	}
 	
 	/**
