@@ -267,9 +267,9 @@ public class HouseData
 	}
 	
 	/**
-	 * 
-	 * @param mappingLevel
-	 * @return
+	 * Returns an array of lists where each list contains the IDs of sensors present in one group after mapping.
+	 * @param mappingLevel Number of sensor mapping levels to apply. MAPPING_LEVEL_* constants can be used for convenience.
+	 * @return An array of lists where each list contains the IDs of sensors present in one group after mapping.
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Integer>[] sensorClusters(int mappingLevel)
@@ -319,14 +319,16 @@ public class HouseData
 		
 		float[][] output = new float[nr_start_time_bins][blockNumLength];
 		
+		double logBase = Math.pow(Math.E, Math.log(maxLength) / (blockNumLength - 1));
+		
 		long total = 0;
 		
 		for (DataPoint data: dataID[TYPE_DATA_SENSOR].get(ID))
 		{
-			// Linear scale for the firing length mapping:
+			// Logarithmic scale for the firing length mapping:
 			
-			int blockLength = (int) (((float) Math.min(data.length, maxLength) / maxLength) * (blockNumLength - 1));
-			
+			int blockLength = (int) (Math.log(Math.min(data.length, maxLength)) / Math.log(logBase));
+						
 			output[data.startBlock(blockSizeStart)][blockLength]++;
 			
 			total++;
@@ -414,21 +416,7 @@ public class HouseData
 		
 		return output;
 	}
-	
-	public void sensorDataFormatLena(int mappingLevel, String filename)
-	{
-		DataPoint[] output = sensorData(mappingLevel);
-		
-		// TODO
-	}
-	
-	public void activityDataFormatLena(int mappingLevel, String filename)
-	{
-		DataPoint[] output = activityData(mappingLevel);
-		
-		// TODO
-	}
-	
+
 	// Static methods:
 	
 	public static NameContainer sensorContainer(int ID)

@@ -89,5 +89,25 @@ public class Test
 		System.out.println(a.overlapLevel(b));
 		System.out.println(b.overlapLevel(a));
 		System.out.println(a.overlapLevel(a));
+		
+		// Example 7:
+		
+		System.out.println("Example 7:");
+		
+		float[][] profile = houseA.profileSensor(houseA.sensorList()[1], 3600, 4, 3600);
+		
+		for (int i = 0; i < profile.length; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				System.out.print(profile[i][j] + "\t");
+				
+				if (profile[i][j] == 0.0)
+				{
+					System.out.print("\t");
+				}
+			}
+			System.out.println();
+		}
 	}
 }
