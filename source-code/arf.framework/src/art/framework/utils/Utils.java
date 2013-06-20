@@ -195,6 +195,16 @@ public class Utils {
 		}
 		Utils.saveContent(fileName, sb.toString());
 	}
+	
+	public static int getDirectorySize(String path) {
+
+		
+		File folder = new File(path);
+		File[] listOfFiles = folder.listFiles();
+		
+		return listOfFiles.length;
+	}
+	
 
 	public static ArrayList<String> getDirectoryListing(String path) {
 
