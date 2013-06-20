@@ -83,9 +83,11 @@ public class Test
 		
 		System.out.println("Example 6:");
 		
-		NormalDistribution a = new NormalDistribution(10f, 8f);
-		NormalDistribution b = new NormalDistribution(8f, 3f);
+		NormalDistribution a = new NormalDistribution(10f, 5f);
+		NormalDistribution b = new NormalDistribution(8f, 7f);
 		
 		System.out.println(a.overlapLevel(b));
+		System.out.println(b.overlapLevel(a));
+		System.out.println(a.overlapLevel(a));
 	}
 }

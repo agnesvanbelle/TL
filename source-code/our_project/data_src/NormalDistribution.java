@@ -61,6 +61,7 @@ public class NormalDistribution
 		// Points where both distributions yield the same value:
 		
 		List<Double> m = new ArrayList<Double>(); 
+		
 		m.add(Double.NEGATIVE_INFINITY);
 		
 		// Calculation of the set of overlapping points:
@@ -110,9 +111,9 @@ public class NormalDistribution
 			}
 			else
 			{
-				// No solution for m:
+				// No solution for m (distributions too far away, not enough precision):
 				
-				System.err.println("No solution for m in overlapLevel()");
+				return 0;
 			}
 		}
 		
@@ -139,7 +140,7 @@ public class NormalDistribution
 	 * @param b Ending point.
 	 * @return The definite integral of this normal distribution for the range [a, b].
 	 */
-	private double definiteIntegral(double a, double b)
+	public double definiteIntegral(double a, double b)
 	{
 		return 0.5 * Erf.erf((a - mu) / (sigma * Math.sqrt(2)), (b - mu) / (sigma * Math.sqrt(2)));
 	}
