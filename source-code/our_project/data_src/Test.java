@@ -31,9 +31,9 @@ public class Test
 		
 		System.out.println("Example 2:");
 		
-		HouseData.mapSensors("Hall-Bedroom door",  "New metafeature");
-		HouseData.mapSensors("Hall-Toilet door",   "New metafeature");
-		HouseData.mapSensors("Hall-Bathroom door", "New metafeature");
+		HouseData.mapSensors("Hall-Bedroom door-houseA",  "New metafeature");
+		HouseData.mapSensors("Hall-Toilet door-houseA",   "New metafeature");
+		HouseData.mapSensors("Hall-Bathroom door-houseA", "New metafeature");
 		
 		data = houseA.sensorData(HouseData.MAPPING_LEVEL_METAFEATURE);
 		
@@ -78,5 +78,14 @@ public class Test
 		System.out.println(r2.mu + ", " + r2.sigma);
 		System.out.println(r1.KLDivergence(r2));
 		System.out.println(r2.KLDivergence(r1));
+		
+		// Example 6:
+		
+		System.out.println("Example 6:");
+		
+		NormalDistribution a = new NormalDistribution(10f, 8f);
+		NormalDistribution b = new NormalDistribution(8f, 3f);
+		
+		System.out.println(a.overlapLevel(b));
 	}
 }

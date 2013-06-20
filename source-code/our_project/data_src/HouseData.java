@@ -91,6 +91,11 @@ public class HouseData
 				int    ID   = Integer.parseInt(columns[0]);
 				String name = columns[1];
 				
+				if (typeData == TYPE_DATA_SENSOR)
+				{
+					name += '-' + houseName;
+				}
+				
 				NameContainer entity;
 
 				if (indexName[typeData].containsKey(name))
@@ -261,6 +266,11 @@ public class HouseData
 		return entity.ID;
 	}
 	
+	/**
+	 * 
+	 * @param mappingLevel
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Integer>[] sensorClusters(int mappingLevel)
 	{
