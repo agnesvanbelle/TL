@@ -81,6 +81,11 @@ public class Utils {
 		return examples;
 	}
 
+	/**
+	 * creates directory if it doesn't exist yet
+	 * 
+	 * @param dirName
+	 */
 	public static void createOutputDirectory(String dirName) {
 		File outputDir = new File(dirName);
 		if (!outputDir.exists()) {
@@ -195,6 +200,16 @@ public class Utils {
 		}
 		Utils.saveContent(fileName, sb.toString());
 	}
+	
+	public static int getDirectorySize(String path) {
+
+		
+		File folder = new File(path);
+		File[] listOfFiles = folder.listFiles();
+		
+		return listOfFiles.length;
+	}
+	
 
 	public static ArrayList<String> getDirectoryListing(String path) {
 

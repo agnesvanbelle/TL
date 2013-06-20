@@ -123,8 +123,7 @@ public class svm_predict {
 		}
 		else {
 			
-			svm_predict.info("Accuracy = "+(double)correct/total*100+
-				 "% ("+correct+"/"+total+") (classification)\n");
+			//svm_predict.info("Accuracy = "+(double)correct/total*100+"% ("+correct+"/"+total+") (classification)\n");
 			
 			return (double)correct/total*100;
 		}

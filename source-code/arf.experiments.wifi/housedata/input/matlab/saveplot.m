@@ -29,11 +29,10 @@
       transfertype
       featuretype
       
-			values = datavalues(:,featuretype,transfertype)
+			values = datavalues(:,featuretype,transfertype);
       
       if min(sum(isnan(values))) == 0
         
-        values
         
         plotje = semilogx(datapoints, values);
         set(plotje,'LineStyle',lineStylesCell{index});
