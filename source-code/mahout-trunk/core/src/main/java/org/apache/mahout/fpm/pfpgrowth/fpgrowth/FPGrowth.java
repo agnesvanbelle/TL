@@ -53,6 +53,8 @@ import org.slf4j.LoggerFactory;
 public class FPGrowth<A extends Comparable<? super A>> {
 
   private static final Logger log = LoggerFactory.getLogger(FPGrowth.class);
+  
+  
 
   public static List<Pair<String,TopKStringPatterns>> readFrequentPattern(Configuration conf, Path path) {
     List<Pair<String,TopKStringPatterns>> ret = new ArrayList<Pair<String,TopKStringPatterns>>();
@@ -62,6 +64,8 @@ public class FPGrowth<A extends Comparable<? super A>> {
       ret.add(new Pair<String,TopKStringPatterns>(record.getFirst().toString(),
                                                   new TopKStringPatterns(record.getSecond().getPatterns())));
     }
+    
+   
     return ret;
   }
 

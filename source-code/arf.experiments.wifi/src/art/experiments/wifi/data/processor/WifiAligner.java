@@ -104,7 +104,7 @@ public class WifiAligner {
 			List<TimeInterval> sensorTimes = sensorEventMap.get(date);
 			
 			if (sensorTimes == null) {
-				System.out.println("No sensors match to activity on date " + date);
+				//System.out.println("No sensors match to activity on date " + date);
 			} else {
 				int actionId = 0;
 				
@@ -589,7 +589,7 @@ public class WifiAligner {
 			List<TimeInterval> actionD = timeActionMap.get(date);
 			List<TimeInterval> sensorD = timeMap.get(date);
 			if (sensorD == null) {
-				System.out.println("No sensors match to activity on date " + date);
+				//System.out.println("No sensors match to activity on date " + date);
 			} else {
 				
 				for (TimeInterval actionI: actionD) {

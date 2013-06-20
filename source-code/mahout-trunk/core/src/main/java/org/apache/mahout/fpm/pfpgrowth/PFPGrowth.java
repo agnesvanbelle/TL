@@ -78,6 +78,7 @@ public final class PFPGrowth {
   
   private static final Logger log = LoggerFactory.getLogger(PFPGrowth.class);
   
+  
   private PFPGrowth() { }
   
   /**

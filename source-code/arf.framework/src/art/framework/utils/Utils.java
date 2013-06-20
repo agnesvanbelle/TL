@@ -81,6 +81,11 @@ public class Utils {
 		return examples;
 	}
 
+	/**
+	 * creates directory if it doesn't exist yet
+	 * 
+	 * @param dirName
+	 */
 	public static void createOutputDirectory(String dirName) {
 		File outputDir = new File(dirName);
 		if (!outputDir.exists()) {
