@@ -261,7 +261,8 @@ public class HouseData
 		return entity.ID;
 	}
 	
-	public HashMap<Integer, List<Integer>> sensorClusters(int mappingLevel)
+	@SuppressWarnings("unchecked")
+	public List<Integer>[] sensorClusters(int mappingLevel)
 	{
 		HashMap<Integer, List<Integer>> output = new HashMap<Integer, List<Integer>>();
 		
@@ -277,7 +278,7 @@ public class HouseData
 			output.get(mappedID).add(ID);
 		}
 		
-		return output;
+		return output.values().toArray(new List[0]);
 	}
 	
 	// Advanced dynamic methods:
