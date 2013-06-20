@@ -261,9 +261,9 @@ public class HouseData
 		return entity.ID;
 	}
 	
-	public HashMap<Integer, Set<Integer>> sensorClusters(int mappingLevel)
+	public HashMap<Integer, List<Integer>> sensorClusters(int mappingLevel)
 	{
-		HashMap<Integer, Set<Integer>> output = new HashMap<Integer, Set<Integer>>();
+		HashMap<Integer, List<Integer>> output = new HashMap<Integer, List<Integer>>();
 		
 		for (Integer ID: sensorList())
 		{
@@ -271,7 +271,7 @@ public class HouseData
 			
 			if (!output.containsKey(mappedID))
 			{
-				output.put(mappedID, new HashSet<Integer>());
+				output.put(mappedID, new ArrayList<Integer>());
 			}
 			
 			output.get(mappedID).add(ID);
