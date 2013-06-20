@@ -12,7 +12,7 @@ public class DataPoint
 	
 	// Format for the human-readable version of the "start" field:
 	
-	private static final SimpleDateFormat startDateFormat = new SimpleDateFormat("dd-mm-yyyy HH:mm:ss", Locale.ENGLISH);
+	private static final SimpleDateFormat startDateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
 	
 	// Private data fields:
 	

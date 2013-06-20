@@ -216,6 +216,16 @@ public class HouseData
 	}
 	
 	/**
+	 * Returns an array with the activity IDs present in the data for this house.
+	 * The activity are returned in the order implicitly assumed throughout the methods of this class.
+	 * @return An array with the activity IDs present in the data for this house.
+	 */
+	public Integer[] activityList()
+	{
+		return dataID[TYPE_DATA_ACTIVITY].keySet().toArray(new Integer[0]);
+	}
+	
+	/**
 	 * Returns the raw sensor data stored for this house. No sensor IDs will be shared across houses.
 	 * @param mappingLevel Number of sensor mapping levels to apply. MAPPING_LEVEL_* constants can be used for convenience.
 	 * @return An array of data point objects.
@@ -292,6 +302,91 @@ public class HouseData
 	}
 	
 	// Advanced dynamic methods:
+	
+	/**
+	 * Creates the necessary files in the correct format to use the data within the current house as an input for Lena's pipeline.
+	 * This method will create a new folder containing all files.
+	 * @param mappingLevelSensors Number of sensor mapping levels to apply. MAPPING_LEVEL_* constants can be used for convenience.
+	 * @param mappingLevelActivities Number of activity mapping levels to apply. MAPPING_LEVEL_* constants can be used for convenience.
+	 */
+	public void formatLena(int mappingLevelSensors, int mappingLevelActivities)
+	{
+		String houseLetter = houseName.replaceAll("house", "");
+		
+		File dir = new File("houseInfo" + houseLetter);
+
+		dir.mkdir();
+		
+		try
+		{
+			// Sensor data:
+			
+			PrintWriter writer = new PrintWriter(dir.getAbsoluteFile() + "/" + houseName + "-ss.txt", "UTF-8");
+			
+			for (DataPoint data: sensorData(mappingLevelSensors))
+			{
+				DataPoint temp = new DataPoint(data.start + data.length, data.length, data.ID); // temp.start = data.end
+				
+				writer.println(data.startDate() + "\t" + temp.startDate() + "\t" + data.ID);
+			}
+			
+			writer.close();
+			
+			// Activity data:
+			
+			writer = new PrintWriter(dir.getAbsoluteFile() + "/" + houseName + "-as.txt", "UTF-8");
+			
+			for (DataPoint data: activityData(mappingLevelActivities))
+			{
+				DataPoint temp = new DataPoint(data.start + data.length, data.length, data.ID); // temp.start = data.end
+				
+				writer.println(data.startDate() + "\t" + temp.startDate() + "\t" + data.ID);
+			}
+			
+			writer.close();
+			
+			// Sensor labels:
+			
+			writer = new PrintWriter(dir.getAbsoluteFile() + "/sensorMap" + houseLetter + "-ids.txt", "UTF-8");
+			
+			for (Integer ID: sensorList())
+			{
+				int mappedID = mapApply(ID, mappingLevelSensors, TYPE_DATA_SENSOR);
+				
+				String name  = indexID[TYPE_DATA_SENSOR].get(ID).name.replaceAll(",", "-");
+				String group = indexID[TYPE_DATA_SENSOR].get(mappedID).name.replaceAll(",", "-");
+				
+				writer.println(ID + "," + name + "," + group);
+			}
+			
+			writer.close();
+			
+			// Activity labels:
+			
+			writer = new PrintWriter(dir.getAbsoluteFile() + "/actionMap" + houseLetter + ".txt", "UTF-8");
+			
+			for (Integer ID: activityList())
+			{
+				int mappedID = mapApply(ID, mappingLevelActivities, TYPE_DATA_ACTIVITY);
+				
+				String group = indexID[TYPE_DATA_ACTIVITY].get(mappedID).name.replaceAll(",", "-");
+				
+				writer.println(ID + "," + group);
+			}
+			
+			writer.close();
+		}
+		catch (FileNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
 	
 	/**
 	 * Returns a normalized histogram of sensor activations over start times and firing lengths.

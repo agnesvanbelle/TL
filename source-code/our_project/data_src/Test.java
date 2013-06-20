@@ -109,5 +109,9 @@ public class Test
 			}
 			System.out.println();
 		}
+		
+		// Example 8:
+		
+		houseA.formatLena(HouseData.MAPPING_LEVEL_FEATURE, HouseData.MAPPING_LEVEL_FEATURE);
 	}
 }
