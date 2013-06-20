@@ -261,6 +261,25 @@ public class HouseData
 		return entity.ID;
 	}
 	
+	public HashMap<Integer, Set<Integer>> sensorClusters(int mappingLevel)
+	{
+		HashMap<Integer, Set<Integer>> output = new HashMap<Integer, Set<Integer>>();
+		
+		for (Integer ID: sensorList())
+		{
+			int mappedID = mapApply(ID, mappingLevel, TYPE_DATA_SENSOR);
+			
+			if (!output.containsKey(mappedID))
+			{
+				output.put(mappedID, new HashSet<Integer>());
+			}
+			
+			output.get(mappedID).add(ID);
+		}
+		
+		return output;
+	}
+	
 	// Advanced dynamic methods:
 	
 	/**
@@ -383,6 +402,20 @@ public class HouseData
 		}
 		
 		return output;
+	}
+	
+	public void sensorDataFormatLena(int mappingLevel, String filename)
+	{
+		DataPoint[] output = sensorData(mappingLevel);
+		
+		// TODO
+	}
+	
+	public void activityDataFormatLena(int mappingLevel, String filename)
+	{
+		DataPoint[] output = activityData(mappingLevel);
+		
+		// TODO
 	}
 	
 	// Static methods:
