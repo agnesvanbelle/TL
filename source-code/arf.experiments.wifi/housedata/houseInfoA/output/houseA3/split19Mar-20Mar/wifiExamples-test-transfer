@@ -1,7 +1,0 @@
-get-drink:sensor(act-duration(1-1),end-time(892-1375),fire-duration(1-334),no-firings(1-1),sensor-type(KitchStor),start-time(581-1349)):sensor(act-duration(1-2),end-time(582-757),fire-duration(1-3),no-firings(1-1),sensor-type(Kitchen),start-time(582-774))
-leave-house:sensor(act-duration(2-2),end-time(467-835),fire-duration(3-17),no-firings(1-1),sensor-type(Outside),start-time(484-837))
-leave-house:sensor(act-duration(2-2),end-time(467-835),fire-duration(3-17),no-firings(1-1),sensor-type(Outside),start-time(484-837))
-prep-breakfast:sensor(act-duration(1-2),end-time(582-757),fire-duration(1-3),no-firings(1-1),sensor-type(Kitchen),start-time(582-774)):sensor(act-duration(5-11),end-time(606-687),fire-duration(1-49),no-firings(1-2),sensor-type(KitchStor),start-time(639-741))
-take-shower:sensor(act-duration(1-2),end-time(568-1098),fire-duration(1-562),no-firings(1-1),sensor-type(Toilet),start-time(527-1168))
-use-toilet:sensor(act-duration(5-8),end-time(484-592),fire-duration(207-992),no-firings(1-1),sensor-type(Toilet),start-time(404-689))
-use-toilet:sensor(act-duration(1-2),end-time(568-1098),fire-duration(1-562),no-firings(1-1),sensor-type(Toilet),start-time(527-1168))

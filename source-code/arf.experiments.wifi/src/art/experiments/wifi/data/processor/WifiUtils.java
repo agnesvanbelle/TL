@@ -1,13 +1,18 @@
 package art.experiments.wifi.data.processor;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.Map;
 import java.util.Map.Entry;
+
+
 
 public class WifiUtils {
 
@@ -106,5 +111,29 @@ public class WifiUtils {
 		System.out.println("Terminating because of user stop.");
 		System.exit(0);
 	}
+	
+//	
+//	public static void resultsToMatlab(String matlabFile, double[][][] results) {
+//		BufferedWriter bw = null;
+//		try {
+//	          File file = new File(matlabFile);
+//	          bw = new BufferedWriter(new FileWriter(file));
+//	          //bw.write(text);
+//	         
+//        } catch ( IOException e ) {
+//           e.printStackTrace();
+//        }
+//		finally {
+//			if (bw != null) {
+//				try {
+//					bw.close();
+//				}
+//				catch (Exception e) {
+//					 e.printStackTrace();
+//				}
+//			}
+//			
+//		}
+//	}
 
 }
