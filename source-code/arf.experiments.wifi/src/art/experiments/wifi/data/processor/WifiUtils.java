@@ -112,6 +112,12 @@ public class WifiUtils {
 		System.exit(0);
 	}
 	
+	public static String intToString(int i) {
+		char c = (char) (97 + i);
+		String s = Character.toString(c);
+		return s.toUpperCase();
+	}
+	
 //	
 //	public static void resultsToMatlab(String matlabFile, double[][][] results) {
 //		BufferedWriter bw = null;
