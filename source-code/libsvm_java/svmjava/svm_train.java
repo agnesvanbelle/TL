@@ -284,8 +284,10 @@ public class svm_train {
 			if(line == null) break;
 
 			StringTokenizer st = new StringTokenizer(line," \t\n\r\f:");
-
-			vy.addElement(atof(st.nextToken()));
+			
+			String nextToken = st.nextToken();
+			//System.out.println("nextToken: " + nextToken);
+			vy.addElement(atof(nextToken));
 			int m = st.countTokens()/2;
 			svm_node[] x = new svm_node[m];
 			for(int j=0;j<m;j++)
