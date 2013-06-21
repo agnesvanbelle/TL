@@ -1,6 +1,0 @@
-[num-of-awins(0), num-of-bwins(1)]
-[num-of-awins(0), num-of-bwins(2)]
-[amove(amove-pos(p7),amove-val(0)), num-of-awins(0)]
-[amove(amove-pos(p1),amove-val(0)), num-of-awins(0)]
-[amove(amove-pos(p5),amove-val(0)), num-of-awins(0)]
-[amove(amove-pos(p3),amove-val(0)), num-of-awins(0)]

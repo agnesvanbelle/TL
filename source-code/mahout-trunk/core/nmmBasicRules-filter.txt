@@ -1,6 +1,0 @@
-P [amove(amove-pos(p21),amove-val(0)), amove(amove-pos(p27),amove-val(0)), amove(amove-pos(p30),amove-val(0)), bmove(bmove-pos(p17),bmove-val(1)), num-of-awins(0), num-of-bwins(2)]
-N [bmove(bmove-pos(p17),bmove-val(1)), bmove(bmove-pos(p31),bmove-val(1))]
-P [amove(amove-pos(p21),amove-val(0)), amove(amove-pos(p27),amove-val(0)), amove(amove-pos(p30),amove-val(0)), num-of-awins(0), num-of-bwins(2)]
-P [amove(amove-pos(p21),amove-val(0)), amove(amove-pos(p27),amove-val(0)), amove(amove-pos(p30),amove-val(0)), bmove(bmove-pos(p17),bmove-val(1)), bmove(bmove-pos(p31),bmove-val(1)), num-of-bwins(2)]
-N [amove(amove-pos(p17),amove-val(0)), bmove(bmove-pos(p17),bmove-val(1)), bmove(bmove-pos(p31),bmove-val(1))]
-P [amove(amove-pos(p21),amove-val(0)), amove(amove-pos(p27),amove-val(0)), amove(amove-pos(p30),amove-val(0)), bmove(bmove-pos(p17),bmove-val(1)), bmove(bmove-pos(p31),bmove-val(1)), num-of-awins(0), num-of-bwins(2)]
