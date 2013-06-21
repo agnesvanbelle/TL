@@ -1,0 +1,12 @@
+//org.eclipse.ui.commands/state/org.eclipse.wst.xml.views.XPathView.processor.xpathprocessor/org.eclipse.ui.commands.radioState=xpath10
+ColorsAndFontsPreferencePage.expandedCategories=Torg.eclipse.ui.workbenchMisc\tTorg.eclipse.team.cvs.ui.fontsandcolors\tTorg.eclipse.debug.ui.presentation\tTorg.eclipse.jdt.ui.presentation\tTorg.eclipse.wst.sse.ui\tTorg.eclipse.compare.contentmergeviewer.TextMergeViewer\tTorg.eclipse.ui.presentation.default
+ColorsAndFontsPreferencePage.selectedElement=Forg.eclipse.debug.ui.consoleFont
+ENABLED_DECORATORS=org.eclipse.jdt.ui.override.decorator\:true,org.eclipse.jdt.ui.interface.decorator\:false,org.eclipse.mylyn.context.ui.decorator.interest\:true,org.eclipse.mylyn.tasks.ui.decorators.task\:true,org.eclipse.mylyn.team.ui.changeset.decorator\:true,org.eclipse.team.cvs.ui.decorator\:true,org.eclipse.ui.LinkedResourceDecorator\:true,org.eclipse.ui.ContentTypeDecorator\:true,
+PLUGINS_NOT_ACTIVATED_ON_STARTUP=org.eclipse.m2e.discovery;
+eclipse.preferences.version=1
+org.eclipse.debug.ui.consoleFont=1|Liberation Mono|8.0|0|GTK|1|;
+org.eclipse.jdt.ui.editors.textfont=1|Liberation Mono|8.0|0|GTK|1|;
+org.eclipse.jdt.ui.javadocfont=1|Sans|8.0|0|GTK|1|;
+org.eclipse.jface.headerfont=1|Sans|8.0|1|GTK|1|;
+org.eclipse.jface.textfont=1|Monospace|8.0|0|GTK|1|;
+org.eclipse.ui.workbench.texteditor.blockSelectionModeFont=1|Monospace|8.0|0|GTK|1|;
