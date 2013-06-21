@@ -36,7 +36,7 @@ public class Meta_feature_building{
 				for(int j=i;j<sensors.length;j++)
 				{
 					// If the frequency is larger than alpha
-					if(frequencies[i][j]>alpha)
+					if(frequencies[i][j]+frequencies[j][i]>alpha)
 					{
 						int index_i = -1;
 						int index_j = -1;					
