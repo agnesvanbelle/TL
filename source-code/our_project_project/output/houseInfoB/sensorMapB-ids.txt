@@ -1,0 +1,23 @@
+34,PIR slaapkamer-houseB,meta-meta-feature-1
+35,kwik dresser-houseB,meta-meta-feature-1
+32,kwik cutlary drawer-houseB,meta-meta-feature-1
+33,kwik stove lid-houseB,meta-meta-feature-1
+38,toaster-houseB,meta-meta-feature-1
+39,magnetron-houseB,meta-meta-feature-1
+36,PIR badkamer-houseB,meta-meta-feature-1
+37,gootsteen float-houseB,meta-meta-feature-1
+42,entity-42,meta-meta-feature-6
+43,entity-43,meta-meta-feature-1
+40,PIR keuken-houseB,meta-meta-feature-1
+41,entity-41,meta-meta-feature-1
+46,entity-46,meta-meta-feature-0
+44,entity-44,meta-meta-feature-3
+45,entity-45,meta-meta-feature-1
+23,toilet door-houseB,meta-meta-feature-1
+25,cupboard groceries-houseB,meta-meta-feature-7
+24,fridge-houseB,meta-meta-feature-1
+26,toilet flush-houseB,meta-meta-feature-1
+29,Bedroom door-houseB,meta-meta-feature-1
+28,cupboard plates-houseB,meta-meta-feature-1
+31,press bed links-houseB,meta-meta-feature-1
+30,press bed rechts-houseB,meta-meta-feature-1

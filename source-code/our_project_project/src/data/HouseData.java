@@ -5,6 +5,8 @@ import java.util.*;
 
 public class HouseData
 {
+	
+	public static final String outputDirName = "../our_project_project/output/";
 	// Example mapping levels for sensorData() and activityData():
 	
 	public static final int MAPPING_LEVEL_FEATURE         = 0;
@@ -311,17 +313,23 @@ public class HouseData
 	 */
 	public void formatLena(int mappingLevelSensors, int mappingLevelActivities)
 	{
+		
+		
 		String houseLetter = houseName.replaceAll("house", "");
 		
-		File dir = new File("houseInfo" + houseLetter);
-
-		dir.mkdir();
+		File outputDir = new File(outputDirName);
+		if (outputDir.exists()) {
+			outputDir.delete();
+		}
+		outputDir.mkdir();
+		File houseOutputDir = new File(outputDir + "/houseInfo" + houseLetter + "/");
+		houseOutputDir.mkdir();
 		
 		try
 		{
 			// Sensor data:
 			
-			PrintWriter writer = new PrintWriter(dir.getAbsoluteFile() + "/" + houseName + "-ss.txt", "UTF-8");
+			PrintWriter writer = new PrintWriter(houseOutputDir + "/" + houseName + "-ss.txt", "UTF-8");
 			
 			for (DataPoint data: sensorData(mappingLevelSensors))
 			{
@@ -334,7 +342,7 @@ public class HouseData
 			
 			// Activity data:
 			
-			writer = new PrintWriter(dir.getAbsoluteFile() + "/" + houseName + "-as.txt", "UTF-8");
+			writer = new PrintWriter(houseOutputDir + "/" + houseName + "-as.txt", "UTF-8");
 			
 			for (DataPoint data: activityData(mappingLevelActivities))
 			{
@@ -347,7 +355,7 @@ public class HouseData
 			
 			// Sensor labels:
 			
-			writer = new PrintWriter(dir.getAbsoluteFile() + "/sensorMap" + houseLetter + "-ids.txt", "UTF-8");
+			writer = new PrintWriter(houseOutputDir + "/sensorMap" + houseLetter + "-ids.txt", "UTF-8");
 			
 			for (Integer ID: sensorList())
 			{
@@ -363,7 +371,7 @@ public class HouseData
 			
 			// Activity labels:
 			
-			writer = new PrintWriter(dir.getAbsoluteFile() + "/actionMap" + houseLetter + ".txt", "UTF-8");
+			writer = new PrintWriter(houseOutputDir + "/actionMap" + houseLetter + ".txt", "UTF-8");
 			
 			for (Integer ID: activityList())
 			{
