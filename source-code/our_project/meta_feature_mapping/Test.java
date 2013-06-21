@@ -11,18 +11,18 @@ public class Test{
 	{
 		
 		ArrayList<HouseData> data = new ArrayList<HouseData>();
-		HouseData house1 = new HouseData("houseTest1");
+		HouseData house1 = new HouseData("houseA");
 		data.add(house1);		
-		HouseData house2 = new HouseData("houseTest2");		
+		HouseData house2 = new HouseData("houseB");		
 		data.add(house2);
 		int [] alpha = {5, 5};
-		int [] beta = {1400, 1400};
+		int [] beta = {14, 7};
 		Meta_feature_building.alpha_beta_clustering(data, alpha, beta);
 		
 //		int one_hour = 60*60;
 		int two_hours = 60*60*2;
 		Meta_feature_mapping map = new Meta_feature_mapping(two_hours, 5, 200);
-		map.map_metafeatures_one_to_one_heuristic(data, 0);
+		map.map_metafeatures_one_to_one_heuristic(data, 0); //2nd param. is index houseData 
 		
 		System.out.println("\n\nResults printing:\n house 1 \n");
 		for(Integer sensor: house1.sensorList())

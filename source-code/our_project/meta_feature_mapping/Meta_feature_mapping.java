@@ -18,9 +18,9 @@ public class Meta_feature_mapping{
 	/**
 	 * Constructor for doing meta feature mapping using sensor profile histograms and relational profile
 	 * as the distance mapping 
-	 * @param bin_width_start_time
-	 * @param nr_bins_duration
-	 * @param max_length_duration
+	 * @param bin_width_start_time : size of bins for discretization of the activation start time dimension
+	 * @param nr_bins_duration : amount of bins for duration dimension
+	 * @param max_length_duration : durations above this value are placed in the last max_duration bin
 	 */
 	public Meta_feature_mapping(int bin_width_start_time, int nr_bins_duration, int max_length_duration){
 		blockSizeStart = bin_width_start_time;
