@@ -1,0 +1,76 @@
+100	Bathroom,Toilet Flush 
+101	Bathroom,Light switch
+104	Foyer,Light switch
+105	Kitchen,Light switch A
+106	Kitchen,Burner A
+107	Living room,Light switch A
+108	Bedroom,Light switch
+109	Porch,Light switch
+118	Kitchen,Burner B
+119	Kitchen,Coffee machine
+120	Kitchen,Light switch B
+125	Kitchen,Drawer A
+126	Kitchen,Refrigerator A
+129	Kitchen,Oven
+130	Bathroom,Door
+131	Kitchen,Toaster
+132	Kitchen,Cabinet A
+133	Kitchen,Cabinet B
+135	Kitchen,Drawer B
+136	Kitchen,Window
+137	Kitchen,Freezer
+138	Kitchen,Cabinet C
+139	Bedroom,Jewelry box
+140	Foyer,Door
+141	Kitchen,Door A
+142	Kitchen,Washing Machine
+143	Kitchen,Microwave
+144	Kitchen,Refrigerator B
+145	Kitchen,Cereal
+146	Bedroom,Drawer A
+51	Kitchen,Cabinet D
+52	Kitchen,Drawer C
+53	Kitchen,Cabinet E
+54	Kitchen,Door B
+55	Kitchen,Cabinet F
+56	Living room,DVD 
+57	Bathroom,Medicine cabinet A
+58	Bathroom,Medicine cabinet B
+59	Kitchen,Cabinet G
+60	Kitchen,Containers
+61	Kitchen,Cabinet H
+62	Bedroom,Drawer B
+63	Kitchen,Cabinet I
+64	Bedroom,Lamp
+66	Kitchen,Cabinet J
+67	Bathroom,Cabinet A
+68	Bathroom,Sink faucet - hot
+69	Kitchen,Drawer D
+70	Kitchen,Dishwasher
+71	Bedroom,Drawer C
+72	Kitchen,Cabinet K
+73	Kitchen,Cabinet L
+75	Bedroom,Drawer D
+76	Living room,Lamp
+78	Kitchen,Drawer E
+79	Bathroom,Cabinet B
+80	Kitchen,Cabinet M
+81	Foyer,Closet
+82	Office/study,Drawer
+83	Kitchen,Cabinet N
+84	Kitchen,Drawer F
+85	Bedroom,Window
+86	Bedroom,Drawer E
+87	Kitchen,Drawer G
+88	Bathroom,Sink faucet - cold
+89	Kitchen,Cabinet O
+90	Kitchen,Laundry Dryer
+91	Kitchen,Refrigerator C
+92	Office/study,Light switch
+93	Bathroom,Shower faucet
+94	Kitchen,Burner C
+95	Kitchen,Light switch C
+96	Bathroom,Exhaust Fan
+97	Living room,Light switch B
+98	Kitchen,Garbage disposal
+99	Kitchen,Burner D

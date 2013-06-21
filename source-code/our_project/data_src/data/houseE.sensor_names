@@ -1,0 +1,70 @@
+100	Bathroom,Sink faucet - hot
+101	Bedroom,TV
+102	Living room,Light switch A
+103	Hallway,Light switch A
+104	Kitchen,Cabinet A
+106	Bedroom,Light switch
+107	Office/study,Light switch
+108	Kitchen,Toaster
+109	Bathroom,Light switch
+110	Living room,Light switch B
+111	Kitchen,Cabinet B
+112	Bathroom,Toilet Flush
+114	Kitchen,Drawer
+115	Kitchen,Microwave
+116	Kitchen,Cabinet C
+117	Kitchen,Burner
+118	Kitchen,Sink faucet - cold
+119	Kitchen,Light switch A
+120	Den,Light switch A
+122	Den,Stereo
+124	Kitchen,Containers
+126	Den,Drawer A
+127	Bathroom,Medicine cabinet A
+128	Den,Drawer B
+130	Bathroom,Shower faucet A
+132	Dinning room,Drawer A
+133	Office/study,Door
+134	Den,Door
+135	Office/study,Drawer A
+137	Bathroom,Door
+138	Butlers Pantry,Cabinet A
+139	Bathroom,Medicine cabinet B
+140	Dinning room,Cabinet A
+141	Living room,TV
+142	Butlers Pantry,Cabinet B
+145	Dinning room,Light switch
+51	Kitchen,Door
+53	Butlers Pantry,Light switch
+54	Kitchen,Cabinet D
+57	Butlers Pantry,Cabinet C
+60	Bathroom,Shower faucet B
+61	Dinning room,Cabinet B
+63	Butlers Pantry,Drawer A
+64	Kitchen,Cabinet E
+66	Kitchen,Refrigerator A
+67	Butlers Pantry,Cabinet D
+68	Office/study,Drawer B
+69	Den,Telephone
+70	Kitchen,Freezer
+71	Office/study,Drawer C
+72	Dinning room,Drawer B
+73	Butlers Pantry,Cabinet E
+74	Kitchen,Refrigerator B
+75	Kitchen,Light switch B
+76	Butlers Pantry,Cabinet F
+77	Butlers Pantry,Drawer B
+78	Bathroom,Hamper
+79	Butlers Pantry,Cabinet G
+82	Office/study,Drawer D
+84	Kitchen,Garbage disposal
+85	Hallway,Door
+87	Kitchen,Refrigerator C
+89	Butlers Pantry,Drawer C
+91	Kitchen,Sink faucet - cold A
+94	Bathroom,Sink faucet - cold
+95	Hallway,Light switch B
+96	Kitchen,Sink faucet - cold B
+97	Kitchen,Refrigerator D
+98	Den,Light switch B
+99	Hallway,Light switch C

@@ -1,0 +1,80 @@
+The API for data conversion to a predicate form can be found in arf.framework.
+The arf.experiments.games uses this API for a games domain, while arf.experiments.wifi uses it for wifi domain. 
+The mahout packages include FPGrowth algorithm that can be used for rule extraction. 
+The following use case operations can be carried out using this code: 
+1. convert data to a simple logic form, 
+2. convert the simple logic form to abstract logic form 
+3. extract rules from 1 or 2 
+4. convert data to SVM format in terms of rules from step 3.
+
+Below are some code/phseudocode that outlines the usage.
+For additional examples, see main() methods in certain classes. 
+To run them make sure to add "-Xms1024m -Xmx1024m" vm arguments, to increase the memory size. This is needed
+for runs with large data sets.
+
+For examples on how to convert data to a simple predicate form, see 
+
+1. To convert data to a simple predicate form use PredicateWriter:
+
+PredicateWriter pw = new PredicateWriter();
+
+//loop over all examples
+for (examples) {
+pw.startExample();
+
+// each object can have many properties
+//create properties map
+Map<String, String> relations = new TreeMap<String, String>();
+relations.put(name1,value1);
+relations.put(name2,value2);
+
+//create object relation
+pw.addObjectPredicate(predicate_name, relations);
+
+// this is a property associated with an entire example as opposed to an individual object
+pw.addExamplePropertyPredicate(predicate_name, value);
+
+// to add connect type of relation see 
+GameTreeBuilder.addConnectMoves() for an example
+		
+//save example to a file 
+pw.saveExamples(value, file, true /*append to same file*/);
+}
+
+2. To convert data to an abstract form use: 
+
+AbstractPredicateWriter apw = new AbstractPredicateWriter();
+apw.saveAbstructRelations(file_with_simple_predicates, //see step above 
+				output_file_for_abstract_predicates,
+				name_of_of_map_file, //to be used for rule extraction later
+				false /* will save only abstract relations*/, 
+				true, //save all examples to the same file
+				 null, //property pairs to be used for statistics, see WifiAligner.saveAbstructRelations() 
+		           null, // also collection with statistics
+                     USE_CLASS);
+
+3. To extract rules from either abstract or non-abstract data see examples in: 
+GamesExperimentRunner.getRules() or WifiExperimentRunner.getRules()
+
+getRules(
+	String outputMapFile, //generated in step 2 or created by hand
+     String rulesFile, // generated in step 1 or 2
+     String conf //min confidence threshold between 0 and 1
+) 
+
+4. To convert abstract relational data to an SVM format in terms of rules extracted in step 3 use: 
+AbstractPredicateWriter apw = new AbstractPredicateWriter();
+apw.getFeatureRepresentationOfData(
+						examplesFile, // file with predicates from step 1 or 2 
+						outputFile, // where the data will be stored
+						rulesFile, // rules file
+						classMapFile, //a map of class names to SVM values, see classMap.txt in arg.experiments.wifi 
+                               USE_CLASS); //true for wifi, indicates that the statistics used for inference of abstract relations should be class dependent
+
+To convert non-abstract relational data to an SVM format use: 
+
+apw.getFeatureRepresentationOfNonAbstractData(input_file, svmOutput_file, rules_file, class_map_file);
+See, GamesExperimentRunner for an example.
+
+There are also some tests with examples, see games.states.tests
+

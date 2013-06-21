@@ -1,0 +1,2 @@
+P [all(amove-val,0), all(bmove-val,1), gte(num-of-bwins,2), has(num-of-awins,0)]
+N [all(bmove-val,1), gte(amove-val,0), gte(num-of-awins,0), gte(num-of-bwins,0), has(bmove,bmove-pos(p17),bmove-val(1)), has(bmove,bmove-pos(p31),bmove-val(1)), has(bmove-pos,p17), has(bmove-pos,p31)]
