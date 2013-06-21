@@ -4,6 +4,8 @@ input:  all input files
         this directory should be edited with care
 output: output files - will be erased after running runTransferAlgorithm()
 
+  input/classMap.txt: mapping from numbers to activities
+  
   input/HF:     "Handcrafted Metafeatures" input data
   input/OF:     "Our Metafeatures" input data
   
@@ -19,17 +21,19 @@ output: output files - will be erased after running runTransferAlgorithm()
   
       ==> IMPORTANT!
       
-      should contain:
-        actionMapA.txt
-        houseA-as.txt
+      should contain the following files:
+        actionMapA.txt      
+        houseA-as.txt       
         houseA-ss.txt
         sensormapA-ids.txt      
                       
-      same for input/OF/houseInfoA (content of files can differ, but the format not)
-      and for all houses this should be (replace letter A with B, C etc.)
+      same for input/OF/houseInfoA but there "Our Metafeatures" have been used
+      (content of files can differ, but the format not)
+      and same for housInfoB, houseInfoC, etc.
       
-      You can use anything instead of A, B, C.. however, the
-      house-id used in the folder name houseInfo<house-id> should  mathc
+      Note: You can use anything instead of A, B, C.. to distinguish
+      the houses... however, the
+      house-id used as the folder name houseInfo<house-id> should  match
       with the house-id used for these filenames
       
 
@@ -49,19 +53,22 @@ output: output files - will be erased after running runTransferAlgorithm()
             contains results for case of "Our Metafeatures" for train/test set size of 6
             generated from input/OF
             
-            similar for output/houseInfoA/A6/HF  but contains results for "Handcrafted Metafeatures" 
+            similar for output/houseInfoA/A6/HF  but that one contains results for "Handcrafted Metafeatures" 
       
         output/houseInfoA/A5/OF/NOTRANSFER:
               contains results for case of "Our Metafeatures" for train/test set size of 6 
               and a case of no transfer learning
               
               similar for output/houseInfoA/A5/OF/TRANSFER:
-              but there transfer learning has been used
+              but in that one transfer learning has been used
               
           output/houseInfoA/A5/HF/NOTRANSFER/TEST:
               contains svm-ready test sets for "Our Metafeatures" for train/test set size of 
               6 and case of no transfer learning
-              The name of the files represent the training instances 
+              The name of the files represent the dates used for the training instances
+              
+              similar for output/houseInfoA/A5/HF/NOTRANSFER/TRAIN but that one contains
+              the svm-ready train data
             
   output/matlab :
     contains generated scripts that plot results:
