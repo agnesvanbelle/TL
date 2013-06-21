@@ -14,6 +14,7 @@ public class Meta_feature_mapping{
 	public int blockNumLength;
 	public int maxLengthDuration;
 	Sensor_distance distance_metric;
+	public float profile_weight; 
 	
 	/**
 	 * Constructor for doing meta feature mapping using sensor profile histograms and relational profile
@@ -27,6 +28,7 @@ public class Meta_feature_mapping{
 		blockNumLength = nr_bins_duration;
 		maxLengthDuration = max_length_duration;
 		distance_metric = Sensor_distance.Profiles_individ;
+		profile_weight = 0.5f;
 	}
 	
 	public enum Sensor_distance {Profiles_individ, Profiles_individ_rel};
@@ -293,6 +295,24 @@ public class Meta_feature_mapping{
 				}
 				else if (distance_metric == Sensor_distance.Profiles_individ_rel)
 				{
+					float sensor_profile_distance = sse_dist(hist_s, hist_l);
+					Integer[] sensors_b = house_small.sensorList();
+					Integer[] sensors_beta = house_large.sensorList();
+					float relative_dist = 2.0f;
+					for(Integer b:sensors_b)
+					{
+						for(Integer beta: sensors_beta)
+						{
+							data.NormalDistribution a_b = house_small.profileRelative(sensor_id_s, b);
+							data.NormalDistribution alpha_beta = house_large.profileRelative(sensor_id_l, beta);
+							float overlap = a_b.overlapLevel(alpha_beta);
+							if(overlap < relative_dist)
+							{
+								relative_dist = overlap; 
+							}
+						}
+					}
+					current_min_div = (profile_weight*sensor_profile_distance)+( (1-profile_weight)*relative_dist);
 					
 				}
 				// If it is the smallest difference so far
