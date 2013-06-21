@@ -109,7 +109,6 @@ public class WifiExperimentRunner {
 	 * Array with number (amount) of days considered for train/test data train
 	 * set will have the size of the number minus one (one left out for testing)
 	 * 
-	 * TODO: edit noDays different for house B and C
 	 */
 	private final int[] noDaysArray = {  11, 21 }; //
 													// {6,11,21};
