@@ -1,7 +1,7 @@
 #source-code/arf.experiments.wifi/housedata/output
 
 bin
-.metadata 
+.metadata/
 .e4css
 
 *.class
