@@ -7,11 +7,17 @@ import data.HouseData;
 
 public class Test{
 	
-	public static final String[] houseNames = {"A", "B", "C", "D", "E"};
+//	public static final String[] houseNames = {"A", "B", "C", "D", "E"};
+//	public static final int nrHouses = houseNames.length;
+//	public static final String houseNamePrefix = "house";
+//	public static final int [] alpha = {5, 5,5,5,5};
+//	public static int [] beta = {14, 7,7,10,12};
+	
+	public static final String[] houseNames = {"A", "B"};
 	public static final int nrHouses = houseNames.length;
 	public static final String houseNamePrefix = "house";
-	public static final int [] alpha = {5, 5,5,5,5};
-	public static int [] beta = {14, 7,7,10,12};
+	public static final int [] alpha = {5, 5};
+	public static int [] beta = {14, 7};
 	
 	public static void main(String[] args)
 	{
@@ -24,7 +30,8 @@ public class Test{
 		}
 		
 		
-		Meta_feature_building.alpha_beta_clustering(housesData, alpha, beta);
+		Meta_feature_building cluster_building = new Meta_feature_building(0.3f, beta);
+		cluster_building.alpha_beta_clustering(housesData);
 		
 //		int one_hour = 60*60;
 		int two_hours = 60*60*2;
