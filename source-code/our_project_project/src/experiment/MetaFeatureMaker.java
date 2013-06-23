@@ -58,14 +58,14 @@ public class MetaFeatureMaker {
 	 * @param max_nr : 	up to this nr of houses will be considered from allHouseNames
 	 * 					(of course the files need to be there, see @see HouseData.inputDataDir)
 	 */
-	public static void runForSubset(int max_nr) { // first max_nr houses
+	public static void runForSubset(int min_nr, int max_nr) { // first max_nr houses
 		if (max_nr > nrAllHouses) {
 			System.err.println("There are only " + nrAllHouses + " houses you called runForSubset with " + max_nr);
 		}
 
-		String[] houseNames = Arrays.copyOfRange(allHouseNames, 0, max_nr);
-		int[] alphas = Arrays.copyOfRange(alphaAllHouses, 0, max_nr);
-		int[] betas = Arrays.copyOfRange(betaAllHouses, 0, max_nr);
+		String[] houseNames = Arrays.copyOfRange(allHouseNames, min_nr, max_nr);
+		int[] alphas = Arrays.copyOfRange(alphaAllHouses, min_nr, max_nr);
+		int[] betas = Arrays.copyOfRange(betaAllHouses, min_nr, max_nr);
 		//double alpha = // TODO: check with relative alpha
 
 		System.out.println("Making metafeatures for houses: " + Arrays.toString(houseNames));
@@ -80,7 +80,7 @@ public class MetaFeatureMaker {
 		int nr_bins_duration = 5;
 		int max_length_duration = 200;
 
-		for (int targetHouseIndex = 0; targetHouseIndex < max_nr; targetHouseIndex++) {
+		for (int targetHouseIndex = min_nr; targetHouseIndex < max_nr; targetHouseIndex++) {
 
 			createMetaFeatures(housesData, targetHouseIndex, bin_width_start_time, nr_bins_duration, max_length_duration);
 

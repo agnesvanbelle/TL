@@ -1,5 +1,0 @@
-get-drink:sensor(act-duration(1-1),end-time(1135-1135),fire-duration(1-1),no-firings(1-1),sensor-type(402),start-time(1136-1136)):sensor(act-duration(2-2),end-time(610-610),fire-duration(1-1),no-firings(1-1),sensor-type(402),start-time(611-611))
-leave-house:sensor(act-duration(1-1),end-time(1185-1185),fire-duration(1-1),no-firings(1-1),sensor-type(399),start-time(1186-1186)):sensor(act-duration(285-285),end-time(1185-1185),fire-duration(1-1),no-firings(1-1),sensor-type(399),start-time(1186-1186))
-leave-house:sensor(act-duration(1-1),end-time(1185-1185),fire-duration(1-1),no-firings(1-1),sensor-type(399),start-time(1186-1186)):sensor(act-duration(285-285),end-time(1185-1185),fire-duration(1-1),no-firings(1-1),sensor-type(399),start-time(1186-1186))
-use-toilet:sensor(act-duration(1-2),end-time(608-724),fire-duration(1-1),no-firings(1-1),sensor-type(403),start-time(608-725))
-use-toilet:sensor(act-duration(1-2),end-time(608-724),fire-duration(1-1),no-firings(1-1),sensor-type(403),start-time(608-725))

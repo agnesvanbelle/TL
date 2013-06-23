@@ -6,38 +6,38 @@
 5,prep-breakfast
 6,prep-dinner
 7,get-drink
-0, Going-out-to-work
-8, Work-at-home
-9, Eating
-1, Toileting
-2, Bathing
-3, Grooming
-11, Dressing
-12, Washing-hands
-13,	Taking-medication
-4,	Sleeping
-14,	Talking-on-telephone
-4,	Resting
-5,	Preparing-breakfast
-15,	Preparing-lunch
-6,	Preparing-dinner
-15,	Preparing-a-snack
-7,	Preparing-a-beverage
-16,	Washing-dishes
-17,	Putting-away-dishes
-18,	Putting-away-groceries
-19,	Cleaning
-20, Doing-laundry
-21,	Putting-away-laundry
-22, Taking-out-the-trash
-23,	Lawnwork
-24,	Pet-care
-25, Home-education
-0,	Going-out-to-school
-26, Watching-TV
-27,	Listening-to-music
-0,  Going-out-for-entertainment
-8,  Working-at-computer
-0,  Going-out-to-exercise
-0,  Going-out-for-shopping
+0,Going-out-to-work
+8,Work-at-home
+9,Eating
+1,Toileting
+2,Bathing
+3,Grooming
+11,Dressing
+12,Washing-hands
+13,Taking-medication
+4,Sleeping
+14,Talking-on-telephone
+4,Resting
+5,Preparing-breakfast
+15,Preparing-lunch
+6,Preparing-dinner
+15,Preparing-a-snack
+7,Preparing-a-beverage
+16,Washing-dishes
+17,Putting-away-dishes
+18,Putting-away-groceries
+19,Cleaning
+20,Doing-laundry
+21,Putting-away-laundry
+22,Taking-out-the-trash
+23,Lawnwork
+24,Pet-care
+25,Home-education
+0,Going-out-to-school
+26,Watching-TV
+27,Listening-to-music
+0,Going-out-for-entertainment
+8,Working-at-computer
+0,Going-out-to-exercise
+0,Going-out-for-shopping
 100,Other

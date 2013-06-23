@@ -1,0 +1,23 @@
+34,PIR slaapkamer-houseB,399
+35,kwik dresser-houseB,399
+32,kwik cutlary drawer-houseB,399
+33,kwik stove lid-houseB,399
+38,toaster-houseB,399
+39,magnetron-houseB,399
+36,PIR badkamer-houseB,399
+37,gootsteen float-houseB,399
+42,entity-42,398
+43,entity-43,399
+40,PIR keuken-houseB,399
+41,entity-41,399
+46,entity-46,401
+44,entity-44,396
+45,entity-45,399
+23,toilet door-houseB,399
+25,cupboard groceries-houseB,397
+24,fridge-houseB,399
+26,toilet flush-houseB,399
+29,Bedroom door-houseB,399
+28,cupboard plates-houseB,399
+31,press bed links-houseB,399
+30,press bed rechts-houseB,399

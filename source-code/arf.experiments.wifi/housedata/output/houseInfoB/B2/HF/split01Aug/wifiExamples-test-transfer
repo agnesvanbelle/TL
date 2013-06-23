@@ -1,8 +1,0 @@
-brush-teeth:sensor(act-duration(8-8),end-time(769-769),fire-duration(76-613),no-firings(2-2),sensor-type(399),start-time(86-701))
-leave-house:sensor(act-duration(553-553),end-time(1249-1317),fire-duration(1-1),no-firings(5-5),sensor-type(399),start-time(1249-1317))
-leave-house:sensor(act-duration(553-553),end-time(1249-1317),fire-duration(1-1),no-firings(5-5),sensor-type(399),start-time(1249-1317))
-prep-breakfast:sensor(act-duration(8-8),end-time(769-769),fire-duration(76-613),no-firings(2-2),sensor-type(399),start-time(86-701))
-take-shower:sensor(act-duration(10-10),end-time(682-687),fire-duration(1-441),no-firings(3-3),sensor-type(399),start-time(682-1127))
-use-toilet:sensor(act-duration(8-8),end-time(769-769),fire-duration(76-613),no-firings(2-2),sensor-type(399),start-time(86-701))
-use-toilet:sensor(act-duration(553-553),end-time(1249-1317),fire-duration(1-1),no-firings(5-5),sensor-type(399),start-time(1249-1317))
-use-toilet:sensor(act-duration(8-8),end-time(769-769),fire-duration(76-613),no-firings(2-2),sensor-type(399),start-time(86-701))
