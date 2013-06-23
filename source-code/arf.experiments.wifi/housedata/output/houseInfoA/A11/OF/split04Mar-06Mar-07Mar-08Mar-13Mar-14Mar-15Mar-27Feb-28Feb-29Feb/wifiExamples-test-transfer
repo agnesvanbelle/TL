@@ -1,0 +1,8 @@
+go-to-bed:sensor(act-duration(55-376),end-time(548-1292),fire-duration(370-778),no-firings(1-1),sensor-type(403),start-time(676-1290))
+leave-house:sensor(act-duration(1-1),end-time(145-1242),fire-duration(2-2),no-firings(1-1),sensor-type(399),start-time(145-1244)):sensor(act-duration(2-2),end-time(551-1397),fire-duration(2-5),no-firings(2-2),sensor-type(403),start-time(555-1398))
+prep-breakfast:sensor(act-duration(2-5),end-time(532-585),fire-duration(1-1),no-firings(1-1),sensor-type(402),start-time(533-585))
+take-shower:sensor(act-duration(8-10),end-time(556-642),fire-duration(1-318),no-firings(1-2),sensor-type(403),start-time(500-718))
+use-toilet:sensor(act-duration(1-2),end-time(490-635),fire-duration(1-2),no-firings(1-1),sensor-type(403),start-time(496-641))
+use-toilet:sensor(act-duration(1-2),end-time(490-635),fire-duration(1-2),no-firings(1-1),sensor-type(403),start-time(496-641))
+use-toilet:sensor(act-duration(2-2),end-time(551-1397),fire-duration(2-5),no-firings(2-2),sensor-type(403),start-time(555-1398))
+use-toilet:sensor(act-duration(2-2),end-time(551-1397),fire-duration(2-5),no-firings(2-2),sensor-type(403),start-time(555-1398))

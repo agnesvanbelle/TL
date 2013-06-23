@@ -103,15 +103,14 @@ public class WifiExperimentRunner {
 	 * How many times you grab some random data points of amount noDays
 	 * (see nodaysArray) and construct leave-one-out train+test sets from it
 	 */
-	public final int NO_DATA_INSTANCES = 1;
+	public final int NO_DATA_INSTANCES = 2;
 
 	/*
 	 * Array with number (amount) of days considered for train/test data train
 	 * set will have the size of the number minus one (one left out for testing)
 	 * 
 	 */
-	private final int[] noDaysArray = {  11, 21 }; //
-													// {6,11,21};
+	private final int[] noDaysArray = { 2, 3,6,11,21}; 
 
 	/*
 	 * if true, ranges will be added for variable values

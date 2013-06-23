@@ -331,7 +331,10 @@ public class HouseData
 			
 			PrintWriter writer = new PrintWriter(houseOutputDir + "/" + houseName + "-ss.txt", "UTF-8");
 			
-			for (DataPoint data: sensorData(mappingLevelSensors))
+			/* edited by Agnes - the *-ss.txt file needs raw feature sensor id as 3rd column 
+			 * (same as the first column in sensormap*-ids.txt) 
+			 */
+			for (DataPoint data: sensorData(MAPPING_LEVEL_FEATURE))
 			{
 				DataPoint temp = new DataPoint(data.start + data.length, data.length, data.ID); // temp.start = data.end
 				
@@ -362,7 +365,7 @@ public class HouseData
 				int mappedID = mapApply(ID, mappingLevelSensors, TYPE_DATA_SENSOR);
 				
 				String name  = indexID[TYPE_DATA_SENSOR].get(ID).name.replaceAll(",", "-");
-				String group = indexID[TYPE_DATA_SENSOR].get(mappedID).name.replaceAll(",", "-");
+				String group = Integer.toString(indexID[TYPE_DATA_SENSOR].get(mappedID).ID);//.name.replaceAll(",", "-");
 				
 				writer.println(ID + "," + name + "," + group);
 			}

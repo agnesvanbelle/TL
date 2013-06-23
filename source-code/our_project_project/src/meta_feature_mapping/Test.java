@@ -31,16 +31,19 @@ public class Test{
 		Meta_feature_mapping map = new Meta_feature_mapping(two_hours, 5, 200);
 		map.map_metafeatures_one_to_one_heuristic(housesData, 0); //2nd param. is index houseData 
 		
-		System.out.println("\n\nResults printing:\n house 1 \n");
 		
 		for (HouseData houseData : housesData) {
+			System.out.println("---------------------");
 			System.out.println("House: "+ houseData.houseName);
+			System.out.println("---------------------");
 			
 			for(Integer sensor: houseData.sensorList())
 			{
-				System.out.print(HouseData.sensorContainer(sensor).name + "\t\t");
-				System.out.print(HouseData.sensorContainer(sensor).metacontainer.name + "\t\t");
-				System.out.println(HouseData.sensorContainer(sensor).metacontainer.metacontainer.name + "\n");			
+				System.out.print("sensor name: " + HouseData.sensorContainer(sensor).name + ", sensor id: " + HouseData.sensorContainer(sensor).ID + "\n" );
+				System.out.print("metacontainer name: " + HouseData.sensorContainer(sensor).metacontainer.name + ", ");
+					System.out.print("metacontainer ID: " + HouseData.sensorContainer(sensor).metacontainer.ID + "\n");
+				System.out.print("metacontainer.metacontainer name: " + HouseData.sensorContainer(sensor).metacontainer.metacontainer.name + ", ");		
+					System.out.print("metacontainer.metacontainer ID: " + HouseData.sensorContainer(sensor).metacontainer.metacontainer.ID + "\n\n");			
 			}
 		}
 	

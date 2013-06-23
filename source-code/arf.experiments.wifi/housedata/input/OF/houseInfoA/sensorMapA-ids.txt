@@ -1,15 +1,14 @@
-1,Microwave,KitchHeat
-5,Hall-Toilet door,Toilet
-6,Hall-Bathroom door,BathroomDoor
-7,Cups cupboard,Kitchen
-8,Fridge,KitchStor
-9,Plates cupboard,Kitchen
-12,Front door,Outside
-13,Dishwasher,Kitchen
-14,Toilet Flush,Toilet
-17,Freezer,Kitchen
-18,Pans Cupboard,Kitchen
-20,Washing machine,Kitchen
-23,Groceries Cupboard,KitchStor
-24,Hall-Bedroom door,SleepDoor
-
+0,Microwave-houseA,400
+1,Hall-Toilet door-houseA,403
+2,Hall-Bathroom door-houseA,403
+4,Fridge-houseA,402
+5,Plates cupboard-houseA,401
+6,Front door-houseA,399
+22,entity-22,402
+7,Dishwasher-houseA,398
+8,Toilet Flush-houseA,403
+9,Freezer-houseA,401
+10,Pans Cupboard-houseA,397
+11,Washing machine-houseA,396
+12,Groceries Cupboard-houseA,401
+13,Hall-Bedroom door-houseA,403

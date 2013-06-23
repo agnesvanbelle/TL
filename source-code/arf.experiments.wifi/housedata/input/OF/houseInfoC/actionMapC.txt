@@ -1,9 +1,8 @@
-1,leave-house
-4,use-toilet
-5,take-shower
-6,brush-teeth
-7,use-toilet
-10,go-to-bed
-13,prep-breakfast
-15,prep-dinner
-17,get-drink
+17,brush-teeth
+16,take-shower
+19,prep-breakfast
+18,go-to-bed
+21,get-drink
+20,prep-dinner
+14,leave-house
+15,use-toilet

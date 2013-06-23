@@ -74,7 +74,7 @@
 
 
 	% set x and y axes
-	axis([min(datapoints)-0.5,max(datapoints)+1,0,1])
+	axis([min(datapoints),max(datapoints)+1,0,1])
 
 	% set tickmarks
 	set(gca,'XTick',datapoints)
@@ -108,7 +108,7 @@
 
   % save plot
 	fh = gcf; % get figure handle
-	saveas(gcf, strcat(directory,strcat('plot',housename,'.pdf'));
+	saveas(gcf, strcat(directory,strcat('plot',housename,'.pdf')));
 	clear fh;
 	hold off;
 

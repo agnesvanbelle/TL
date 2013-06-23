@@ -864,7 +864,7 @@ public final class FPGrowthDriver {
 				sb.append(classLabel_).append(" ").append(patternsList).append(distribution).append("@").append(ruleScore).append("\n");
 			}
 			else {
-				//System.out.println("NO RULES for " + classLabel_);
+				//System.out.println("\nNO RULES for " + classLabel_);
 				//System.exit(1);
 			}
 
@@ -896,7 +896,7 @@ public final class FPGrowthDriver {
 				sb.append(classLabel_).append(" ").append(patternsList).append("\n");
 			}
 			else {
-				System.out.println("NO RULES for " + classLabel_);
+				System.out.println("\nNO RULES for " + classLabel_);
 				//	System.exit(1);
 			}
 
