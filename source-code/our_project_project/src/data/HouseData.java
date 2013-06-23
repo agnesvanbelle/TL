@@ -33,6 +33,7 @@ public class HouseData
 	// Sensor profile cache:
 	
 	private final HashMap<Integer, float[][]> sensorProfiles = new HashMap<Integer, float[][]>(); 
+	private final HashMap<Integer, Integer> firingFrequencies = new HashMap<Integer, Integer> ();
 	
 	// Dynamic methods:
 	
@@ -173,6 +174,14 @@ public class HouseData
 					indexID[typeData].put(entity.ID, entity);
 					
 					mapping[typeData].put(ID, entity);
+				}
+				if(firingFrequencies.containsKey(ID))
+				{
+					firingFrequencies.put(ID, firingFrequencies.get(ID)+1);
+				}
+				else
+				{
+					firingFrequencies.put(ID, 1);
 				}
 				
 				DataPoint data = new DataPoint(start, length, entity.ID);
@@ -584,5 +593,10 @@ public class HouseData
 			
 			indexName[typeData].get(entityNameSource).metacontainer = entity;
 		}
+	}
+	
+	public Integer sensorFiringFrequency(Integer ID)
+	{
+		return firingFrequencies.get(ID);
 	}
 }
