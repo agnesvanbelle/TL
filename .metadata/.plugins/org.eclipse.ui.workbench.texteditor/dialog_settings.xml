@@ -3,26 +3,26 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="298" key="DIALOG_WIDTH"/>
 		<item value="374" key="DIALOG_Y_ORIGIN"/>
-		<item value="376" key="DIALOG_HEIGHT"/>
 		<item value="1068" key="DIALOG_X_ORIGIN"/>
+		<item value="376" key="DIALOG_HEIGHT"/>
 		<item value="1|Sans|8.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="returnData" key="selection"/>
+		<item value="Processing" key="selection"/>
 		<list key="findhistory">
+			<item value="Processing"/>
+			<item value="activityData"/>
+			<item value="activity"/>
+			<item value="activityLevel"/>
+			<item value="activityLevels"/>
+			<item value="houseName"/>
 			<item value="returnData"/>
 			<item value="matlab"/>
-			<item value="datapoint"/>
-			<item value="Processing"/>
-			<item value="maxDaysPlotPerHouse"/>
-			<item value="path"/>
-			<item value="useClass"/>
-			<item value="USE_CLASS"/>
 		</list>
 		<list key="replacehistory">
 			<item value="sb.append"/>

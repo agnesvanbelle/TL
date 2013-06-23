@@ -1,4 +1,0 @@
-brush-teeth:sensor(act-duration(261-445),end-time(869-1030),fire-duration(1-160),no-firings(2-4),sensor-type(400),start-time(869-1034))
-prep-breakfast:sensor(act-duration(261-445),end-time(869-1030),fire-duration(1-160),no-firings(2-4),sensor-type(400),start-time(869-1034))
-take-shower:sensor(act-duration(261-445),end-time(869-1030),fire-duration(1-160),no-firings(2-4),sensor-type(400),start-time(869-1034))
-use-toilet:sensor(act-duration(261-445),end-time(869-1030),fire-duration(1-160),no-firings(2-4),sensor-type(400),start-time(869-1034))

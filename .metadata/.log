@@ -7225,3 +7225,69 @@ java.lang.NullPointerException
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:593)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1447)
 	at org.eclipse.equinox.launcher.Main.main(Main.java:1423)
+!SESSION 2013-06-21 19:21:52.683 -----------------------------------------------
+eclipse.buildId=M20130204-1200
+java.version=1.6.0_43
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.ui 4 4 2013-06-21 19:22:04.959
+!MESSAGE Unable to find Action Set: org.eclipse.ptp.debug.ui.debugActionSet
+
+!ENTRY org.eclipse.ui 4 4 2013-06-21 19:22:04.985
+!MESSAGE Unable to find Action Set: org.eclipse.rse.core.search.searchActionSet
+
+!ENTRY org.eclipse.ui 4 4 2013-06-21 19:22:04.986
+!MESSAGE Unable to find Action Set: org.eclipse.mylyn.context.ui.actionSet
+
+!ENTRY org.eclipse.ui 4 4 2013-06-21 19:22:04.986
+!MESSAGE Unable to find Action Set: org.eclipse.mylyn.doc.actionSet
+
+!ENTRY org.eclipse.ui 4 4 2013-06-21 19:22:04.987
+!MESSAGE Unable to find Action Set: org.eclipse.mylyn.tasks.ui.navigation
+
+!ENTRY org.eclipse.ui 2 2 2013-06-21 20:05:18.475
+!MESSAGE Invalid property category path: ValidationPropertiesPage (bundle: org.eclipse.wst.xml.ui, propertyPage: org.eclipse.wst.xml.ui.propertyPage.project.validation)
+!SESSION 2013-06-23 14:09:09.916 -----------------------------------------------
+eclipse.buildId=M20130204-1200
+java.version=1.6.0_43
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.ui 4 4 2013-06-23 14:09:27.491
+!MESSAGE Unable to find Action Set: org.eclipse.ptp.debug.ui.debugActionSet
+
+!ENTRY org.eclipse.ui 4 4 2013-06-23 14:09:27.511
+!MESSAGE Unable to find Action Set: org.eclipse.rse.core.search.searchActionSet
+
+!ENTRY org.eclipse.ui 4 4 2013-06-23 14:09:27.511
+!MESSAGE Unable to find Action Set: org.eclipse.mylyn.context.ui.actionSet
+
+!ENTRY org.eclipse.ui 4 4 2013-06-23 14:09:27.511
+!MESSAGE Unable to find Action Set: org.eclipse.mylyn.doc.actionSet
+
+!ENTRY org.eclipse.ui 4 4 2013-06-23 14:09:27.512
+!MESSAGE Unable to find Action Set: org.eclipse.mylyn.tasks.ui.navigation
+
+!ENTRY org.eclipse.jface 2 0 2013-06-23 14:48:40.850
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2013-06-23 14:48:40.850
+!MESSAGE A conflict occurred for CTRL+D:
+Binding(CTRL+D,
+	ParameterizedCommand(Command(org.eclipse.debug.ui.commands.eof,EOF,
+		Send end of file,
+		Category(org.eclipse.debug.ui.category.run,Run/Debug,Run/Debug command category,true),
+		org.eclipse.ui.internal.MakeHandlersGo@114e1520,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.debug.ui.console,,,system)
+Binding(CTRL+D,
+	ParameterizedCommand(Command(org.eclipse.ui.edit.text.delete.line,Delete Line,
+		Delete a line of text,
+		Category(org.eclipse.ui.category.textEditor,Text Editing,Text Editing Commands,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1d4cf0c0,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.textEditorScope,,,system)

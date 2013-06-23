@@ -1,4 +1,0 @@
-brush-teeth:sensor(act-duration(1-2),end-time(779-1380),fire-duration(2-511),no-firings(1-2),sensor-type(400),start-time(492-1347)):sensor(act-duration(3-3),end-time(1293-1293),fire-duration(1-1),no-firings(1-1),sensor-type(398),start-time(1293-1293))
-get-drink:sensor(act-duration(1-2),end-time(779-1380),fire-duration(2-511),no-firings(1-2),sensor-type(400),start-time(492-1347))
-leave-house:sensor(act-duration(1-2),end-time(779-1380),fire-duration(2-511),no-firings(1-2),sensor-type(400),start-time(492-1347))
-prep-dinner:sensor(act-duration(1-2),end-time(779-1380),fire-duration(2-511),no-firings(1-2),sensor-type(400),start-time(492-1347)):sensor(act-duration(2-2),end-time(24-1402),fire-duration(2-4),no-firings(1-1),sensor-type(403),start-time(104-1404))

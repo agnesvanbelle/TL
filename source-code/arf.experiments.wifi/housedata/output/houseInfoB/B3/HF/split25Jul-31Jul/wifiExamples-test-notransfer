@@ -1,5 +1,0 @@
-leave-house:sensor(act-duration(1-1),end-time(918-1294),fire-duration(2-2),no-firings(1-1),sensor-type(400),start-time(918-1296))
-prep-breakfast:sensor(act-duration(3-12),end-time(593-676),fire-duration(1-402),no-firings(3-4),sensor-type(400),start-time(594-681))
-prep-dinner
-take-shower:sensor(act-duration(11-12),end-time(744-793),fire-duration(588-1046),no-firings(2-3),sensor-type(400),start-time(215-751))
-use-toilet:sensor(act-duration(1-3),end-time(611-702),fire-duration(1-557),no-firings(1-2),sensor-type(400),start-time(691-1177))
