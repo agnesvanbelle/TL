@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="298" key="DIALOG_WIDTH"/>
-		<item value="374" key="DIALOG_Y_ORIGIN"/>
-		<item value="1068" key="DIALOG_X_ORIGIN"/>
-		<item value="376" key="DIALOG_HEIGHT"/>
-		<item value="1|Sans|8.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
+		<item value="287" key="DIALOG_WIDTH"/>
+		<item value="559" key="DIALOG_Y_ORIGIN"/>
+		<item value="364" key="DIALOG_HEIGHT"/>
+		<item value="672" key="DIALOG_X_ORIGIN"/>
+		<item value="1|DejaVu Sans|8.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="casesensitive"/>
 		<item value="false" key="isRegEx"/>
+		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="Processing" key="selection"/>
+		<item value="FEATURE_TYPE." key="selection"/>
 		<list key="findhistory">
+			<item value="FEATURE_TYPE."/>
+			<item value="TRANSFER_TYPE."/>
+			<item value="TRANSFER_TYPE.NOTRANSFER"/>
+			<item value="_notr"/>
+			<item value="processin"/>
 			<item value="Processing"/>
 			<item value="activityData"/>
 			<item value="activity"/>
-			<item value="activityLevel"/>
-			<item value="activityLevels"/>
-			<item value="houseName"/>
-			<item value="returnData"/>
-			<item value="matlab"/>
 		</list>
 		<list key="replacehistory">
 			<item value="sb.append"/>

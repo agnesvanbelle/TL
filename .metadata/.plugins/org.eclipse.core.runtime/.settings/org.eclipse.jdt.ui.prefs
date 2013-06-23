@@ -20,7 +20,7 @@ org.eclipse.jdt.ui.text.code_templates_migrated=true
 org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
 org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
 org.eclipse.jdt.ui.text.templates_migrated=true
-org.eclipse.jface.textfont=1|Liberation Mono|9.0|0|GTK|1|;
+org.eclipse.jface.textfont=1|Liberation Mono|8.5|0|GTK|1|;
 proposalOrderMigrated=true
 sourceHoverBackgroundColor=231,243,253
 spelling_locale_initialized=true
