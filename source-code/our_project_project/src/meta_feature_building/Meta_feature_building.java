@@ -7,32 +7,68 @@ import data.HouseData;
 
 public class Meta_feature_building{
 	
+	
+	private int[] alphas;
+	private int[] betas;
+	private float single_alpha;
+	private Alpha_beta_type ab_type;
+	
+	public Meta_feature_building (int[] alphas, int[] betas)
+	{
+		this.alphas = alphas;
+		this.betas = betas;
+		ab_type = Alpha_beta_type.Absolute;
+	}
+	
+	public Meta_feature_building (float alpha, int[] betas)
+	{
+		single_alpha = alpha;
+		this.betas = betas;		
+		ab_type = Alpha_beta_type.Relative;
+	}
+	
+	
+	public enum Alpha_beta_type {Relative, Absolute};
 	/**
 	 * 
 	 * @param data
-	 * @param alphas
+	 * @param alphas (In a percentage in integers in case of a relative alpha)
 	 * @param betas in seconds
 	 */
-	public static void alpha_beta_clustering(ArrayList<HouseData> data, int[] alphas, int[] betas)
+	public void alpha_beta_clustering(ArrayList<HouseData> data)
 	{
 		int index = 0;
 		
 		for(HouseData house: data){
 //			System.out.println("house: " + house.houseName);
 			// Get sensor names, alpha and beta for this house
-			int alpha = alphas[index];
+			 
 			int beta = betas[index];
-			Integer[] sensors = house.sensorList();
-			index++;
+			Integer[] sensors = house.sensorList();			
 			// Get frequencies for a time difference <beta
 			int[][] frequencies = house.profileAlphaBeta(beta);
+			
 			
 			ConcurrentSkipListSet<Integer> sensorsSet = new ConcurrentSkipListSet<Integer>();
 			ArrayList<ConcurrentSkipListSet<Integer>> groups = new ArrayList<ConcurrentSkipListSet<Integer>>();
 			
+			int alpha = -1;
+			
 			// For each sensor combination
 			for(int i =0;i<sensors.length;i++)
 			{
+				if(ab_type == Alpha_beta_type.Relative)
+				{
+					// Get frequencies for sensor firings by the sensor.
+					Integer freq = house.sensorFiringFrequency(sensors[i]);					
+					alpha = (int) ((float)freq*single_alpha);
+					System.out.print("freq: " + freq + " ");
+					System.out.println("Relative alpha: " + alpha);
+				}
+				else if(ab_type == Alpha_beta_type.Absolute)
+				{
+					alpha = alphas[index];
+				}
 				for(int j=i;j<sensors.length;j++)
 				{
 					// If the frequency is larger than alpha
@@ -102,7 +138,25 @@ public class Meta_feature_building{
 				}
 //				System.out.println(" ");
 			}
-		}
+			index++;
+		}		
+	}
+	
+	public void set_relative_alpha(float alpha)
+	{
+		single_alpha = alpha;
+		ab_type = Alpha_beta_type.Relative;
+	}
+	
+	public void set_alphas(int[] alphas)
+	{
+		this.alphas = alphas;
+		ab_type = Alpha_beta_type.Absolute;
+	}
+	
+	public void set_betas(int[] betas)
+	{
+		this.betas = betas;
 	}
 	
 	

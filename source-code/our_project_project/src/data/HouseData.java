@@ -175,13 +175,13 @@ public class HouseData
 					
 					mapping[typeData].put(ID, entity);
 				}
-				if(firingFrequencies.containsKey(ID))
+				if(firingFrequencies.containsKey(entity.ID))
 				{
-					firingFrequencies.put(ID, firingFrequencies.get(ID)+1);
+					firingFrequencies.put(entity.ID, firingFrequencies.get(entity.ID)+1);
 				}
 				else
 				{
-					firingFrequencies.put(ID, 1);
+					firingFrequencies.put(entity.ID, 1);
 				}
 				
 				DataPoint data = new DataPoint(start, length, entity.ID);

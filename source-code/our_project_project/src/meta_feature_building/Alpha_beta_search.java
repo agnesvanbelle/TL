@@ -87,7 +87,8 @@ public class Alpha_beta_search {
 					beta[0] = current_betas[j];
 					ArrayList<HouseData> currentHouse = new ArrayList<HouseData>();
 					currentHouse.add(house);
-					Meta_feature_building.alpha_beta_clustering(currentHouse, alpha, beta);
+					Meta_feature_building builder = new Meta_feature_building(alpha, beta);
+					builder.alpha_beta_clustering(currentHouse);
 					List<Integer>[] clusters = house.sensorClusters(HouseData.MAPPING_LEVEL_METAFEATURE);
 					for(List<Integer> clust: clusters)
 					{
