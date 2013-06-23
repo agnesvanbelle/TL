@@ -13,11 +13,11 @@ public class Test{
 //	public static final int [] alpha = {5, 5,5,5,5};
 //	public static int [] beta = {14, 7,7,10,12};
 	
-	public static final String[] houseNames = {"A", "B"};
+	public static final String[] houseNames = {"A", "B", "C", "D", "E"};
 	public static final int nrHouses = houseNames.length;
 	public static final String houseNamePrefix = "house";
-	public static final int [] alpha = {5, 5};
-	public static int [] beta = {14, 7};
+	public static final int [] alpha = {5, 5,5,5,5};
+	public static int [] beta = {14, 7,7,14,14};
 	
 	public static void main(String[] args)
 	{

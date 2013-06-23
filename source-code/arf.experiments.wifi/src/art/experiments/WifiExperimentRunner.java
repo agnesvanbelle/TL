@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -103,22 +104,56 @@ public class WifiExperimentRunner {
 	 * How many times you grab some random data points of amount noDays
 	 * (see nodaysArray) and construct leave-one-out train+test sets from it
 	 */
-	public final int NO_DATA_INSTANCES = 2;
+	private int NO_DATA_INSTANCES = 2;
 
 	/*
 	 * Array with number (amount) of days considered for train/test data train
 	 * set will have the size of the number minus one (one left out for testing)
 	 * 
 	 */
-	private final int[] noDaysArray = { 2, 3,6,11,21}; 
+	private int[] noDaysArray = { 2, 3,6,11,21}; 
 
 	/*
 	 * if true, ranges will be added for variable values
 	 */
-	private final boolean withRanges = false;
+	private boolean withRanges = false;
 
-	public final String conf = "0.5"; // confidence cut off used to extract rules with FP growth for non-transfer model (target house)
-	public final String confTr = "0.3"; // confidence cut off used to extract rules with FP growth for transfer model (source houses)
+	private  String conf = "0.5"; // confidence cut off used to extract rules with FP growth for non-transfer model (target house)
+	private  String confTr = "0.3"; // confidence cut off used to extract rules with FP growth for transfer model (source houses)
+
+
+	public void set_NO_DATA_INSTANCES(int nO_DATA_INSTANCES) {
+		NO_DATA_INSTANCES = nO_DATA_INSTANCES;
+	}
+
+	public void setNoDaysArray(int[] noDaysArray) {
+		this.noDaysArray = noDaysArray;
+	}
+
+	public void setConf(String conf) {
+		this.conf = conf;
+	}
+
+	public void setConfTr(String confTr) {
+		this.confTr = confTr;
+	}
+	
+	public void setWithRanges(boolean withRanges) {
+		this.withRanges = withRanges;
+	}
+	
+	public String toString() {
+		StringBuilder s= new StringBuilder();
+		//s.append("------ WER settings : ------ ");
+		s.append("NO_DATA_INSTANCES: " + NO_DATA_INSTANCES + "\n");
+		s.append("noDaysArray: " + Arrays.toString(noDaysArray) + "\n");
+		s.append("withRanges (boolean): " + withRanges + "\n");
+		s.append("conf: " + conf + "\n");
+		s.append("confTr: " + confTr + "\n");
+		s.append("USE_CLASS (boolean): " + USE_CLASS);
+		//s.append("---------------------------- ");
+		return s.toString();
+	}
 
 	public void turnLoggingOff() {
 		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");

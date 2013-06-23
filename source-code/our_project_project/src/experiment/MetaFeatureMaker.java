@@ -53,20 +53,26 @@ public class MetaFeatureMaker {
 	}
 	
 	
-	public static void runForABC() { // first 3 houses
-		System.out.println("Making metafeatures for house A, B and C.");
+	public static void runForSubset(int max_nr) { // first max_nr houses
+		if (max_nr > nrAllHouses) {
+			System.err.println("There are only " + nrAllHouses + " houses you called runForSubset with " + max_nr);
+		}
 		
-		int nrHouses = 3;
-		String[] houseNames = Arrays.copyOfRange(allHouseNames, 0,nrHouses);
-		int[] alpha = Arrays.copyOfRange(alphaAllHouses, 0, nrHouses);
-		int[] beta = Arrays.copyOfRange(betaAllHouses, 0, nrHouses);
 		
+		
+		String[] houseNames = Arrays.copyOfRange(allHouseNames, 0,max_nr);
+		int[] alphas = Arrays.copyOfRange(alphaAllHouses, 0, max_nr);
+		int[] betas = Arrays.copyOfRange(betaAllHouses, 0, max_nr);
+		//int alpha = // TODO: check with relative alpha
+		
+		System.out.println("Making metafeatures for houses: " + Arrays.toString(houseNames));
 		
 		ArrayList<HouseData> housesData = getHousesData(houseNames);
 		
 		
 		// build metafeatures
-		Meta_feature_building.alpha_beta_clustering(housesData, alpha, beta);
+		Meta_feature_building mfb = new Meta_feature_building(alphas, betas);
+		mfb.alpha_beta_clustering(housesData);
 		
 
 
@@ -75,7 +81,7 @@ public class MetaFeatureMaker {
 		int nr_bins_duration = 5;
 		int max_length_duration = 200;
 		
-		for (int targetHouseIndex=0; targetHouseIndex < nrHouses; targetHouseIndex++) {
+		for (int targetHouseIndex=0; targetHouseIndex < max_nr; targetHouseIndex++) {
 		
 			createMetaFeatures(housesData, targetHouseIndex, bin_width_start_time, nr_bins_duration, max_length_duration);
 	
