@@ -1,14 +1,14 @@
-0,Microwave-houseA,100
-1,Hall-Toilet door-houseA,103
-2,Hall-Bathroom door-houseA,103
-4,Fridge-houseA,102
-5,Plates cupboard-houseA,101
-6,Front door-houseA,99
-22,entity-22,102
-7,Dishwasher-houseA,98
-8,Toilet Flush-houseA,103
-9,Freezer-houseA,101
-10,Pans Cupboard-houseA,97
-11,Washing machine-houseA,96
-12,Groceries Cupboard-houseA,101
-13,Hall-Bedroom door-houseA,103
+0,Microwave-houseA,400
+1,Hall-Toilet door-houseA,403
+2,Hall-Bathroom door-houseA,403
+4,Fridge-houseA,402
+5,Plates cupboard-houseA,401
+6,Front door-houseA,399
+22,entity-22,402
+7,Dishwasher-houseA,398
+8,Toilet Flush-houseA,403
+9,Freezer-houseA,401
+10,Pans Cupboard-houseA,397
+11,Washing machine-houseA,396
+12,Groceries Cupboard-houseA,401
+13,Hall-Bedroom door-houseA,403

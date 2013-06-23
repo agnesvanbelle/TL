@@ -41,12 +41,13 @@ public class Test {
 		wer = new WifiExperimentRunner();
 		
 		wer.set_NO_DATA_INSTANCES(3);
-		int[] noDaysConsidered = {2,3,4,11};
+		int[] noDaysConsidered = {2,3};
 		wer.setNoDaysArray(noDaysConsidered);
+		wer.turnLoggingOff();
 		
-		System.out.println("------ WER settings : ------ ");		
+		System.out.println("\n------ WER settings : ------");		
 		System.out.println(wer);
-		System.out.println("---------------------------- ");
+		System.out.println("----------------------------\n");
 		
 		
 		wer.run();

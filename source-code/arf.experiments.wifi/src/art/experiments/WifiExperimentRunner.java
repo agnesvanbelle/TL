@@ -114,7 +114,7 @@ public class WifiExperimentRunner {
 	private int[] noDaysArray = { 2, 3,6,11,21}; 
 
 	/*
-	 * if true, ranges will be added for variable values
+	 * if true, ranges will be added for variable values // TODO: try this
 	 */
 	private boolean withRanges = false;
 
@@ -144,14 +144,12 @@ public class WifiExperimentRunner {
 	
 	public String toString() {
 		StringBuilder s= new StringBuilder();
-		//s.append("------ WER settings : ------ ");
 		s.append("NO_DATA_INSTANCES: " + NO_DATA_INSTANCES + "\n");
 		s.append("noDaysArray: " + Arrays.toString(noDaysArray) + "\n");
 		s.append("withRanges (boolean): " + withRanges + "\n");
 		s.append("conf: " + conf + "\n");
 		s.append("confTr: " + confTr + "\n");
 		s.append("USE_CLASS (boolean): " + USE_CLASS);
-		//s.append("---------------------------- ");
 		return s.toString();
 	}
 
@@ -161,6 +159,7 @@ public class WifiExperimentRunner {
 	
 	public WifiExperimentRunner() {
 		// empty constructor
+		// use setters defined above to change the default settings
 	}
 
 	public static void main(String[] args) {

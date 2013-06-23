@@ -279,11 +279,18 @@ public class AbstractPredicateWriter {
 		List<String> classExamples = new ArrayList<String>(classExamplesMap.keySet());
 		Collections.sort(classExamples);
 		
-		for (String classLabel : classExamples) {
+		for (String classLabel : classExamples) { // "local" examples
+			System.out.println("classLabel: " + classLabel);
+			
 			List<Example> examples = classExamplesMap.get(classLabel);
 			
 			for (Example example : examples) {
-				String svmLabel = classMap.get(classLabel); 
+				
+				System.out.println("\tExample: " + example);
+				
+				String svmLabel = classMap.get(classLabel); // global classmap
+				
+				System.out.println("\tsvmLabel: " + svmLabel);
 				
 				convertedExamplesRules.append(svmLabel).append(Constants.SPACE);
 				List<String> exRelationsStr = example.getAllRelationsStr();
@@ -319,8 +326,10 @@ public class AbstractPredicateWriter {
 		List<String> classLines = Utils.readLines(classMapFile);
 		for (String cl: classLines) {
 			String[] clInfo = cl.split(",");
+			System.out.println("classMap.put(" + clInfo[1] + ", " + clInfo[0] + ");");
 			classMap.put(clInfo[1], clInfo[0]);
 		}
+	
 		return classMap;
 	}
 	

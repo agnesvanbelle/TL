@@ -1,0 +1,8 @@
+leave-house:sensor(act-duration(312-557),end-time(667-1129),fire-duration(1-1),no-firings(2-2),sensor-type(399),start-time(667-1129))
+leave-house:sensor(act-duration(14-31),end-time(775-844),fire-duration(6-31),no-firings(1-1),sensor-type(399),start-time(806-849)):sensor(act-duration(24-26),end-time(442-983),fire-duration(15-28),no-firings(1-2),sensor-type(401),start-time(463-1037))
+leave-house:sensor(act-duration(312-557),end-time(667-1129),fire-duration(1-1),no-firings(2-2),sensor-type(399),start-time(667-1129))
+leave-house:sensor(act-duration(1-2),end-time(363-1317),fire-duration(1-2),no-firings(1-1),sensor-type(401),start-time(364-1318)):sensor(act-duration(2-2),end-time(548-1426),fire-duration(1-361),no-firings(1-2),sensor-type(399),start-time(488-1427))
+prep-breakfast:sensor(act-duration(1-2),end-time(357-724),fire-duration(1-247),no-firings(1-1),sensor-type(399),start-time(291-796))
+prep-dinner:sensor(act-duration(312-557),end-time(667-1129),fire-duration(1-1),no-firings(2-2),sensor-type(399),start-time(667-1129))
+take-shower:sensor(act-duration(2-2),end-time(548-1426),fire-duration(1-361),no-firings(1-2),sensor-type(399),start-time(488-1427))
+take-shower:sensor(act-duration(2-2),end-time(548-1426),fire-duration(1-361),no-firings(1-2),sensor-type(399),start-time(488-1427))
