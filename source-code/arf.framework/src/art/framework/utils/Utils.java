@@ -3,10 +3,15 @@ package art.framework.utils;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,8 +21,7 @@ import java.util.NoSuchElementException;
 
 public class Utils {
 
-	public static void saveContent(String fileName, String content,
-			boolean append) {
+	public static void saveContent(String fileName, String content, boolean append) {
 		try {
 			File file = new File(fileName);
 			File dir = file.getParentFile();
@@ -25,12 +29,12 @@ public class Utils {
 				dir.mkdirs();
 			}
 
-			BufferedWriter bw = new BufferedWriter(new FileWriter(fileName,
-					append));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, append));
 			bw.write(content);
 			bw.flush();
 			bw.close();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			System.out.println("[ERROR] Failed to write to file " + fileName);
 			e.printStackTrace();
 		}
@@ -57,21 +61,23 @@ public class Utils {
 																			 */);
 			}
 
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			System.out.println("[ERROR] Failed to read from file: " + file);
 			System.out.println(e);
 			System.exit(1);
-		} catch (IOException e) {
-			System.out
-					.println("[ERROR] Unexpected exception while reading from file: "
-							+ file);
+		}
+		catch (IOException e) {
+			System.out.println("[ERROR] Unexpected exception while reading from file: " + file);
 			System.out.println(e);
 			System.exit(1);
-		} finally {
+		}
+		finally {
 			if (br != null) {
 				try {
 					br.close();
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					System.err.println("COuldn't close file " + file);
 					e.printStackTrace();
 				}
@@ -86,14 +92,14 @@ public class Utils {
 	 * 
 	 * @param dirName
 	 */
-	public static void createOutputDirectory(String dirName) {
+	public static void createDirectory(String dirName) {
 		File outputDir = new File(dirName);
 		if (!outputDir.exists()) {
 			outputDir.mkdir();
 		}
 	}
-	
-	public static void resetOutputDirectory(String dirName) {
+
+	public static void resetDirectory(String dirName) {
 		deleteDir(dirName);
 		File outputDir = new File(dirName);
 		if (!outputDir.exists()) {
@@ -101,14 +107,12 @@ public class Utils {
 		}
 	}
 
-
 	public static boolean deleteDir(String dirName) {
 		File dir = new File(dirName);
 		if (dir.isDirectory()) {
 			String[] children = dir.list();
 			for (int i = 0; i < children.length; i++) {
-				boolean success = deleteDir(new File(dir, children[i])
-						.getAbsolutePath());
+				boolean success = deleteDir(new File(dir, children[i]).getAbsolutePath());
 				if (!success) {
 					return false;
 				}
@@ -120,7 +124,8 @@ public class Utils {
 		try {
 			dir.delete();
 			deleted = true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			// File permission problems are caught here.
 			System.err.println("Error deleting dir " + dirName);
 			e.printStackTrace();
@@ -148,14 +153,14 @@ public class Utils {
 				examples.add(patterns);
 			}
 
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			System.out.println("[ERROR] Failed to read from file: " + file);
 			System.out.println(e);
 			System.exit(1);
-		} catch (IOException e) {
-			System.out
-					.println("[ERROR] Unexpected exception while reading from file: "
-							+ file);
+		}
+		catch (IOException e) {
+			System.out.println("[ERROR] Unexpected exception while reading from file: " + file);
 			System.out.println(e);
 			System.exit(1);
 		}
@@ -163,8 +168,7 @@ public class Utils {
 	}
 
 	public static String getValueSignature(String value) {
-		String signature = value.replaceAll(",", "")
-				.replaceAll("\\(.+?\\)", "").replace(")", "");
+		String signature = value.replaceAll(",", "").replaceAll("\\(.+?\\)", "").replace(")", "");
 		return signature;
 	}
 
@@ -178,14 +182,14 @@ public class Utils {
 				lines.add(line);
 			}
 
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			System.out.println("[ERROR] Failed to read from file: " + file);
 			System.out.println(e);
 			System.exit(1);
-		} catch (IOException e) {
-			System.out
-					.println("[ERROR] Unexpected exception while reading from file: "
-							+ file);
+		}
+		catch (IOException e) {
+			System.out.println("[ERROR] Unexpected exception while reading from file: " + file);
 			System.out.println(e);
 			System.exit(1);
 		}
@@ -200,16 +204,77 @@ public class Utils {
 		}
 		Utils.saveContent(fileName, sb.toString());
 	}
-	
+
 	public static int getDirectorySize(String path) {
 
-		
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
-		
+
 		return listOfFiles.length;
 	}
-	
+
+	public static void copyDirectory(File sourceLocation, File targetLocation) {
+		if (sourceLocation.isDirectory()) {
+			if (!targetLocation.exists()) {
+				targetLocation.mkdir();
+			}
+			else {
+				resetDirectory(targetLocation.getPath());
+			}
+
+			String[] children = sourceLocation.list();
+			for (int i = 0; i < children.length; i++) {
+				copyDirectory(new File(sourceLocation, children[i]), new File(targetLocation, children[i]));
+			}
+		}
+		else {
+
+			InputStream in = null;
+			OutputStream out = null;
+
+			try {
+				in = new FileInputStream(sourceLocation);
+				out = new FileOutputStream(targetLocation);
+
+				byte[] buf = new byte[1024];
+				int len = 0;
+				try {
+
+					while ((len = in.read(buf)) > 0) {
+						out.write(buf, 0, len);
+					}
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+			catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			// Copy the bits from instream to outstream
+			finally {
+				if (in != null) {
+					try {
+						in.close();
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				if (out != null) {
+					try {
+						out.close();
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
 
 	public static ArrayList<String> getDirectoryListing(String path) {
 
@@ -218,13 +283,24 @@ public class Utils {
 		File[] listOfFiles = folder.listFiles();
 		if (listOfFiles != null) {
 			for (int i = 0; i < listOfFiles.length; i++) {
-	
+
 				if (listOfFiles[i].isFile()) {
-					files.add( listOfFiles[i].getName());
+					files.add(listOfFiles[i].getName());
 					//System.out.println(files);
 				}
 			}
 		}
 		return files;
+	}
+	
+	public static ArrayList<String> getSubDirectories(String path) {
+		File file = new File(path);
+		String[] directories = file.list(new FilenameFilter() {
+		  @Override
+		  public boolean accept(File current, String name) {
+		    return new File(current, name).isDirectory();
+		  }
+		});
+		return new ArrayList<String>(Arrays.asList(directories));
 	}
 }

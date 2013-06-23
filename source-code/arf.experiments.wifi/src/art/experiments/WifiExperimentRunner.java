@@ -26,7 +26,7 @@ import svmjava.*;
 
 public class WifiExperimentRunner {
 
-	public enum FILE_TYPE { // used for folder names
+	public static enum FILE_TYPE { // used for folder names
 		TEST(0), TRAIN(1); // test, or train data
 
 		private final int index;
@@ -44,7 +44,7 @@ public class WifiExperimentRunner {
 		}
 	}
 
-	public enum TRANSFER_TYPE { // used for folder names
+	public static enum TRANSFER_TYPE { // used for folder names
 		TRANSFER(0), NOTRANSFER(1); // transfer, or no-transfer
 
 		private final int index;
@@ -62,7 +62,7 @@ public class WifiExperimentRunner {
 		}
 	}
 
-	public enum FEATURE_TYPE { // used for folder names
+	public static enum FEATURE_TYPE { // used for folder names
 		OF(0), HF(1); // Our Features, or Her/Handcrafted Features
 
 		private final int index;
@@ -83,7 +83,7 @@ public class WifiExperimentRunner {
 	// ==================== constants ====================
 
 	public final String classMapFile = "../arf.experiments.wifi/housedata/input/classMap.txt";
-	public final String ROOT_DIR = "../arf.experiments.wifi/housedata/";
+	public static final String ROOT_DIR = "../arf.experiments.wifi/housedata/";
 	private Random rand = new Random(System.currentTimeMillis());
 
 	private String[] houses;
@@ -123,6 +123,10 @@ public class WifiExperimentRunner {
 	public void turnLoggingOff() {
 		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
 	}
+	
+	public WifiExperimentRunner() {
+		// empty constructor
+	}
 
 	public static void main(String[] args) {
 		WifiExperimentRunner wer = new WifiExperimentRunner();
@@ -151,7 +155,7 @@ public class WifiExperimentRunner {
 		}
 		// make new output directory
 		String outputDirNameAllHouses = ROOT_DIR + "output/";
-		Utils.resetOutputDirectory(outputDirNameAllHouses);
+		Utils.resetDirectory(outputDirNameAllHouses);
 
 		
 	}
@@ -191,7 +195,7 @@ public class WifiExperimentRunner {
 
 			// create output directory for house if it doesn't exist yet
 			String outputDirName = ROOT_DIR + "output/" + "houseInfo" + house + "/";
-			Utils.createOutputDirectory(outputDirName);
+			Utils.createDirectory(outputDirName);
 			
 			// will contain sensor and action data for this house
 			List<String> sensorReadings = null;
@@ -232,11 +236,11 @@ public class WifiExperimentRunner {
 
 					// make output dir for this  noDays
 					String outputDirNoDaysName = outputDirName + house + noDays + "/";
-					Utils.createOutputDirectory(outputDirNoDaysName);
+					Utils.createDirectory(outputDirNoDaysName);
 
 					// make output dir for this featureType
 					String outputDirNoDaysFeatureTypeName = outputDirNoDaysName + featureType + "/";
-					Utils.createOutputDirectory(outputDirNoDaysFeatureTypeName);
+					Utils.createDirectory(outputDirNoDaysFeatureTypeName);
 
 					
 					// ======== read in lines with dates and activities  ======== 					 
@@ -346,7 +350,7 @@ public class WifiExperimentRunner {
 	
 							// ======== build no transfer model ========
 							String outputDirNoDaysFeatureTypeNameTransferTypeName = outputDirNoDaysFeatureTypeName + TRANSFER_TYPE.NOTRANSFER + "/";
-							Utils.createOutputDirectory(outputDirNoDaysFeatureTypeNameTransferTypeName);
+							Utils.createDirectory(outputDirNoDaysFeatureTypeNameTransferTypeName);
 	
 							getFeatureRepresentationOfTrainAndTestDataForNoTransferCase(apw, sensorMapFile, actionMapFile, outputDirNoDaysFeatureTypeNameTransferTypeName, dirName, outputDirNoDaysSplit,
 									sensorTrainFile, actionTrainFile, sensorTestFile, actionTestFile, conf, noDaysIndex, houseNr, featureType);
@@ -398,7 +402,7 @@ public class WifiExperimentRunner {
 							Utils.saveLines(lines2, targetRulesFileComb);
 	
 							outputDirNoDaysFeatureTypeNameTransferTypeName = outputDirNoDaysFeatureTypeName + TRANSFER_TYPE.TRANSFER + "/";
-							Utils.createOutputDirectory(outputDirNoDaysFeatureTypeNameTransferTypeName);
+							Utils.createDirectory(outputDirNoDaysFeatureTypeNameTransferTypeName);
 							// represent domain training data in terms of new
 							// features
 	
@@ -482,7 +486,7 @@ public class WifiExperimentRunner {
 
 	public double callSVM(String trainDir, String testDir, String tempOutputDir, String trainFile, String testFile) {
 		// System.out.println("trainFile: " + trainFile);
-		Utils.createOutputDirectory(tempOutputDir);
+		Utils.createDirectory(tempOutputDir);
 
 		// train
 		ArrayList<String> svmTrainerArgs = new ArrayList<String>();
@@ -506,7 +510,7 @@ public class WifiExperimentRunner {
 	public void evaluationResultsToMatlabPerHouse() {
 		String matlabDir = ROOT_DIR + "output/" + "matlab/";
 		String plotOutputDir = new File(matlabDir).getAbsolutePath();
-		Utils.createOutputDirectory(matlabDir);
+		Utils.createDirectory(matlabDir);
 
 		for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
 

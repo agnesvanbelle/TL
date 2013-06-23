@@ -7,6 +7,9 @@ public class HouseData
 {
 	
 	public static final String outputDirName = "../our_project_project/output/";
+	public static final String inputDataDir = "../our_project_project/data/";
+	public static final String houseOutputDirPrefix = "houseInfo";
+	
 	// Example mapping levels for sensorData() and activityData():
 	
 	public static final int MAPPING_LEVEL_FEATURE         = 0;
@@ -38,7 +41,7 @@ public class HouseData
 	
 	/**
 	 * Loads the data from a given house and creates a HouseData object containing it.
-	 * @param houseName Name of the house to load. The data files must be located under the 'data/' folder, see the 'README.txt' file.
+	 * @param houseName Name of the house to load. The data files must be located under the inputDataDir folder, see the 'README.txt' file.
 	 */
 	public HouseData(String houseName)
 	{
@@ -77,10 +80,10 @@ public class HouseData
 			switch (typeData)
 			{
 				case TYPE_DATA_SENSOR:
-					br = new BufferedReader(new FileReader("data/" + houseName + ".sensor_names"));
+					br = new BufferedReader(new FileReader(inputDataDir + houseName + ".sensor_names"));
 				break;
 				case TYPE_DATA_ACTIVITY:
-					br = new BufferedReader(new FileReader("data/" + houseName + ".activity_names"));
+					br = new BufferedReader(new FileReader(inputDataDir + houseName + ".activity_names"));
 				break;
 			}
 			
@@ -142,10 +145,10 @@ public class HouseData
 			switch (typeData)
 			{
 				case TYPE_DATA_SENSOR:
-					br = new BufferedReader(new FileReader("data/" + houseName + ".sensors"));
+					br = new BufferedReader(new FileReader(inputDataDir + houseName + ".sensors"));
 				break;
 				case TYPE_DATA_ACTIVITY:
-					br = new BufferedReader(new FileReader("data/" + houseName + ".activities"));
+					br = new BufferedReader(new FileReader(inputDataDir + houseName + ".activities"));
 				break;
 			}
 			
@@ -322,7 +325,7 @@ public class HouseData
 			outputDir.delete();
 		}
 		outputDir.mkdir();
-		File houseOutputDir = new File(outputDir + "/houseInfo" + houseLetter + "/");
+		File houseOutputDir = new File(outputDir + "/" + houseOutputDirPrefix + houseLetter + "/");
 		houseOutputDir.mkdir();
 		
 		try

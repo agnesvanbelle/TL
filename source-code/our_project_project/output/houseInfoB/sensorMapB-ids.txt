@@ -1,23 +1,23 @@
-34,PIR slaapkamer-houseB,400
-35,kwik dresser-houseB,400
-32,kwik cutlary drawer-houseB,400
-33,kwik stove lid-houseB,400
-38,toaster-houseB,400
-39,magnetron-houseB,400
-36,PIR badkamer-houseB,400
-37,gootsteen float-houseB,400
-42,entity-42,398
-43,entity-43,400
-40,PIR keuken-houseB,400
-41,entity-41,400
-46,entity-46,399
-44,entity-44,402
-45,entity-45,400
-23,toilet door-houseB,400
-25,cupboard groceries-houseB,403
-24,fridge-houseB,400
-26,toilet flush-houseB,400
-29,Bedroom door-houseB,400
-28,cupboard plates-houseB,400
-31,press bed links-houseB,400
-30,press bed rechts-houseB,400
+34,PIR slaapkamer-houseB,101
+35,kwik dresser-houseB,101
+32,kwik cutlary drawer-houseB,101
+33,kwik stove lid-houseB,101
+38,toaster-houseB,101
+39,magnetron-houseB,101
+36,PIR badkamer-houseB,101
+37,gootsteen float-houseB,101
+42,entity-42,96
+43,entity-43,101
+40,PIR keuken-houseB,101
+41,entity-41,101
+46,entity-46,100
+44,entity-44,102
+45,entity-45,101
+23,toilet door-houseB,101
+25,cupboard groceries-houseB,103
+24,fridge-houseB,101
+26,toilet flush-houseB,101
+29,Bedroom door-houseB,101
+28,cupboard plates-houseB,101
+31,press bed links-houseB,101
+30,press bed rechts-houseB,101
