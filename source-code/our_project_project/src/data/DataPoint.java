@@ -20,7 +20,7 @@ public class DataPoint
 	
 	private final Date startDate;
 	
-	DataPoint(int start, int length, int ID)
+	public DataPoint(int start, int length, int ID)
 	{
 		this.start  = start;
 		this.length = length;

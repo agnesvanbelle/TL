@@ -125,6 +125,9 @@ public class Meta_feature_mapping{
 			cluster_indexes_target_house.add(i);
 		}
 		
+		int match = 0;
+		System.out.println("\n\nhouse: " + source_house.houseName);
+		
 		// While there are unmapped source sensors
 		while(cluster_indexes_source_house.size()!=0) 
 		{
@@ -132,7 +135,7 @@ public class Meta_feature_mapping{
 			// If there are still target clusters to which no source cluster is mapped
 			if(cluster_indexes_target_house.size()!=0)
 			{
-				
+				match++;
 				float[] best_candidate_diff = new float [cluster_indexes_target_house.size()];
 				int[] best_candidate = new int [cluster_indexes_target_house.size()];
 				int[] cluster_index = new int [cluster_indexes_target_house.size()];				
@@ -187,7 +190,7 @@ public class Meta_feature_mapping{
 				// Put the mapping in the hash map
 				String source_cluster_name = HouseData.sensorContainer(clusters_source_house[source_cluster].get(0)).metacontainer.name;
 				String meta_meta_label = meta_meta_features_labels[target_cluster];
-				
+				System.out.println("Match: " + match + " " + source_cluster_name + "\t\t" + meta_meta_label);
 				////////////////////DEBUGGING/////////////////////////////////
 //				String target_cluster_name = HouseData.sensorContainer(clusters_target_house[target_cluster].get(0)).metacontainer.name;
 //				System.out.println(source_cluster_name + "\t" + target_cluster_name +"\t\t" + meta_meta_label);
