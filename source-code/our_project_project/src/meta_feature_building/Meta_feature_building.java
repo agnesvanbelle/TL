@@ -28,7 +28,7 @@ public class Meta_feature_building{
 	}
 	
 	
-	public enum Alpha_beta_type {Relative, Absolute};
+	public static enum Alpha_beta_type {Relative, Absolute};
 	/**
 	 * 
 	 * @param data
@@ -48,6 +48,9 @@ public class Meta_feature_building{
 			// Get frequencies for a time difference <beta
 			int[][] frequencies = house.profileAlphaBeta(beta);
 			
+			////////////DEBUGGING/////////////////////
+//			print_frequencies(frequencies);
+			////////////DEBUGGING/////////////////////
 			
 			ConcurrentSkipListSet<Integer> sensorsSet = new ConcurrentSkipListSet<Integer>();
 			ArrayList<ConcurrentSkipListSet<Integer>> groups = new ArrayList<ConcurrentSkipListSet<Integer>>();
@@ -61,18 +64,17 @@ public class Meta_feature_building{
 				{
 					// Get frequencies for sensor firings by the sensor.
 					Integer freq = house.sensorFiringFrequency(sensors[i]);					
-					alpha = (int) ((float)freq*single_alpha);
-					System.out.print("freq: " + freq + " ");
-					System.out.println("Relative alpha: " + alpha);
+					alpha = (int) ((float)freq*single_alpha) +1;
 				}
 				else if(ab_type == Alpha_beta_type.Absolute)
 				{
 					alpha = alphas[index];
+//					System.out.println("relative alpha: " + alpha);
 				}
 				for(int j=i;j<sensors.length;j++)
 				{
 					// If the frequency is larger than alpha
-					if(frequencies[i][j]>alpha)
+					if(frequencies[i][j]+frequencies[j][i]>alpha)
 					{
 						int index_i = -1;
 						int index_j = -1;					
@@ -157,6 +159,18 @@ public class Meta_feature_building{
 	public void set_betas(int[] betas)
 	{
 		this.betas = betas;
+	}
+	
+	public void print_frequencies(int[][] freq)
+	{
+		for(int i = 0;i<freq.length;i++)
+		{
+			for(int j =0; j<freq[i].length;j++)
+			{
+				System.out.print(freq[i][j] + "\t");				
+			}
+			System.out.print("\n");
+		}
 	}
 	
 	

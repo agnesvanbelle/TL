@@ -28,15 +28,16 @@ public class Test
 	
 	public static void main(String[] args)
 	{
-		HouseData house = new HouseData("houseA");
+		HouseData house = new HouseData("houseTest3");
 		ArrayList<HouseData> data = new ArrayList<HouseData>();
 		data.add(house);
 		int [] alpha = {5};
-		int [] beta = {6};
+		int [] beta = {1250};
+		float relative = 0.5f;
 		Meta_feature_building builder = new Meta_feature_building(alpha, beta);
 		builder.alpha_beta_clustering(data);
 		printClusters(house, "absolute alpha");	
-		builder.set_relative_alpha(0.2f);
+		builder.set_relative_alpha(relative);
 		builder.alpha_beta_clustering(data);
 		printClusters(house, "relative alpha");
 		
