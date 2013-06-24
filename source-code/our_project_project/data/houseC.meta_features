@@ -1,0 +1,21 @@
+BedRoom	mat bed right pressure mat
+BedRoom	bed mat left pressure mat
+BedRoom	bedroom door
+BedRoom	dresser pir	
+LivingRoom	matt couch living room	
+Toilet1	toilet flush top flush
+Toilet1	sink top flush	
+Toilet2	toilet flush bottom flush
+Toilet2	door downstairs toilet
+Bathroom	bath lift left
+Bathroom	bathtub pir	
+FrontDoor	keys
+FrontDoor	front door reed
+KitchenGarbage	table scraps containers reed	
+KitchenCool	freezer drove
+KitchenCool	refrigerator reed	
+KitchenHeat	microwave reed	
+KitchenStore	cutlery drawer mercury sensor
+KitchenStore	table pans reed
+KitchenStore	cabinet signs/herb reed
+KitchenStore	cabinet cups/bowl/ tuna reed
