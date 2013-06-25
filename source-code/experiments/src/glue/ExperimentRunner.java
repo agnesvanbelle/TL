@@ -33,23 +33,41 @@ public class ExperimentRunner {
 		
 
 		Directory experimentStructure = new Directory("output");
-		experimentStructure.add(new Directory(WERenums.FEATURE_TYPE.OF.toString()));
-		experimentStructure.add(new Directory(WERenums.FEATURE_TYPE.HF.toString()));
+		experimentStructure.addChild(new Directory(WERenums.FEATURE_TYPE.OF.toString()));
+		experimentStructure.addChild(new Directory(WERenums.FEATURE_TYPE.HF.toString()));
+		
+		System.out.println(experimentStructure);
+		
+		System.out.println("----------");
 		
 		experimentStructure.get(WERenums.FEATURE_TYPE.HF.toString())
-			.add(new Directory(WERenums.TRANSFER_TYPE.TRANSFER.toString()));
+			.addChild(new Directory(WERenums.TRANSFER_TYPE.TRANSFER.toString()));
 		experimentStructure.get(WERenums.FEATURE_TYPE.HF.toString())
-			.add(new Directory(WERenums.TRANSFER_TYPE.NOTRANSFER.toString()));
+			.addChild(new Directory(WERenums.TRANSFER_TYPE.NOTRANSFER.toString()));
+		
 		experimentStructure.get(WERenums.FEATURE_TYPE.OF.toString())
-			.add(new Directory(WERenums.TRANSFER_TYPE.TRANSFER.toString()));
+			.addChild(new Directory(WERenums.TRANSFER_TYPE.TRANSFER.toString()));
+	
+		
+		experimentStructure.get(WERenums.FEATURE_TYPE.OF.toString()).addChildToAllLeafs(new String[]{"CT_ABS", "CT_REL"});
+
+		experimentStructure.get(WERenums.FEATURE_TYPE.OF.toString()).addChildToAllLeafs(new String[]{"MAP_PR", "MAP_BOTH"});
 		
 		
+		experimentStructure.get(WERenums.FEATURE_TYPE.OF.toString()).
+			get(WERenums.TRANSFER_TYPE.TRANSFER.toString()).
+				get("CT_REL").
+					addChildToAllLeafs("bla");
+		
+		System.out.println(experimentStructure);
+		
+		System.out.println(experimentStructure.getDirName("../our_project_project/"));
 		
 		
-		Utils.resetDirectory(MetaFeatureMaker.outputDirName);		
+		//Utils.resetDirectory(MetaFeatureMaker.outputDirName);		
 		
 		
-		MetaFeatureMaker.runForSubsetNormal(0,5);
+		//MetaFeatureMaker.runForSubsetNormal(0,5);
 		
 		copyOutputtedMFtoWifiExperimentRunnerInput() ;
 		
