@@ -73,8 +73,8 @@ public class Test
 		
 		System.out.println("Example 5:");
 		
-		NormalDistribution r1 = houseA.profileRelative(1, 2); // Hall-Toilet door vs Hall-Bathroom door
-		NormalDistribution r2 = houseA.profileRelative(1, 8); // Hall-Toilet door vs Toilet Flush
+		NormalDistribution r1 = houseA.profileRelational(1, 2); // Hall-Toilet door vs Hall-Bathroom door
+		NormalDistribution r2 = houseA.profileRelational(1, 8); // Hall-Toilet door vs Toilet Flush
 		
 		System.out.println(r1.mu + ", " + r1.sigma);
 		System.out.println(r2.mu + ", " + r2.sigma);

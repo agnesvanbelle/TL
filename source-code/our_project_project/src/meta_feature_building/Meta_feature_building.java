@@ -12,8 +12,13 @@ public class Meta_feature_building{
 	
 	private int[] alphas;
 	private int[] betas;
-	private float single_alpha;
+	private double single_alpha;
 	private Alpha_beta_type ab_type;
+	
+	
+	public Meta_feature_building () {
+		
+	}
 	
 	public Meta_feature_building (int[] alphas, int[] betas)
 	{
@@ -152,7 +157,7 @@ public class Meta_feature_building{
 		}		
 	}
 	
-	public void set_relative_alpha(float alpha)
+	public void set_relative_alpha(double alpha)
 	{
 		single_alpha = alpha;
 		ab_type = Alpha_beta_type.Relative;

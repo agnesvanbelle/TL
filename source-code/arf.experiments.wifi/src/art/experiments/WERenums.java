@@ -115,6 +115,35 @@ public class WERenums {
 		}
 	}
 	
+	public static enum MF_TYPE { 
+		HC(0), AUTO(1); 
+
+		public static String[] valuesStr() {
+			MF_TYPE[] vs = MF_TYPE.values();
+			String[] v = new String[MF_TYPE.length()];
+			int i=0;
+			for (MF_TYPE pt : vs) {
+				v[i++]=pt.name();
+			}
+			return v;
+		}
+		
+		private final int index;
+
+		MF_TYPE(int index) {
+			this.index = index;
+		}
+
+		public int index() {
+			return index;
+		}
+
+		public static int length() {
+			return values().length;
+		}
+	}
+	
+	
 
 
 }

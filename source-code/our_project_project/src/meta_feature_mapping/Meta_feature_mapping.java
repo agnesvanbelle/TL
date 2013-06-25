@@ -12,9 +12,9 @@ public class Meta_feature_mapping{
 	
 	public enum Sensor_distance {
 		Profiles_individ_KL, //TODO // KL divergence distance measure
-		Profiles_individ_SSE,  //sum squared errors distance measure
+		Profiles_individ_SSE,  //sum squared errors distance measure, sensor profile
 		Profiles_individ_KL_rel_KL, //TODO
-		Profiles_individ_SSE_rel_OL //sum squared errors distance measure , Relative profile
+		Profiles_individ_SSE_rel_OL //sum squared errors distance measure , sensor profile + relational profile (?)
 	};
 	
 	
@@ -382,8 +382,8 @@ public class Meta_feature_mapping{
 		{
 			for(Integer beta: sensors_beta)
 			{
-				data.NormalDistribution a_b = house_small.profileRelative(sensor_id_s, b);
-				data.NormalDistribution alpha_beta = house_large.profileRelative(sensor_id_l, beta);
+				data.NormalDistribution a_b = house_small.profileRelational(sensor_id_s, b);
+				data.NormalDistribution alpha_beta = house_large.profileRelational(sensor_id_l, beta);
 				float overlap = a_b.overlapLevel(alpha_beta);
 				if(overlap < relative_dist)
 				{

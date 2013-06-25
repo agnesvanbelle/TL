@@ -1,6 +1,5 @@
 package meta_feature_building;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -13,7 +12,7 @@ import data.NameContainer;
 
 public class Test
 {
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) 
 	{
 		String[] house_letters = {"A", "B", "C", "D","E"};
 		
@@ -65,7 +64,7 @@ public class Test
 		}
 	}
 	
-	public static void hand_crafted_clusters (String[] houseLetters) throws IOException
+	public static void hand_crafted_clusters (String[] houseLetters) 
 	{
 
 		ArrayList<HouseData> data = new ArrayList<HouseData>();

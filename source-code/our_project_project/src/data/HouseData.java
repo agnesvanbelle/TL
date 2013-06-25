@@ -484,12 +484,12 @@ public class HouseData
 	}
 	
 	/**
-	 * Returns the relative profile between two sensors, modeled as a normal distribution of the differences of their firing times.
+	 * Returns the relational profile between two sensors, modeled as a normal distribution of the differences of their firing times.
 	 * @param sensorA First sensor ID.
 	 * @param sensorB Second sensor ID.
 	 * @return The relative profile between two sensors, modeled as a normal distribution of the differences of their firing times.
 	 */
-	public NormalDistribution profileRelative(int sensorA, int sensorB)
+	public NormalDistribution profileRelational(int sensorA, int sensorB)
 	{
 		ArrayList<Integer> values = new ArrayList<Integer>();
 		
