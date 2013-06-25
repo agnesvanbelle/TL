@@ -6,10 +6,7 @@ import java.util.ArrayList;
 
 import art.framework.utils.*;
 import art.experiments.*;
-
-
-
-import experiment.MetaFeatureMaker;
+import /*our_project_project.*/experiment.MetaFeatureMaker;
 
 
 /**
@@ -49,17 +46,20 @@ public class ExperimentRunner {
 			.addChild(new Directory(WERenums.TRANSFER_TYPE.TRANSFER.toString()));
 	
 		
-		experimentStructure.get(WERenums.FEATURE_TYPE.OF.toString()).addChildToAllLeafs(new String[]{"CT_ABS", "CT_REL"});
+		//experimentStructure.get(WERenums.FEATURE_TYPE.OF.toString()).addChildToAllLeafs(WERenums.PROFILE_TYPE.valuesStr());
 
-		experimentStructure.get(WERenums.FEATURE_TYPE.OF.toString()).addChildToAllLeafs(new String[]{"MAP_PR", "MAP_BOTH"});
+		//experimentStructure.get(WERenums.FEATURE_TYPE.OF.toString()).addChildToAllLeafs(WERenums.CLUSTER_TYPE.valuesStr());
 		
 		
-		experimentStructure.get(WERenums.FEATURE_TYPE.OF.toString()).
-			get(WERenums.TRANSFER_TYPE.TRANSFER.toString()).
-				get("CT_REL").
-					addChildToAllLeafs("bla");
+			
+//		experimentStructure.get(WERenums.FEATURE_TYPE.OF.toString()).
+//			get(WERenums.TRANSFER_TYPE.TRANSFER.toString()).
+//				get("CT_REL").
+//					addChildToAllLeafs("bla");
 		
 		System.out.println(experimentStructure);
+		
+		System.out.println("nr. comparisons: " + experimentStructure.leafCount());
 		
 		System.out.println(experimentStructure.getDirName("../our_project_project/"));
 		

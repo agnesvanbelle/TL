@@ -59,6 +59,62 @@ public class WERenums {
 		}
 	}
 	
+	public static enum CLUSTER_TYPE { 
+		CT_ABS(0), CT_REL(1); 
+
+		private final int index;
+
+		public static String[] valuesStr() {
+			CLUSTER_TYPE[] vs = CLUSTER_TYPE.values();
+			String[] v = new String[CLUSTER_TYPE.length()];
+			int i=0;
+			for (CLUSTER_TYPE pt : vs) {
+				v[i++]=pt.name();
+			}
+			return v;
+		}
+		
+		CLUSTER_TYPE(int index) {
+			this.index = index;
+		}
+
+		public int index() {
+			return index;
+		}
+
+		public static int length() {
+			return values().length;
+		}
+	}
+	
+	public static enum PROFILE_TYPE { 
+		PR_SP(0), PR_BOTH(1); 
+
+		public static String[] valuesStr() {
+			PROFILE_TYPE[] vs = PROFILE_TYPE.values();
+			String[] v = new String[PROFILE_TYPE.length()];
+			int i=0;
+			for (PROFILE_TYPE pt : vs) {
+				v[i++]=pt.name();
+			}
+			return v;
+		}
+		
+		private final int index;
+
+		PROFILE_TYPE(int index) {
+			this.index = index;
+		}
+
+		public int index() {
+			return index;
+		}
+
+		public static int length() {
+			return values().length;
+		}
+	}
+	
 
 
 }

@@ -28,6 +28,19 @@ public class Directory {
 		children.clear();
 	}
 
+	
+	public int leafCount() {
+		int sum=0;
+		if (!this.children.isEmpty()) {
+			for (Directory child : this.children) {
+				sum+= child.leafCount();
+			}
+		}
+		else {
+			return 1;
+		}
+		return sum;
+	}
 
 	public void add(String[] ss) {
 		for (String s : ss)

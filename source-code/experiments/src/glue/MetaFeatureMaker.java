@@ -1,4 +1,4 @@
-package experiment;
+package glue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,6 +85,10 @@ public class MetaFeatureMaker {
 
 		HouseData.mapActivities("Preparing-a-beverage",        	"get-drink");
 
+	}
+	
+	public static void fetchSpecs(Directory d) {
+		
 	}
 	
 	public static void runForSubsetClusterMapping(int min_nr, int max_nr) { // first max_nr houses

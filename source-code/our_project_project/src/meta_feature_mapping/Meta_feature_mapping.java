@@ -9,11 +9,20 @@ import data.HouseData;
 
 public class Meta_feature_mapping{
 	
+	
+	public enum Sensor_distance {
+		Profiles_individ_KL, //TODO // KL divergence distance measure
+		Profiles_individ_SSE,  //sum squared errors distance measure
+		Profiles_individ_KL_rel_KL, //TODO
+		Profiles_individ_SSE_rel_OL //sum squared errors distance measure , Relative profile
+	};
+	
+	
 	// Needed to compute sensor profile with histogram
 	public int blockSizeStart;
 	public int blockNumLength;
 	public int maxLengthDuration;
-	Sensor_distance distance_metric;
+	public Sensor_distance distance_metric;
 	public float profile_weight; 
 	
 	/**
@@ -31,7 +40,7 @@ public class Meta_feature_mapping{
 		profile_weight = 0.5f;
 	}
 	
-	public enum Sensor_distance {Profiles_individ_KL, Profiles_individ_SSE, Profiles_individ_KL_rel_KL, Profiles_individ_SSE_rel_OL};
+	
 	
 	/**
 	 * Maps meta-features of each house to a shared feature space (meta-meta-features). This mapping is stored inside HouseData 
