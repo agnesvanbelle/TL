@@ -18,8 +18,15 @@ public class Directory {
 	
 	}
 	
+	
+	
 	public Directory get(int index) {
 		return children.get(index);
+	}
+	
+	public Directory get(String indexName) {
+		int index = children.indexOf(indexName);
+		return get(index);
 	}
 
 }

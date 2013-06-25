@@ -92,8 +92,8 @@ public class MetaFeatureMaker {
 		}
 
 		String[] houseNames = Arrays.copyOfRange(allHouseNames, min_nr, max_nr);
-		//int[] alphas = Arrays.copyOfRange(alphaAllHouses, min_nr, max_nr);
-		//int[] betas = Arrays.copyOfRange(betaAllHouses, min_nr, max_nr);
+		int[] alphas = Arrays.copyOfRange(alphaAllHouses, min_nr, max_nr);
+		int[] betas = Arrays.copyOfRange(betaAllHouses, min_nr, max_nr);
 		//double alpha = // TODO: check with relative alpha
 
 		System.out.println("Making metafeatures for houses: " + Arrays.toString(houseNames));
