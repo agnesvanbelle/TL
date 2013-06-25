@@ -10,21 +10,30 @@ import data.HouseData;
 
 public class Meta_features_apply_handcrafted {
 	
-	public static void apply_hand_crafted_meta_features(ArrayList<HouseData> houses) throws IOException
+	/**
+	 * 
+	 * @param houses
+	 * @param different_meta_features boolean for using different meta features or shared meta features (handcrafted meta meta features) 
+	 * @throws IOException
+	 */
+	public static void apply_hand_crafted_meta_features(ArrayList<HouseData> houses, boolean different_meta_features) throws IOException
 	{
 		BufferedReader br = null;
 		String line = "";
 		
 		for(HouseData house: houses)
 		{
-			String filename = house.houseName+".meta_features";
+			String x = "";
+			if(!different_meta_features)
+				x = "1";
+			String filename = house.houseName+x+".meta_features";
 			br = new BufferedReader(new FileReader(HouseData.inputDataDir + filename));
 			
 			while ((line = br.readLine()) != null)
 			{
 				String[] names = line.split("\t");
 				if(names.length == 2)
-				{
+				{					
 					String sensorName = names[1] +  '-' + house.houseName;
 					HouseData.mapSensors(sensorName, names[0] + "-" + house.houseName);
 				}

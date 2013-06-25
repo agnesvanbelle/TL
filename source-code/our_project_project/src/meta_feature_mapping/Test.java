@@ -17,7 +17,7 @@ public class Test{
 //	public static final int [] alpha = {5, 5,5,5,5};
 //	public static int [] beta = {14, 7,7,10,12};
 	
-	public static final String[] houseNames = {"A", "B", "C", "D", "E"};
+	public static final String[] houseNames = { "D", "E"};
 	public static final int nrHouses = houseNames.length;
 	public static final String houseNamePrefix = "house";
 	public static final int [] alpha = {5, 5,5,5,5};
@@ -32,18 +32,18 @@ public class Test{
 			HouseData h = new HouseData(houseNamePrefix + houseName);
 			housesData.add(h);
 		}
-		int target_house = 0;
+		int target_house = 1;
 		
-//		automatic_clustering(housesData, target_house);
+//		automatic_clustering(housesData, target_house);		
 		
-		
-		hand_made_clusters(housesData, target_house);
+		boolean diffent_meta_features = true;
+		hand_made_clusters(housesData, target_house, diffent_meta_features);
 		
 		HashMap<String, String> meta_Features_check = new  HashMap<String, String>();
 		get_extended_names(meta_Features_check, housesData.get(target_house));
 		
 		for (HouseData houseData : housesData) {
-//			print_metaFeatures(houseData, meta_Features_check);
+			print_metaFeatures(houseData, meta_Features_check);
 		}
 	
 		for (HouseData houseData : housesData) {
@@ -53,10 +53,10 @@ public class Test{
 	
 	
 
-	private static void hand_made_clusters(ArrayList<HouseData> housesData, int target_house_index) throws IOException {
-		Meta_features_apply_handcrafted.apply_hand_crafted_meta_features(housesData);
+	private static void hand_made_clusters(ArrayList<HouseData> housesData, int target_house_index, boolean diffent_meta_features) throws IOException {
+		Meta_features_apply_handcrafted.apply_hand_crafted_meta_features(housesData, diffent_meta_features);
 		int two_hours = 60*60*2;
-		Meta_feature_mapping map = new Meta_feature_mapping(two_hours, 5, 200);
+		Meta_feature_mapping map = new Meta_feature_mapping(two_hours, 5, 200, Meta_feature_mapping.Sensor_distance.Profiles_individ);
 		map.map_metafeatures_one_to_one_heuristic(housesData, target_house_index); //2nd param. is index houseData 
 	}
 
@@ -67,12 +67,12 @@ public class Test{
 		
 //		int one_hour = 60*60;
 		int two_hours = 60*60*2;
-		Meta_feature_mapping map = new Meta_feature_mapping(two_hours, 5, 200);
+		Meta_feature_mapping map = new Meta_feature_mapping(two_hours, 5, 200, Meta_feature_mapping.Sensor_distance.Profiles_individ_rel);
 		map.map_metafeatures_one_to_one_heuristic(housesData, target_house_index); //2nd param. is index houseData 
 	}
 
 	private static void print_metaFeatures(HouseData houseData, HashMap<String, String> meta_Features_check) {
-		System.out.println(houseData.houseName);
+		System.out.println("\n\n"+houseData.houseName + "\n");
 		HashMap<String, String> mapping = new  HashMap<String, String>();
 		String cluster_name = null;
 		String meta_meta_name = null;

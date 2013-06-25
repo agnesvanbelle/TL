@@ -23,11 +23,11 @@ public class Meta_feature_mapping{
 	 * @param nr_bins_duration : amount of bins for duration dimension
 	 * @param max_length_duration : durations above this value are placed in the last max_duration bin
 	 */
-	public Meta_feature_mapping(int bin_width_start_time, int nr_bins_duration, int max_length_duration){
+	public Meta_feature_mapping(int bin_width_start_time, int nr_bins_duration, int max_length_duration, Sensor_distance distance_metric){
 		blockSizeStart = bin_width_start_time;
 		blockNumLength = nr_bins_duration;
 		maxLengthDuration = max_length_duration;
-		distance_metric = Sensor_distance.Profiles_individ;
+		this.distance_metric = distance_metric;
 		profile_weight = 0.5f;
 	}
 	
@@ -135,6 +135,7 @@ public class Meta_feature_mapping{
 			// If there are still target clusters to which no source cluster is mapped
 			if(cluster_indexes_target_house.size()!=0)
 			{
+				System.out.println("in while loop " + cluster_indexes_source_house.size());
 				match++;
 				float[] best_candidate_diff = new float [cluster_indexes_target_house.size()];
 				int[] best_candidate = new int [cluster_indexes_target_house.size()];
@@ -156,6 +157,7 @@ public class Meta_feature_mapping{
 						{
 							
 								diff[index_target][index_source] = cluster_distance(clusters_target_house[index_target], clusters_source_house[index_source], target_house, source_house);
+								System.out.println("diff "+ index_target +" "+ index_source + " = " + diff[index_target][index_source]);
 														
 						}
 						current_diff = diff[index_target][index_source];
