@@ -32,7 +32,8 @@ public class Test {
 		
 		Utils.resetDirectory(MetaFeatureMaker.outputDirName);		
 		
-		MetaFeatureMaker.runForSubset(0,5);
+		
+		MetaFeatureMaker.runForSubset(0,3);
 		
 		copyOutputtedMFtoWifiExperimentRunnerInput() ;
 		
@@ -40,10 +41,12 @@ public class Test {
 		
 		wer = new WifiExperimentRunner();
 		
-		wer.set_NO_DATA_INSTANCES(3);
+		wer.setNumberHouses(3);
+		wer.set_NO_DATA_INSTANCES(100);
 		int[] noDaysConsidered = {2,3,6,11,21};
 		wer.setNoDaysArray(noDaysConsidered);
 		wer.turnLoggingOff();
+		wer.setWithRanges(true);
 		
 		System.out.println("\n------ WER settings : ------");		
 		System.out.println(wer);

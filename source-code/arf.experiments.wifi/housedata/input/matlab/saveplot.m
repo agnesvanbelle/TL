@@ -91,9 +91,11 @@
 
 	% set legend
 	l = legend(legendCell,'Location','SouthEast');
-	set(y, 'FontSize', 11);
-	set(y,'FontWeight','bold'); 
+	set(l, 'FontSize', 10);
+	set(l,'FontWeight','bold'); 
 
+    
+    
 	% title
 	t = title(strcat('House ', housename));
 	set(t, 'FontSize', 13);

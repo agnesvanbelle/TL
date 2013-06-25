@@ -43,7 +43,29 @@ public class WifiExperimentRunner {
 		public static int length() {
 			return values().length;
 		}
+		
+		//FILE_TYPE.TEST BLA;
+		//FILE_TYPE fileType =  FILE_TYPE.TEST.values()[0];
+		
+		public static enum TEST {
+			BLA(0), BLA2(1);
+			
+			private final int index;
+
+			TEST(int index) {
+				this.index = index;
+			}
+
+			public int index() {
+				return index;
+			}
+
+			public static int length() {
+				return values().length;
+			}
+		}
 	}
+	
 
 	public static enum TRANSFER_TYPE { // used for folder names
 		TRANSFER(0), NOTRANSFER(1); // transfer, or no-transfer
@@ -88,7 +110,7 @@ public class WifiExperimentRunner {
 	private Random rand = new Random(System.currentTimeMillis());
 
 	private String[] houses;
-	private int numberHouses;
+	private int numberHouses = -1;
 	private double results[][][][]; // for evaluation 	
 	private double[] maxDaysPlotPerHouse;
 
@@ -143,6 +165,9 @@ public class WifiExperimentRunner {
 	}
 	
 	public String toString() {
+		
+		
+		
 		StringBuilder s= new StringBuilder();
 		s.append("NO_DATA_INSTANCES: " + NO_DATA_INSTANCES + "\n");
 		s.append("noDaysArray: " + Arrays.toString(noDaysArray) + "\n");
@@ -172,6 +197,10 @@ public class WifiExperimentRunner {
 		runTransferAlgorithm();
 		runEvaluation();
 	}
+	
+	public void setNumberHouses (int nr) {
+		numberHouses = nr;
+	}
 
 	public void runEvaluation() {
 		evaluateUsingSVM();
@@ -181,7 +210,9 @@ public class WifiExperimentRunner {
 	
 
 	public void init() {
-		numberHouses = Utils.getDirectorySize(ROOT_DIR + "input/" + FEATURE_TYPE.HF);
+		if (numberHouses == -1) {
+			numberHouses = Utils.getDirectorySize(ROOT_DIR + "input/" + FEATURE_TYPE.HF);
+		}
 		houses = new String[numberHouses];
 		maxDaysPlotPerHouse = new double[numberHouses];
 		for (int i = 0; i < numberHouses; i++) {
@@ -255,8 +286,10 @@ public class WifiExperimentRunner {
 				Map<String, List<String>> trainActionInstances = new HashMap<String, List<String>>();
 				Map<String, List<String>> trainSensorInstances = new HashMap<String, List<String>>();				
 				
-				
-				for (FEATURE_TYPE featureType : FEATURE_TYPE.values()) {
+				for (int ftIndex=0; ftIndex < FEATURE_TYPE.length(); ftIndex++) {
+				//for (FEATURE_TYPE featureType : FEATURE_TYPE.values()) {
+					FEATURE_TYPE featureType =  FEATURE_TYPE.values()[ftIndex];
+					
 					System.out.println("\nFeature type: " + featureType);
 
 					// check if input directory for house and featuretype exists
@@ -297,18 +330,28 @@ public class WifiExperimentRunner {
 						sensorReadings = WifiUtils.getLines(sensorFile);
 						actionReadings = WifiUtils.getLines(actionFile);
 	
-						// WifiUtils.printList(sensorReadings);
-						// WifiUtils.printList(actionReadings);
+						//WifiUtils.printList(sensorReadings);
+				 		//WifiUtils.printList(actionReadings);
+						
+						
+						
+						//System.out.println(sensorReadings.get(629));
+						
+						//System.out.println("sensorReadings size: " + sensorReadings.size());
+						//System.out.println("actionReadings size: " + actionReadings.size());
 	
-						System.out.println("sensorReadings size: " + sensorReadings.size());
-						System.out.println("actionReadings size: " + actionReadings.size());
-	
+						
+						
 						// construct a map of date (day) to activities
 						actionMap = new HashMap<String, List<String>>();
 						saveActionLinesByDate(actionReadings, actionMap);
 						// construct a map of date to sensor readings
 						actionDates = actionMap.keySet();
 						sensorMap = saveSensorLinesByDate(sensorReadings, actionDates);
+						
+						//WifiUtils.printMap(sensorMap);
+						//WifiUtils.stop();
+						
 						
 						allDates = new ArrayList<String>(actionMap.keySet());
 						
@@ -619,6 +662,7 @@ public class WifiExperimentRunner {
 		for (String sensorReading : sensorReadings) {
 			String[] sensorInfo = sensorReading.split("\\s+");
 			String date = sensorInfo[0];
+			//System.out.println(date);
 			if (!actionDates.contains(date)) { // only keep annotated readings
 				continue;
 			}
@@ -626,6 +670,7 @@ public class WifiExperimentRunner {
 			if (lines == null) {
 				lines = new ArrayList<String>();
 			}
+			//System.out.println(sensorInfo[4]);
 			lines.add(sensorReading);
 			sensorMap.put(date, lines);
 		}
@@ -771,10 +816,13 @@ public class WifiExperimentRunner {
 	/**
 	 * Constructs a training and a test set, such that noDays are selected for
 	 * training and one instance out of this set is used for testing in turn.
-	 * Thus, noDays test and training sets are created in total, where each
+	 * Thus, a maximum of noDays test and training sets are created in total, where each
 	 * training set contains noDays-1 instances, and a test set contains a
 	 * single instance, different for each of the sets.
-	 * 
+	 * But no more instances will be taken than 300/noDays 
+	 * because otherwise too many train and test sets result,
+	 * also, for larger nr. of days, the nr. of instances is of less importance than
+	 * for a smaller nr. of days
 	 * 
 	 * @param noDays - number of days/instances to be used for training/testing
 	 * @param actionMap - date to activity map
@@ -788,7 +836,9 @@ public class WifiExperimentRunner {
 	private void getTestAndTrainingSetsLeaveOneOut(int noDays, Map<String, List<String>> actionMap, Map<String, List<String>> sensorMap, List<String> allDates,
 			Map<String, List<String>> testActionInstances, Map<String, List<String>> testSensorInstances, Map<String, List<String>> trainActionInstances, Map<String, List<String>> trainSensorInstances) {
 
-		for (int k = 0; k < NO_DATA_INSTANCES; k++) {
+		for (int k = 0; k < NO_DATA_INSTANCES && (k * noDays) < 300; k++) {
+			
+			
 			List<String> instanceDates = new ArrayList<String>();
 
 			int cnt = 0;

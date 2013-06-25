@@ -1,0 +1,72 @@
+137,Office/study-Light switch-houseD,Other
+136,Kitchen-Refrigerator C-houseD,KitchStor
+139,Kitchen-Burner C-houseD,KitchHeat
+138,Bathroom-Shower faucet-houseD,Bathroom
+141,Bathroom-Exhaust Fan-houseD,Bathroom
+140,Kitchen-Light switch C-houseD,Kitchen
+143,Kitchen-Garbage disposal-houseD,Kitchen
+142,Living room-Light switch B-houseD,Other
+129,Kitchen-Drawer F-houseD,KitchStor
+128,Kitchen-Cabinet N-houseD,KitchStor
+131,Bedroom-Drawer E-houseD,Sleep
+133,Bathroom-Sink faucet - cold-houseD,Bathroom
+132,Kitchen-Drawer G-houseD,KitchStor
+135,Kitchen-Laundry Dryer-houseD,Other
+144,Kitchen-Burner D-houseD,KitchHeat
+69,Bathroom-Toilet Flush -houseD,Toilet
+70,Bathroom-Light switch-houseD,Bathroom
+71,Foyer-Light switch-houseD,Outside
+77,Kitchen-Burner B-houseD,KitchHeat
+78,Kitchen-Coffee machine-houseD,Kitchen
+79,Kitchen-Light switch B-houseD,Kitchen
+72,Kitchen-Light switch A-houseD,Kitchen
+73,Kitchen-Burner A-houseD,KitchHeat
+74,Living room-Light switch A-houseD,Other
+75,Bedroom-Light switch-houseD,Sleep
+85,Kitchen-Cabinet A-houseD,KitchStor
+84,Kitchen-Toaster-houseD,KitchHeat
+87,Kitchen-Drawer B-houseD,KitchStor
+86,Kitchen-Cabinet B-houseD,KitchStor
+81,Kitchen-Refrigerator A-houseD,KitchStor
+80,Kitchen-Drawer A-houseD,KitchStor
+83,Bathroom-Door-houseD,BathroomDoor
+82,Kitchen-Oven-houseD,KitchHeat
+93,Kitchen-Door A-houseD,Kitchen
+92,Foyer-Door-houseD,Outside
+95,Kitchen-Microwave-houseD,KitchHeat
+94,Kitchen-Washing Machine-houseD,Other
+89,Kitchen-Freezer-houseD,KitchStor
+91,Bedroom-Jewelry box-houseD,Sleep
+90,Kitchen-Cabinet C-houseD,KitchStor
+102,Kitchen-Door B-houseD,Kitchen
+103,Kitchen-Cabinet F-houseD,KitchStor
+100,Kitchen-Drawer C-houseD,KitchStor
+101,Kitchen-Cabinet E-houseD,KitchStor
+98,Bedroom-Drawer A-houseD,Sleep
+99,Kitchen-Cabinet D-houseD,KitchStor
+96,Kitchen-Refrigerator B-houseD,KitchStor
+97,Kitchen-Cereal-houseD,KitchStor
+110,Bedroom-Drawer B-houseD,Sleep
+111,Kitchen-Cabinet I-houseD,KitchStor
+108,Kitchen-Containers-houseD,KitchStor
+109,Kitchen-Cabinet H-houseD,KitchStor
+106,Bathroom-Medicine cabinet B-houseD,Bathroom
+107,Kitchen-Cabinet G-houseD,KitchStor
+104,Living room-DVD -houseD,Other
+105,Bathroom-Medicine cabinet A-houseD,Bathroom
+119,Kitchen-Cabinet K-houseD,KitchStor
+118,Bedroom-Drawer C-houseD,Sleep
+117,Kitchen-Dishwasher-houseD,Kitchen
+116,Kitchen-Drawer D-houseD,KitchStor
+115,Bathroom-Sink faucet - hot-houseD,Bathroom
+114,Bathroom-Cabinet A-houseD,Bathroom
+113,Kitchen-Cabinet J-houseD,KitchStor
+112,Bedroom-Lamp-houseD,Sleep
+127,Office/study-Drawer-houseD,Other
+126,Foyer-Closet-houseD,Outside
+125,Kitchen-Cabinet M-houseD,KitchStor
+124,Bathroom-Cabinet B-houseD,Bathroom
+123,Kitchen-Drawer E-houseD,KitchStor
+122,Living room-Lamp-houseD,Other
+121,Bedroom-Drawer D-houseD,Sleep
+120,Kitchen-Cabinet L-houseD,KitchStor
