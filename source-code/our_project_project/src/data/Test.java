@@ -114,6 +114,30 @@ public class Test
 		
 		// Example 8:
 		
-		houseA.formatLena(HouseData.MAPPING_LEVEL_FEATURE, HouseData.MAPPING_LEVEL_FEATURE);
+		HouseData.mapActivities("Going-out-to-work",           	"leave-house");
+		HouseData.mapActivities("Taking-out-the-trash",        	"leave-house");
+		HouseData.mapActivities("Lawnwork",                    	"leave-house");
+		HouseData.mapActivities("Going-out-to-school",         	"leave-house");
+		HouseData.mapActivities("Going-out-for-entertainment", 	"leave-house");
+		HouseData.mapActivities("Going-out-for-shopping",      	"leave-house");
+
+		HouseData.mapActivities("Toileting",                   	"use-toilet");
+
+		HouseData.mapActivities("Bathing",                     	"take-shower");
+		
+		HouseData.mapActivities("Grooming",                    	"brush-teeth");
+		
+		HouseData.mapActivities("Sleeping",                    	"go-to-bed");
+		HouseData.mapActivities("Resting",                     	"go-to-bed");
+
+		HouseData.mapActivities("Preparing-breakfast",	       	"prep-breakfast");
+
+		HouseData.mapActivities("Preparing-lunch",	       		"prep-dinner");
+		HouseData.mapActivities("Preparing-dinner",	       		"prep-dinner");
+		HouseData.mapActivities("Preparing-a-snack",	      	"prep-dinner");
+
+		HouseData.mapActivities("Preparing-a-beverage",        	"get-drink");
+		
+		houseE.formatLena(HouseData.MAPPING_LEVEL_METAFEATURE, HouseData.MAPPING_LEVEL_METAFEATURE);
 	}
 }
