@@ -1,0 +1,72 @@
+136,Kitchen-Burner D-houseD,305
+129,Office/study-Light switch-houseD,297
+128,Kitchen-Refrigerator C-houseD,301
+131,Kitchen-Burner C-houseD,305
+130,Bathroom-Shower faucet-houseD,302
+133,Bathroom-Exhaust Fan-houseD,302
+132,Kitchen-Light switch C-houseD,302
+135,Kitchen-Garbage disposal-houseD,302
+134,Living room-Light switch B-houseD,299
+63,Foyer-Light switch-houseD,298
+62,Bathroom-Light switch-houseD,299
+61,Bathroom-Toilet Flush -houseD,302
+69,Kitchen-Burner B-houseD,305
+70,Kitchen-Coffee machine-houseD,302
+71,Kitchen-Light switch B-houseD,302
+64,Kitchen-Light switch A-houseD,302
+65,Kitchen-Burner A-houseD,305
+66,Living room-Light switch A-houseD,299
+67,Bedroom-Light switch-houseD,297
+76,Kitchen-Toaster-houseD,305
+77,Kitchen-Cabinet A-houseD,304
+78,Kitchen-Cabinet B-houseD,304
+79,Kitchen-Drawer B-houseD,304
+72,Kitchen-Drawer A-houseD,304
+73,Kitchen-Refrigerator A-houseD,301
+74,Kitchen-Oven-houseD,305
+75,Bathroom-Door-houseD,299
+85,Kitchen-Door A-houseD,302
+84,Foyer-Door-houseD,298
+87,Kitchen-Microwave-houseD,305
+86,Kitchen-Washing Machine-houseD,300
+81,Kitchen-Freezer-houseD,301
+83,Bedroom-Jewelry box-houseD,297
+82,Kitchen-Cabinet C-houseD,304
+93,Kitchen-Cabinet E-houseD,304
+92,Kitchen-Drawer C-houseD,304
+95,Kitchen-Cabinet F-houseD,304
+94,Kitchen-Door B-houseD,302
+89,Kitchen-Cereal-houseD,304
+88,Kitchen-Refrigerator B-houseD,301
+91,Kitchen-Cabinet D-houseD,304
+90,Bedroom-Drawer A-houseD,297
+102,Bedroom-Drawer B-houseD,297
+103,Kitchen-Cabinet I-houseD,304
+100,Kitchen-Containers-houseD,302
+101,Kitchen-Cabinet H-houseD,304
+98,Bathroom-Medicine cabinet B-houseD,303
+99,Kitchen-Cabinet G-houseD,304
+96,Living room-DVD -houseD,299
+97,Bathroom-Medicine cabinet A-houseD,303
+110,Bedroom-Drawer C-houseD,297
+111,Kitchen-Cabinet K-houseD,304
+108,Kitchen-Drawer D-houseD,304
+109,Kitchen-Dishwasher-houseD,303
+106,Bathroom-Cabinet A-houseD,303
+107,Bathroom-Sink faucet - hot-houseD,302
+104,Bedroom-Lamp-houseD,297
+105,Kitchen-Cabinet J-houseD,304
+119,Office/study-Drawer-houseD,297
+118,Foyer-Closet-houseD,298
+117,Kitchen-Cabinet M-houseD,304
+116,Bathroom-Cabinet B-houseD,303
+115,Kitchen-Drawer E-houseD,304
+114,Living room-Lamp-houseD,299
+113,Bedroom-Drawer D-houseD,297
+112,Kitchen-Cabinet L-houseD,304
+127,Kitchen-Laundry Dryer-houseD,300
+125,Bathroom-Sink faucet - cold-houseD,302
+124,Kitchen-Drawer G-houseD,304
+123,Bedroom-Drawer E-houseD,297
+121,Kitchen-Drawer F-houseD,304
+120,Kitchen-Cabinet N-houseD,304

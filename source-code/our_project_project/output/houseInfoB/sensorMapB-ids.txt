@@ -1,0 +1,18 @@
+34,kwik dresser-houseB,298
+35,PIR badkamer-houseB,300
+32,kwik stove lid-houseB,303
+33,PIR slaapkamer-houseB,298
+38,magnetron-houseB,303
+39,PIR keuken-houseB,302
+36,gootsteen float-houseB,302
+37,toaster-houseB,303
+23,fridge-houseB,302
+22,toilet door-houseB,297
+25,toilet flush-houseB,297
+24,cupboard groceries-houseB,301
+27,cupboard plates-houseB,301
+26,frontdoor-houseB,305
+29,press bed rechts-houseB,298
+28,Bedroom door-houseB,298
+31,kwik cutlary drawer-houseB,301
+30,press bed links-houseB,298

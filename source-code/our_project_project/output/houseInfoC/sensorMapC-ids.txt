@@ -1,0 +1,21 @@
+42,freezer drove-houseC,297
+43,toilet flush top flush-houseC,298
+40,mat bed right pressure mat-houseC,304
+41,matt couch living room-houseC,300
+46,bath lift left-houseC,301
+47,cutlery drawer mercury sensor-houseC,303
+44,toilet flush bottom flush-houseC,299
+45,keys-houseC,302
+51,cabinet signs/herb reed-houseC,303
+50,table scraps containers reed-houseC,299
+49,microwave reed-houseC,305
+48,table pans reed-houseC,303
+55,bedroom door-houseC,304
+54,front door reed-houseC,302
+53,cabinet cups/bowl/ tuna reed-houseC,303
+52,door downstairs toilet-houseC,299
+59,sink top flush-houseC,298
+58,dresser pir-houseC,304
+57,bathtub pir-houseC,301
+56,refrigerator reed-houseC,297
+60,bed mat left pressure mat-houseC,304
