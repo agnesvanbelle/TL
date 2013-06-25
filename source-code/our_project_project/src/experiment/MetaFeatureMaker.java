@@ -96,6 +96,12 @@ public class MetaFeatureMaker {
 	 * 					(of course the files need to be there, see @see HouseData.inputDataDir)
 	 */
 	public static void runForSubset(int min_nr, int max_nr) { // first max_nr houses
+		
+		Directory experimentStructure = new Directory("output");
+		experimentStructure.add(new Directory("HF"));
+		experimentStructure.add(new Directory("OF"));
+		
+		
 		if (max_nr > nrAllHouses) {
 			System.err.println("There are only " + nrAllHouses + " houses you called runForSubset with " + max_nr);
 		}
