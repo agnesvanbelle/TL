@@ -18,12 +18,12 @@ import experiment.MetaFeatureMaker;
  * 
  *
  */
-public class Test {
+public class ExperimentRunner {
 	
 	private WifiExperimentRunner wer;
 	
 	
-	public Test() {		
+	public ExperimentRunner() {		
 		// constructor
 		
 	}
@@ -33,7 +33,7 @@ public class Test {
 		Utils.resetDirectory(MetaFeatureMaker.outputDirName);		
 		
 		
-		MetaFeatureMaker.runForSubset(0,3);
+		MetaFeatureMaker.runForSubset(3,5);
 		
 		copyOutputtedMFtoWifiExperimentRunnerInput() ;
 		
@@ -53,7 +53,7 @@ public class Test {
 		System.out.println("----------------------------\n");
 		
 		
-		wer.run();
+		//wer.run();
 		
 	}
 	
@@ -77,7 +77,7 @@ public class Test {
 	
 	
 	public static void main(String[] args) {
-		Test t = new Test();
+		ExperimentRunner t = new ExperimentRunner();
 		
 		
 		t.run();
