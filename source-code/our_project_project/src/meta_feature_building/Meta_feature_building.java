@@ -3,6 +3,8 @@ package meta_feature_building;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+
 import data.HouseData;
 
 public class Meta_feature_building{
@@ -50,6 +52,12 @@ public class Meta_feature_building{
 			
 			////////////DEBUGGING/////////////////////
 			print_frequencies(frequencies);
+			Integer[] sensssors = house.sensorList();
+			int index2 =0;
+			for(Integer i: sensssors){
+				System.out.println(index2+" " + HouseData.sensorContainer(i).name);
+				index2++;
+			}
 			////////////DEBUGGING/////////////////////
 			
 			ConcurrentSkipListSet<Integer> sensorsSet = new ConcurrentSkipListSet<Integer>();

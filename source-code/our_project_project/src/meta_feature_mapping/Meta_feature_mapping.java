@@ -31,7 +31,7 @@ public class Meta_feature_mapping{
 		profile_weight = 0.5f;
 	}
 	
-	public enum Sensor_distance {Profiles_individ, Profiles_individ_rel};
+	public enum Sensor_distance {Profiles_individ_KL, Profiles_individ_SSE, Profiles_individ_KL_rel_KL, Profiles_individ_SSE_rel_OL};
 	
 	/**
 	 * Maps meta-features of each house to a shared feature space (meta-meta-features). This mapping is stored inside HouseData 
@@ -95,9 +95,6 @@ public class Meta_feature_mapping{
 		
 		//Initialize variables
 		HashMap<String, String> mapping = new HashMap<String,String>();
-		
-//		Integer[] source_sensors = source_house.sensorList();
-//		Integer[] target_sensors = target_house.sensorList();
 		
 		List<Integer>[] clusters_source_house = source_house.sensorClusters(HouseData.MAPPING_LEVEL_METAFEATURE);
 		
@@ -294,32 +291,15 @@ public class Meta_feature_mapping{
 				float[][] hist_s = house_small.profileSensor(sensor_id_s, blockSizeStart ,blockNumLength, maxLengthDuration);
 				float[][] hist_l = house_large.profileSensor(sensor_id_l, blockSizeStart ,blockNumLength, maxLengthDuration);
 				// Calculate difference between them
-				if(distance_metric == Sensor_distance.Profiles_individ)
+				switch(distance_metric)
 				{
-					current_min_div = sse_dist(hist_s, hist_l);
-				}
-				else if (distance_metric == Sensor_distance.Profiles_individ_rel)
-				{
-					float sensor_profile_distance = sse_dist(hist_s, hist_l);
-					Integer[] sensors_b = house_small.sensorList();
-					Integer[] sensors_beta = house_large.sensorList();
-					float relative_dist = 2.0f;
-					for(Integer b:sensors_b)
-					{
-						for(Integer beta: sensors_beta)
-						{
-							data.NormalDistribution a_b = house_small.profileRelative(sensor_id_s, b);
-							data.NormalDistribution alpha_beta = house_large.profileRelative(sensor_id_l, beta);
-							float overlap = a_b.overlapLevel(alpha_beta);
-							if(overlap < relative_dist)
-							{
-								relative_dist = overlap; 
-							}
-						}
-					}
-					current_min_div = (profile_weight*sensor_profile_distance)+( (1-profile_weight)*relative_dist);
-					
-				}
+					case Profiles_individ_SSE: 			current_min_div = sse_dist(hist_s, hist_l); break;
+					case Profiles_individ_SSE_rel_OL: 	current_min_div = sensor_distance_ind_sse_rel_ol(hist_s, hist_l, house_small, house_large, sensor_id_s, sensor_id_l);break;
+					case Profiles_individ_KL:			System.out.println("Not yet implemented");break;
+					case Profiles_individ_KL_rel_KL:	System.out.println("Not yet implemented");break;
+					default:							System.out.println("Unknown distance type"); break;					
+				}				
+			
 				// If it is the smallest difference so far
 				if(current_min_div < min_div)
 				{
@@ -382,6 +362,27 @@ public class Meta_feature_mapping{
 			labels[i] = base_name+i;
 		}
 		return labels;
+	}
+	
+	private float sensor_distance_ind_sse_rel_ol(float[][] hist_s, float[][] hist_l, HouseData house_small, HouseData house_large, Integer sensor_id_s, Integer sensor_id_l){
+		float sensor_profile_distance = sse_dist(hist_s, hist_l);
+		Integer[] sensors_b = house_small.sensorList();
+		Integer[] sensors_beta = house_large.sensorList();
+		float relative_dist = 2.0f;
+		for(Integer b:sensors_b)
+		{
+			for(Integer beta: sensors_beta)
+			{
+				data.NormalDistribution a_b = house_small.profileRelative(sensor_id_s, b);
+				data.NormalDistribution alpha_beta = house_large.profileRelative(sensor_id_l, beta);
+				float overlap = a_b.overlapLevel(alpha_beta);
+				if(overlap < relative_dist)
+				{
+					relative_dist = overlap; 
+				}
+			}
+		}
+		return (profile_weight*sensor_profile_distance)+( (1-profile_weight)*relative_dist);
 	}
 	
 	

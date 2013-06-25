@@ -37,7 +37,7 @@ public class Test{
 //		automatic_clustering(housesData, target_house);		
 		
 		boolean diffent_meta_features = true;
-		hand_made_clusters(housesData, target_house, diffent_meta_features);
+		hand_made_clusters(housesData, target_house, diffent_meta_features, Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE);
 		
 		HashMap<String, String> meta_Features_check = new  HashMap<String, String>();
 		get_extended_names(meta_Features_check, housesData.get(target_house));
@@ -53,21 +53,21 @@ public class Test{
 	
 	
 
-	private static void hand_made_clusters(ArrayList<HouseData> housesData, int target_house_index, boolean diffent_meta_features) throws IOException {
+	private static void hand_made_clusters(ArrayList<HouseData> housesData, int target_house_index, boolean diffent_meta_features, Meta_feature_mapping.Sensor_distance distance_type) throws IOException {
 		Meta_features_apply_handcrafted.apply_hand_crafted_meta_features(housesData, diffent_meta_features);
 		int two_hours = 60*60*2;
-		Meta_feature_mapping map = new Meta_feature_mapping(two_hours, 5, 200, Meta_feature_mapping.Sensor_distance.Profiles_individ);
+		Meta_feature_mapping map = new Meta_feature_mapping(two_hours, 5, 200,distance_type);
 		map.map_metafeatures_one_to_one_heuristic(housesData, target_house_index); //2nd param. is index houseData 
 	}
 
-	private static void automatic_clustering(ArrayList<HouseData> housesData, int target_house_index)
+	private static void automatic_clustering(ArrayList<HouseData> housesData, int target_house_index, Meta_feature_mapping.Sensor_distance distance_type)
 	{
 		Meta_feature_building cluster_building = new Meta_feature_building(0.3f, beta);
 		cluster_building.alpha_beta_clustering(housesData);
 		
 //		int one_hour = 60*60;
 		int two_hours = 60*60*2;
-		Meta_feature_mapping map = new Meta_feature_mapping(two_hours, 5, 200, Meta_feature_mapping.Sensor_distance.Profiles_individ_rel);
+		Meta_feature_mapping map = new Meta_feature_mapping(two_hours, 5, 200, distance_type);
 		map.map_metafeatures_one_to_one_heuristic(housesData, target_house_index); //2nd param. is index houseData 
 	}
 
