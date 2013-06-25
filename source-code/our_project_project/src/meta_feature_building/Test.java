@@ -21,7 +21,7 @@ public class Test
 		
 //		hand_crafted_clusters (house_letters);
 		
-		generate_clusters("houseB", "Absolute", 3, 10);
+		generate_clusters("houseTest3", "Absolute", 3, 1300);
 		
 	}
 	
