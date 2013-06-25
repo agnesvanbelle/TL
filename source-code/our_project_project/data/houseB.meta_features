@@ -13,6 +13,6 @@ KeukenAlgemeen	fridge
 KitchenHeat	kwik stove lid
 KitchenHeat	toaster
 KitchenHeat	magnetron	
-KitchenStore cupboard groceries
-KitchenStore cupboard plates
-KitchenStore kwik cutlary drawer
+KitchenStore	cupboard groceries
+KitchenStore	cupboard plates
+KitchenStore	kwik cutlary drawer

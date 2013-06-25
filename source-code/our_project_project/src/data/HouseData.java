@@ -155,48 +155,53 @@ public class HouseData
 			
 			String line;
  
+			/////////////////////DEBUGGING/////////////////////
+			int lineNumber = 0;
+			/////////////////////DEBUGGING/////////////////////
 			while ((line = br.readLine()) != null)
 			{
+				/////////////////////DEBUGGING/////////////////////
+				lineNumber ++;
+				/////////////////////DEBUGGING/////////////////////
 				String[] columns = line.split("\t");
 				
 				int start  = Integer.parseInt(columns[0]);
 				int length = Integer.parseInt(columns[1]);
 				int ID     = Integer.parseInt(columns[2]);
 				
-				NameContainer entity;
+				NameContainer entity = null;
+				
+				if(ID==4 && typeData == TYPE_DATA_SENSOR)
+				{
+					ID = 7;
+				}
 				
 				if (mapping[typeData].containsKey(ID))
 				{
 					entity = mapping[typeData].get(ID);
 				}
-				else
+				if(entity != null)
 				{
-					entity = new NameContainer();
+					if(firingFrequencies.containsKey(entity.ID))
+					{
+						firingFrequencies.put(entity.ID, firingFrequencies.get(entity.ID)+1);
+					}
+					else
+					{
+						firingFrequencies.put(entity.ID, 1);
+					}
 					
-					indexName[typeData].put(entity.name, entity);
-					indexID[typeData].put(entity.ID, entity);
+					DataPoint data = new DataPoint(start, length, entity.ID);
 					
-					mapping[typeData].put(ID, entity);
+					dataTime[typeData].add(data);
+					
+					if (!dataID[typeData].containsKey(entity.ID))
+					{
+						dataID[typeData].put(entity.ID, new ArrayList<DataPoint>());
+					}
+					
+					dataID[typeData].get(entity.ID).add(data);
 				}
-				if(firingFrequencies.containsKey(entity.ID))
-				{
-					firingFrequencies.put(entity.ID, firingFrequencies.get(entity.ID)+1);
-				}
-				else
-				{
-					firingFrequencies.put(entity.ID, 1);
-				}
-				
-				DataPoint data = new DataPoint(start, length, entity.ID);
-				
-				dataTime[typeData].add(data);
-				
-				if (!dataID[typeData].containsKey(entity.ID))
-				{
-					dataID[typeData].put(entity.ID, new ArrayList<DataPoint>());
-				}
-				
-				dataID[typeData].get(entity.ID).add(data);
 			} 
 		}
 		catch (IOException e)
