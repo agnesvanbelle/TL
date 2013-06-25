@@ -231,7 +231,11 @@ public class HouseData
 	 */
 	public Integer[] sensorList()
 	{
-		return dataID[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
+		Integer[] output = dataID[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
+		
+		Arrays.sort(output);
+		
+		return output;
 	}
 	
 	/**
@@ -241,7 +245,11 @@ public class HouseData
 	 */
 	public Integer[] activityList()
 	{
-		return dataID[TYPE_DATA_ACTIVITY].keySet().toArray(new Integer[0]);
+		Integer[] output = dataID[TYPE_DATA_ACTIVITY].keySet().toArray(new Integer[0]);
+		
+		Arrays.sort(output);
+		
+		return output;
 	}
 	
 	/**
@@ -333,10 +341,14 @@ public class HouseData
 		String houseLetter = houseName.replaceAll("house", "");
 		
 		File outputDir = new File(outputDirName);
-		if (outputDir.exists()) {
+		
+		if (outputDir.exists())
+		{
 			outputDir.delete();
 		}
+		
 		outputDir.mkdir();
+		
 		File houseOutputDir = new File(outputDir + "/" + houseOutputDirPrefix + houseLetter + "/");
 		houseOutputDir.mkdir();
 		
@@ -454,12 +466,15 @@ public class HouseData
 		for (DataPoint data: dataID[TYPE_DATA_SENSOR].get(ID))
 		{
 			// Logarithmic scale for the firing length mapping:
+			
 			int blockLength = 0;
-			if (data.length > 0) { // log(0) is undefined, but blockLength for data.length=0 should be 0 
+			
+			if (data.length > 0)
+			{
+				// log(0) is undefined, but blockLength for data.length=0 should be 0.
+				
 				blockLength = (int) (Math.log(Math.min(data.length, maxLength)) / Math.log(logBase));
 			}
-			//System.out.println("Datapoint: " + data);
-			//System.out.println("Blocklength:" + blockLength);
 			
 			output[data.startBlock(blockSizeStart)][blockLength]++;
 			
