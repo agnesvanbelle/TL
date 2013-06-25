@@ -1,6 +1,8 @@
-package experiment;
+package glue;
 
 import java.util.ArrayList;
+
+import art.experiments.WERenums;
 
 public class Directory {
 	
@@ -13,6 +15,7 @@ public class Directory {
 		children = new ArrayList<Directory>();
 	}
 	
+
 	public void add(Directory d) {
 		children.add(d);
 	
