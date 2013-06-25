@@ -49,7 +49,7 @@ public class Meta_feature_building{
 			int[][] frequencies = house.profileAlphaBeta(beta);
 			
 			////////////DEBUGGING/////////////////////
-//			print_frequencies(frequencies);
+			print_frequencies(frequencies);
 			////////////DEBUGGING/////////////////////
 			
 			ConcurrentSkipListSet<Integer> sensorsSet = new ConcurrentSkipListSet<Integer>();

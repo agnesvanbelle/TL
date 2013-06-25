@@ -13,6 +13,17 @@ import data.NameContainer;
 
 public class Test
 {
+	public static void main(String[] args) throws IOException
+	{
+		String[] house_letters = {"A", "B", "C", "D","E"};
+		
+//		check_sensors_activities();
+		
+//		hand_crafted_clusters (house_letters);
+		
+		generate_clusters("houseTest3", "Absolute", 3, 1300);
+		
+	}
 	
 	private static void printClusters(HouseData house, String prefix)
 	{
@@ -24,19 +35,19 @@ public class Test
 			System.out.println("------------\ncluster: " + i + " " + HouseData.sensorContainer(clusters[i].get(0)).metacontainer.name );
 			for(int j = 0; j<clusters[i].size();j++)
 			{
-				System.out.println(HouseData.sensorContainer(clusters[i].get(j)).name);
+				System.out.println("\t"+HouseData.sensorContainer(clusters[i].get(j)).name);
 			}			
 			System.out.println("");
 		}
 	}
 	
-	public static void generate_clusters(String houseName, String alphaType)
+	public static void generate_clusters(String houseName, String alphaType, int alfa_abs, int beta_abs)
 	{
 		HouseData house = new HouseData(houseName);
 		ArrayList<HouseData> data = new ArrayList<HouseData>();
 		data.add(house);
-		int [] alpha = {5};
-		int [] beta = {1250};
+		int [] alpha = {alfa_abs};
+		int [] beta = {beta_abs};
 		float relative = 0.5f;
 		Meta_feature_building builder = new Meta_feature_building(alpha, beta);
 		
@@ -64,23 +75,14 @@ public class Test
 			HouseData house = new HouseData("house" + houseLetter);
 			data.add(house);
 		}		
-		Meta_features_apply_handcrafted.apply_hand_crafted_meta_features(data);
+		boolean diffent_meta_features = false;
+		Meta_features_apply_handcrafted.apply_hand_crafted_meta_features(data, diffent_meta_features);
 		for(HouseData house: data){
 			printClusters(house, "Hand crafted ");
 		}
 	}
 	
 	
-	public static void main(String[] args) throws IOException
-	{
-		String[] house_letters = {"A", "B", "C", "D","E"};
-		
-//		check_sensors_activities();
-		
-		hand_crafted_clusters (house_letters);
-		
-//		generate_clusters("houseA", "Both");
-		
-	}
+	
 	
 }
