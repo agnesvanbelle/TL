@@ -30,6 +30,22 @@ public class ExperimentRunner {
 	
 	public void run() {
 		
+		
+
+		Directory experimentStructure = new Directory("output");
+		experimentStructure.add(new Directory(WERenums.FEATURE_TYPE.OF.toString()));
+		experimentStructure.add(new Directory(WERenums.FEATURE_TYPE.HF.toString()));
+		
+		experimentStructure.get(WERenums.FEATURE_TYPE.HF.toString())
+			.add(new Directory(WERenums.TRANSFER_TYPE.TRANSFER.toString()));
+		experimentStructure.get(WERenums.FEATURE_TYPE.HF.toString())
+			.add(new Directory(WERenums.TRANSFER_TYPE.NOTRANSFER.toString()));
+		experimentStructure.get(WERenums.FEATURE_TYPE.OF.toString())
+			.add(new Directory(WERenums.TRANSFER_TYPE.TRANSFER.toString()));
+		
+		
+		
+		
 		Utils.resetDirectory(MetaFeatureMaker.outputDirName);		
 		
 		
@@ -59,7 +75,7 @@ public class ExperimentRunner {
 	
 	public void copyOutputtedMFtoWifiExperimentRunnerInput() {
 		
-		String outputDirName = WERenums.ROOT_DIR + "input/" + WERenums.FEATURE_TYPE.OF + "/";
+		String outputDirName = WifiExperimentRunner.ROOT_DIR + "input/" + WERenums.FEATURE_TYPE.OF + "/";
 		Utils.resetDirectory(outputDirName);
 		String inputDirName = MetaFeatureMaker.outputDirName;
 		File inputDir = new File(inputDirName);
