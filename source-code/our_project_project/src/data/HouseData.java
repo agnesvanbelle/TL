@@ -593,11 +593,11 @@ public class HouseData
 	
 	private static void mapEntities(String entityNameSource, String entityNameTarget, int typeData)
 	{
-		if (indexName[typeData].containsKey(entityNameTarget) && indexName[typeData].containsKey(entityNameSource))
+		if (indexName[typeData].containsKey(entityNameTarget) )
 		{
 			indexName[typeData].get(entityNameSource).metacontainer = indexName[typeData].get(entityNameTarget);
 		}
-		else if (indexName[typeData].containsKey(entityNameSource))
+		else //if (indexName[typeData].containsKey(entityNameSource))
 		{
 			NameContainer entity = new NameContainer(entityNameTarget);
 			

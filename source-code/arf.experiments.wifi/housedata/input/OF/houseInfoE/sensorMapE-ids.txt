@@ -1,0 +1,68 @@
+137,Office/study-Door-houseE,295
+136,Dinning room-Drawer A-houseE,292
+139,Office/study-Drawer A-houseE,294
+138,Den-Door-houseE,302
+141,Butlers Pantry-Cabinet A-houseE,334
+140,Bathroom-Door-houseE,329
+143,Dinning room-Cabinet A-houseE,328
+142,Bathroom-Medicine cabinet B-houseE,336
+129,Den-Light switch A-houseE,308
+128,Kitchen-Light switch A-houseE,308
+131,Kitchen-Containers-houseE,333
+130,Den-Stereo-houseE,335
+133,Bathroom-Medicine cabinet A-houseE,332
+132,Den-Drawer A-houseE,330
+135,Bathroom-Shower faucet A-houseE,337
+134,Den-Drawer B-houseE,331
+152,Dinning room-Cabinet B-houseE,290
+154,Kitchen-Cabinet E-houseE,309
+155,Kitchen-Refrigerator A-houseE,291
+156,Butlers Pantry-Cabinet D-houseE,309
+157,Office/study-Drawer B-houseE,301
+158,Den-Telephone-houseE,324
+159,Kitchen-Freezer-houseE,293
+144,Living room-TV-houseE,309
+145,Butlers Pantry-Cabinet B-houseE,312
+146,Dinning room-Light switch-houseE,310
+147,Kitchen-Door-houseE,291
+148,Butlers Pantry-Light switch-houseE,291
+149,Kitchen-Cabinet D-houseE,305
+150,Butlers Pantry-Cabinet C-houseE,309
+151,Bathroom-Shower faucet B-houseE,319
+171,Hallway-Door-houseE,300
+170,Kitchen-Garbage disposal-houseE,291
+169,Office/study-Drawer D-houseE,304
+168,Butlers Pantry-Cabinet G-houseE,298
+175,Bathroom-Sink faucet - cold-houseE,325
+174,Kitchen-Sink faucet - cold A-houseE,308
+173,Butlers Pantry-Drawer C-houseE,288
+172,Kitchen-Refrigerator C-houseE,327
+163,Kitchen-Refrigerator B-houseE,291
+162,Butlers Pantry-Cabinet E-houseE,298
+161,Dinning room-Drawer B-houseE,326
+160,Office/study-Drawer C-houseE,321
+167,Bathroom-Hamper-houseE,299
+166,Butlers Pantry-Drawer B-houseE,289
+165,Butlers Pantry-Cabinet F-houseE,285
+164,Kitchen-Light switch B-houseE,291
+178,Kitchen-Refrigerator D-houseE,287
+179,Den-Light switch B-houseE,313
+176,Hallway-Light switch B-houseE,296
+177,Kitchen-Sink faucet - cold B-houseE,286
+180,Hallway-Light switch C-houseE,315
+111,Bathroom-Sink faucet - hot-houseE,309
+119,Bathroom-Light switch-houseE,311
+118,Kitchen-Toaster-houseE,291
+117,Office/study-Light switch-houseE,317
+116,Bedroom-Light switch-houseE,314
+115,Kitchen-Cabinet A-houseE,318
+114,Hallway-Light switch A-houseE,316
+112,Bedroom-TV-houseE,322
+127,Kitchen-Sink faucet - cold-houseE,320
+126,Kitchen-Burner-houseE,308
+125,Kitchen-Cabinet C-houseE,303
+124,Kitchen-Microwave-houseE,291
+123,Kitchen-Drawer-houseE,323
+122,Bathroom-Toilet Flush-houseE,307
+121,Kitchen-Cabinet B-houseE,306
+120,Living room-Light switch B-houseE,297

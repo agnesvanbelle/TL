@@ -86,6 +86,9 @@ public class MetaFeatureMaker {
 
 	}
 	
+	
+	
+	
 	/**
 	 * Create and write metafeatures write them to  files ( @see HouseData.outputDirName for output directory)
 	 *  
@@ -115,8 +118,9 @@ public class MetaFeatureMaker {
 		int nr_bins_duration = 5;
 		int max_length_duration = 200;
 
-		for (int targetHouseIndex = min_nr; targetHouseIndex < max_nr; targetHouseIndex++) {
+		for (int targetHouseIndex = 0; targetHouseIndex < max_nr-min_nr; targetHouseIndex++) {
 
+			
 			createMetaFeatures(housesData, targetHouseIndex, bin_width_start_time, nr_bins_duration, max_length_duration);
 
 			HouseData targetHouse = housesData.get(targetHouseIndex);
