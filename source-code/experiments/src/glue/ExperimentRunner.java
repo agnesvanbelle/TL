@@ -33,7 +33,7 @@ public class ExperimentRunner {
 		Utils.resetDirectory(MetaFeatureMaker.outputDirName);		
 		
 		
-		MetaFeatureMaker.runForSubset(0,5);
+		MetaFeatureMaker.runForSubsetNormal(0,5);
 		
 		copyOutputtedMFtoWifiExperimentRunnerInput() ;
 		

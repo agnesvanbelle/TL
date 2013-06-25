@@ -43,7 +43,7 @@ public class Meta_feature_mapping{
 		
 		// Initialize variables
 		HouseData target_house = data.get(target_house_index);
-		ArrayList<HashMap<String, String>> mappings = new ArrayList<>();
+		ArrayList<HashMap<String, String>> mappings = new ArrayList<HashMap<String, String>>();
 		List<Integer>[] clusters_target_house = target_house.sensorClusters(HouseData.MAPPING_LEVEL_METAFEATURE);
 		String[] meta_meta_features_labels = build_labels(clusters_target_house);
 		

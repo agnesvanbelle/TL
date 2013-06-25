@@ -398,8 +398,10 @@ public class WifiAligner {
 		
 		int startTime = getTimeInMins(sensorInfo[1]);
 		int endTime = getTimeInMins(sensorInfo[3]);
+		// NOTE: here she discards sensors not in *-id file
 		String sensorId = sensorMap.get(sensorInfo[4]);
 		if (sensorId == null) {
+			//System.out.println(sensorInfo[4] + " not found");
 			return null;
 		}
 		

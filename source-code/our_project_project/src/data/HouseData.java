@@ -330,8 +330,6 @@ public class HouseData
 	 */
 	public void formatLena(int mappingLevelSensors, int mappingLevelActivities)
 	{
-		
-		
 		String houseLetter = houseName.replaceAll("house", "");
 		
 		File outputDir = new File(outputDirName);
@@ -382,9 +380,9 @@ public class HouseData
 				int mappedID = mapApply(ID, mappingLevelSensors, TYPE_DATA_SENSOR);
 				
 				String name  = indexID[TYPE_DATA_SENSOR].get(ID).name.replaceAll(",", "-");
-				String group = Integer.toString(indexID[TYPE_DATA_SENSOR].get(mappedID).ID);//.name.replaceAll(",", "-");
+				// String group = indexID[TYPE_DATA_SENSOR].get(mappedID).name.replaceAll(",", "-");
 				
-				writer.println(ID + "," + name + "," + group);
+				writer.println(ID + "," + name + "," + mappedID);
 			}
 			
 			writer.close();
@@ -393,13 +391,20 @@ public class HouseData
 			
 			writer = new PrintWriter(houseOutputDir + "/actionMap" + houseLetter + ".txt", "UTF-8");
 			
+			Set<Integer> printedIDs = new HashSet<Integer>();
+			
 			for (Integer ID: activityList())
 			{
 				int mappedID = mapApply(ID, mappingLevelActivities, TYPE_DATA_ACTIVITY);
 				
-				String group = indexID[TYPE_DATA_ACTIVITY].get(mappedID).name.replaceAll(",", "-");
-				
-				writer.println(ID + "," + group);
+				if (!printedIDs.contains(mappedID))
+				{
+					String group = indexID[TYPE_DATA_ACTIVITY].get(mappedID).name.replaceAll(",", "-");
+					
+					writer.println(mappedID + "," + group);
+					
+					printedIDs.add(mappedID);
+				}
 			}
 			
 			writer.close();
@@ -588,11 +593,11 @@ public class HouseData
 	
 	private static void mapEntities(String entityNameSource, String entityNameTarget, int typeData)
 	{
-		if (indexName[typeData].containsKey(entityNameTarget))
+		if (indexName[typeData].containsKey(entityNameTarget) )
 		{
 			indexName[typeData].get(entityNameSource).metacontainer = indexName[typeData].get(entityNameTarget);
 		}
-		else
+		else //if (indexName[typeData].containsKey(entityNameSource))
 		{
 			NameContainer entity = new NameContainer(entityNameTarget);
 			
