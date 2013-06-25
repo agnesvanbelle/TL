@@ -18,6 +18,9 @@ public class Directory {
 	
 	}
 	
+	public ArrayList<Directory> getChildren() {
+		return children;
+	}
 	
 	
 	public Directory get(int index) {
