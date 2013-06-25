@@ -231,9 +231,7 @@ public class HouseData
 	 */
 	public Integer[] sensorList()
 	{
-		Integer[] output = dataID[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
-		Arrays.sort(output);
-		return output;
+		return dataID[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
 	}
 	
 	/**

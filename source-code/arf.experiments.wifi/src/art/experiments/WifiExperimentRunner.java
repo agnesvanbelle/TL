@@ -27,81 +27,8 @@ import svmjava.*;
 
 public class WifiExperimentRunner {
 
-	public static enum FILE_TYPE { // used for folder names
-		TEST(0), TRAIN(1); // test, or train data
-
-		private final int index;
-
-		FILE_TYPE(int index) {
-			this.index = index;
-		}
-
-		public int index() {
-			return index;
-		}
-
-		public static int length() {
-			return values().length;
-		}
-		
-		//FILE_TYPE.TEST BLA;
-		//FILE_TYPE fileType =  FILE_TYPE.TEST.values()[0];
-		
-		public static enum TEST {
-			BLA(0), BLA2(1);
-			
-			private final int index;
-
-			TEST(int index) {
-				this.index = index;
-			}
-
-			public int index() {
-				return index;
-			}
-
-			public static int length() {
-				return values().length;
-			}
-		}
-	}
 	
-
-	public static enum TRANSFER_TYPE { // used for folder names
-		TRANSFER(0), NOTRANSFER(1); // transfer, or no-transfer
-
-		private final int index;
-
-		TRANSFER_TYPE(int index) {
-			this.index = index;
-		}
-
-		public int index() {
-			return index;
-		}
-
-		public static int length() {
-			return values().length;
-		}
-	}
-
-	public static enum FEATURE_TYPE { // used for folder names
-		OF(0), HF(1); // Our Features, or Her/Handcrafted Features
-
-		private final int index;
-
-		FEATURE_TYPE(int index) {
-			this.index = index;
-		}
-
-		public int index() {
-			return index;
-		}
-
-		public static int length() {
-			return values().length;
-		}
-	}
+	
 
 	// ==================== constants ====================
 
@@ -211,7 +138,7 @@ public class WifiExperimentRunner {
 
 	public void init() {
 		if (numberHouses == -1) {
-			numberHouses = Utils.getDirectorySize(ROOT_DIR + "input/" + FEATURE_TYPE.HF);
+			numberHouses = Utils.getDirectorySize(ROOT_DIR + "input/" + WERenums.FEATURE_TYPE.HF);
 		}
 		houses = new String[numberHouses];
 		maxDaysPlotPerHouse = new double[numberHouses];
@@ -286,9 +213,9 @@ public class WifiExperimentRunner {
 				Map<String, List<String>> trainActionInstances = new HashMap<String, List<String>>();
 				Map<String, List<String>> trainSensorInstances = new HashMap<String, List<String>>();				
 				
-				for (int ftIndex=0; ftIndex < FEATURE_TYPE.length(); ftIndex++) {
-				//for (FEATURE_TYPE featureType : FEATURE_TYPE.values()) {
-					FEATURE_TYPE featureType =  FEATURE_TYPE.values()[ftIndex];
+				for (int ftIndex=0; ftIndex < WERenums.FEATURE_TYPE.length(); ftIndex++) {
+				//for (WERenums.FEATURE_TYPE featureType : WERenums.FEATURE_TYPE.values()) {
+					WERenums.FEATURE_TYPE featureType =  WERenums.FEATURE_TYPE.values()[ftIndex];
 					
 					System.out.println("\nFeature type: " + featureType);
 
@@ -426,7 +353,7 @@ public class WifiExperimentRunner {
 							Utils.saveLines(actions, actionTrainFile);
 	
 							// ======== build no transfer model ========
-							String outputDirNoDaysFeatureTypeNameTransferTypeName = outputDirNoDaysFeatureTypeName + TRANSFER_TYPE.NOTRANSFER + "/";
+							String outputDirNoDaysFeatureTypeNameTransferTypeName = outputDirNoDaysFeatureTypeName + WERenums.TRANSFER_TYPE.NOTRANSFER + "/";
 							Utils.createDirectory(outputDirNoDaysFeatureTypeNameTransferTypeName);
 	
 							getFeatureRepresentationOfTrainAndTestDataForNoTransferCase(apw, sensorMapFile, actionMapFile, outputDirNoDaysFeatureTypeNameTransferTypeName, dirName, outputDirNoDaysSplit,
@@ -478,16 +405,16 @@ public class WifiExperimentRunner {
 							lines2.addAll(lines1);
 							Utils.saveLines(lines2, targetRulesFileComb);
 	
-							outputDirNoDaysFeatureTypeNameTransferTypeName = outputDirNoDaysFeatureTypeName + TRANSFER_TYPE.TRANSFER + "/";
+							outputDirNoDaysFeatureTypeNameTransferTypeName = outputDirNoDaysFeatureTypeName + WERenums.TRANSFER_TYPE.TRANSFER + "/";
 							Utils.createDirectory(outputDirNoDaysFeatureTypeNameTransferTypeName);
 							// represent domain training data in terms of new
 							// features
 	
-							String resultFile2 = new File(outputDirNoDaysFeatureTypeNameTransferTypeName, FILE_TYPE.TRAIN + "/" + "wifi" + dirName).getAbsolutePath();
+							String resultFile2 = new File(outputDirNoDaysFeatureTypeNameTransferTypeName, WERenums.SET_TYPE.TRAIN + "/" + "wifi" + dirName).getAbsolutePath();
 							apw.getFeatureRepresentationOfData(outputTargetFile, resultFile2, targetRulesFileComb, classMapFile, USE_CLASS);
 	
 							// represent domain test data in terms of new features					
-							String resultFileTest2 = new File(outputDirNoDaysFeatureTypeNameTransferTypeName, FILE_TYPE.TEST + "/" + "wifi" + dirName).getAbsolutePath();
+							String resultFileTest2 = new File(outputDirNoDaysFeatureTypeNameTransferTypeName, WERenums.SET_TYPE.TEST + "/" + "wifi" + dirName).getAbsolutePath();
 							getFeatureRepresentationOfTestData(outputDirNoDaysSplit, sensorTestFile, actionTestFile, sensorMapFile, actionMapFile, sensorModelsComb, resultFileTest2, targetRulesFileComb,
 									"transfer", apw);
 						}					
@@ -499,7 +426,7 @@ public class WifiExperimentRunner {
 
 	public void evaluateUsingSVM() {
 
-		results = new double[numberHouses][noDaysArray.length][FEATURE_TYPE.length()][TRANSFER_TYPE.length()];
+		results = new double[numberHouses][noDaysArray.length][WERenums.FEATURE_TYPE.length()][WERenums.TRANSFER_TYPE.length()];
 
 		System.out.println("\nGoing to evaluate using libSVM...");
 
@@ -512,12 +439,12 @@ public class WifiExperimentRunner {
 				if (maxDaysPlotPerHouse[houseNr] > noDays){
 					String outputDirHouseDays = outputDirHouse + houses[houseNr] + noDays + "/";
 	
-					for (FEATURE_TYPE fT : FEATURE_TYPE.values()) {
+					for (WERenums.FEATURE_TYPE fT : WERenums.FEATURE_TYPE.values()) {
 	
-						for (TRANSFER_TYPE tT : TRANSFER_TYPE.values()) {
+						for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
 	
-							String testDir = outputDirHouseDays + fT + "/" + tT + "/" + FILE_TYPE.TEST + "/";
-							String trainDir = outputDirHouseDays + fT + "/" + tT + "/" + FILE_TYPE.TRAIN + "/";
+							String testDir = outputDirHouseDays + fT + "/" + tT + "/" + WERenums.SET_TYPE.TEST + "/";
+							String trainDir = outputDirHouseDays + fT + "/" + tT + "/" + WERenums.SET_TYPE.TRAIN + "/";
 	
 							ArrayList<String> testFiles = Utils.getDirectoryListing(testDir);
 							ArrayList<String> trainFiles = Utils.getDirectoryListing(trainDir);
@@ -549,10 +476,10 @@ public class WifiExperimentRunner {
 				int noDays = noDaysArray[noDaysIndex];
 				System.out.println("NoDays: " + noDays);
 
-				for (FEATURE_TYPE fT : FEATURE_TYPE.values()) {
+				for (WERenums.FEATURE_TYPE fT : WERenums.FEATURE_TYPE.values()) {
 					System.out.println("FT: " + fT);
 
-					for (TRANSFER_TYPE tT : TRANSFER_TYPE.values()) {
+					for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
 						System.out.println("TT: " + tT);
 						System.out.println("Result:" + results[houseNr][noDaysIndex][fT.index()][tT.index()]);
 					}
@@ -598,11 +525,11 @@ public class WifiExperimentRunner {
 
 				String dvString = "datavalues";
 
-				for (FEATURE_TYPE fT : FEATURE_TYPE.values()) {
-					String ftString = fT == FEATURE_TYPE.OF ? dvString + "_of" : dvString + "_hf";
+				for (WERenums.FEATURE_TYPE fT : WERenums.FEATURE_TYPE.values()) {
+					String ftString = fT == WERenums.FEATURE_TYPE.OF ? dvString + "_of" : dvString + "_hf";
 
-					for (TRANSFER_TYPE tT : TRANSFER_TYPE.values()) {
-						String ttString = tT == TRANSFER_TYPE.NOTRANSFER ? ftString + "_notr" : ftString + "_tr";
+					for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
+						String ttString = tT == WERenums.TRANSFER_TYPE.NOTRANSFER ? ftString + "_notr" : ftString + "_tr";
 
 						bw.write(ttString + "= [");
 						for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
@@ -734,7 +661,7 @@ public class WifiExperimentRunner {
 	 * @param conf - minimum confidence threshold
 	 */
 	private void getFeatureRepresentationOfTrainAndTestDataForNoTransferCase(AbstractPredicateWriter apw, String sensorMapFile, String actionMapFile, String rootDirHouse, String dirName,
-			File rootDir_, String sensorTrainFile, String actionTrainFile, String sensorTestFile, String actionTestFile, String conf, int noDaysIndex, int houseNr, FEATURE_TYPE featureType) {
+			File rootDir_, String sensorTrainFile, String actionTrainFile, String sensorTestFile, String actionTestFile, String conf, int noDaysIndex, int houseNr, WERenums.FEATURE_TYPE featureType) {
 
 		Map<String, List<EventInfo>> consecutiveIntervals = new TreeMap<String, List<EventInfo>>();
 		Map<String, Sensor> sensorModels = new TreeMap<String, Sensor>();
@@ -804,12 +731,12 @@ public class WifiExperimentRunner {
 
 		// represent training data in terms of extracted rules
 		// NOTE: for SVM
-		String svmFileTrain = new File(rootDirHouse, FILE_TYPE.TRAIN + "/" + "wifi" + dirName).getAbsolutePath();
+		String svmFileTrain = new File(rootDirHouse, WERenums.SET_TYPE.TRAIN + "/" + "wifi" + dirName).getAbsolutePath();
 		apw.getFeatureRepresentationOfData(outputTargetFile, svmFileTrain, targetRulesFile, classMapFile, USE_CLASS);
 
 		// also do for test data (but use extracted rules of train data?)
 
-		String svmFileTest = new File(rootDirHouse, FILE_TYPE.TEST + "/" + "wifi" + dirName).getAbsolutePath();
+		String svmFileTest = new File(rootDirHouse, WERenums.SET_TYPE.TEST + "/" + "wifi" + dirName).getAbsolutePath();
 		getFeatureRepresentationOfTestData(rootDir_, sensorTestFile, actionTestFile, sensorMapFile, actionMapFile, sensorModels, svmFileTest, targetRulesFile, "notransfer", apw);
 	}
 
@@ -991,7 +918,7 @@ public class WifiExperimentRunner {
 	 *            all houses
 	 * @param consecutiveIntervals - aligned sensor and activity information
 	 */
-	private void combineTrainingData(Map<String, List<String>> housesMap, String house, Map<String, Sensor> sensorModelsTarget, Map<String, List<EventInfo>> consecutiveIntervals, FEATURE_TYPE ft) {
+	private void combineTrainingData(Map<String, List<String>> housesMap, String house, Map<String, Sensor> sensorModelsTarget, Map<String, List<EventInfo>> consecutiveIntervals, WERenums.FEATURE_TYPE ft) {
 		List<String> sourceDomains = housesMap.get(house);
 
 		List<Map<String, Sensor>> sensorModelsAll = new ArrayList<Map<String, Sensor>>();

@@ -1,6 +1,8 @@
-package experiment;
+package glue;
 
 import java.util.ArrayList;
+
+import art.experiments.WERenums;
 
 public class Directory {
 	
@@ -13,16 +15,15 @@ public class Directory {
 		children = new ArrayList<Directory>();
 	}
 	
+
 	public void add(Directory d) {
 		children.add(d);
 	
 	}
 	
-<<<<<<< HEAD
-	public Directory get(int index) {
-		return children.get(index);
+	public ArrayList<Directory> getChildren() {
+		return children;
 	}
-=======
 	
 	
 	public Directory get(int index) {
@@ -33,7 +34,6 @@ public class Directory {
 		int index = children.indexOf(indexName);
 		return get(index);
 	}
->>>>>>> 11445146f01a993578c92521c1320761a395aa79
 
 }
   

@@ -133,11 +133,6 @@ public class MetaFeatureMaker {
 	 */
 	public static void runForSubsetNormal(int min_nr, int max_nr) { // first max_nr houses
 		
-		Directory experimentStructure = new Directory("output");
-		experimentStructure.add(new Directory("HF"));
-		experimentStructure.add(new Directory("OF"));
-		
-		
 		if (max_nr > nrAllHouses) {
 			System.err.println("There are only " + nrAllHouses + " houses you called runForSubset with " + max_nr);
 		}
