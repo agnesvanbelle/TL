@@ -5,7 +5,6 @@ import java.util.*;
 
 public class HouseData
 {
-	
 	public static final String outputDirName = "../our_project_project/output/";
 	public static final String inputDataDir = "../our_project_project/data/";
 	public static final String houseOutputDirPrefix = "houseInfo";
@@ -451,6 +450,23 @@ public class HouseData
 		}
 		
 		return sensorProfiles.get(ID);
+	}
+	
+	public NormalDistribution profileSensor(int ID)
+	{
+		List<List<Integer>> values = new ArrayList<List<Integer>>();
+		
+		for (DataPoint data: dataID[TYPE_DATA_SENSOR].get(ID))
+		{
+			List<Integer> dataList = new ArrayList<Integer>();
+			
+			dataList.add(data.startBlock(1));
+			dataList.add(data.length);
+			
+			values.add(dataList);
+		}
+		
+		return new NormalDistribution(values);
 	}
 	
 	private float[][] buildProfileSensor(int ID, int blockSizeStart, int blockNumLength, int maxLength)
