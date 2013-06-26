@@ -1,0 +1,17 @@
+181,leave-house
+182,use-toilet
+183,take-shower
+184,brush-teeth
+82,Dressing
+83,Washing-hands
+186,prep-breakfast
+187,prep-dinner
+188,get-drink
+93,Washing-dishes
+94,Putting-away-dishes
+95,Putting-away-groceries
+96,Cleaning
+97,Doing-laundry
+98,Putting-away-laundry
+104,Watching-TV
+110,Other

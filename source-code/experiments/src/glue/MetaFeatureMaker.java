@@ -11,6 +11,7 @@ import art.framework.utils.*;
 import art.experiments.*;
 import art.experiments.WERenums.CLUSTER_TYPE;
 import art.experiments.WERenums.PROFILE_TYPE;
+import art.experiments.wifi.data.processor.WifiUtils;
 
 /**
  * !!! static class !!!
@@ -112,8 +113,7 @@ public class MetaFeatureMaker {
 			 WERenums.MF_TYPE mfType, WERenums.CLUSTER_TYPE clusterType , WERenums.PROFILE_TYPE profileType, WERenums.TRANSFER_SETTINGS trSetting) { 
 		
 		
-		String outputSubDir = new String(mfType + " " + clusterType + " " + profileType + " " + trSetting);
-		
+		//Utils.resetDirectory(outputSubDir);
 		
 		if (max_nr > nrAllHouses) {
 			System.err.println("There are only " + nrAllHouses + " houses you called runForSubset with " + max_nr);
@@ -139,14 +139,16 @@ public class MetaFeatureMaker {
 		Meta_feature_building mfb = new Meta_feature_building();
 		Meta_features_apply_handcrafted mfb_hc = new Meta_features_apply_handcrafted();			
 	
+		
 		// automatic metafeatures (not handcrafted)
 		if (mfType == WERenums.MF_TYPE.AUTO) { 			
 			// clustering: abs or relative alpha 
 			switch (clusterType) {
-				case CT_ABS:
-					mfb.set_relative_alpha(relativeAlpha);
-					break;
 				case CT_REL:
+					mfb.set_relative_alpha(relativeAlpha);
+					mfb.set_betas(betas);
+					break;
+				case CT_ABS:
 					mfb.set_alphas(alphas);
 					mfb.set_betas(betas);
 					break;
@@ -158,7 +160,11 @@ public class MetaFeatureMaker {
 			}			
 			
 			mfb.alpha_beta_clustering(housesData);
+
 		}
+		
+		
+		
 		// handcrafted metafeatures
 		else if  (mfType == WERenums.MF_TYPE.HC) {
 			mfb_hc.apply_hand_crafted_meta_features(housesData, diffent_meta_features);
@@ -186,9 +192,14 @@ public class MetaFeatureMaker {
 			Meta_feature_mapping map = new Meta_feature_mapping(bin_width_start_time, bin_width_start_time, max_length_duration, sd);
 			map.map_metafeatures_one_to_one_heuristic(housesData, targetHouseIndex);
 
-			HouseData targetHouse = housesData.get(targetHouseIndex);				
-			targetHouse.formatLena(HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE); //TODO: specify output dir
 
+			//WifiUtils.stop();
+			String outputSubDir = new String(rootOutputDir  + HouseData.houseOutputDirPrefix + allHouseNames[targetHouseIndex+min_nr] + "/" + mfType + " " + clusterType + " " + profileType + " " + trSetting + "/");
+			Utils.createDirectory(outputSubDir);
+			//System.out.println("outputSUbDir " + outputSubDir);
+			
+			HouseData targetHouse = housesData.get(targetHouseIndex);				
+			targetHouse.formatLena(outputSubDir,HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE); 
 			System.out.println("Created metafeatures for house " + houseNames[targetHouseIndex]);
 		}		
 	}

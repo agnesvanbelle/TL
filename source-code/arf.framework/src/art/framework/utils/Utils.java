@@ -93,10 +93,10 @@ public class Utils {
 	 * @param dirName
 	 */
 	public static void createDirectory(String dirName) {
-		File outputDir = new File(dirName);
-		if (!outputDir.exists()) {
-			outputDir.mkdir();
-		}
+		boolean success= new File(dirName).mkdirs();
+//		if (!outputDir.exists()) {
+//			outputDir.mkdir();
+//		}
 	}
 
 	public static void resetDirectory(String dirName) {

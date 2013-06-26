@@ -1,0 +1,68 @@
+186,Office/study-Light switch-houseE,Other
+187,Kitchen-Toaster-houseE,KitchHeat
+184,Kitchen-Cabinet A-houseE,KitchStor
+185,Bedroom-Light switch-houseE,Sleep
+190,Kitchen-Cabinet B-houseE,KitchStor
+191,Bathroom-Toilet Flush-houseE,Toilet
+188,Bathroom-Light switch-houseE,Bathroom
+189,Living room-Light switch B-houseE,Other
+183,Hallway-Light switch A-houseE,Outside
+180,Bathroom-Sink faucet - hot-houseE,Bathroom
+181,Bedroom-TV-houseE,Sleep
+205,Dinning room-Drawer A-houseE,Other
+204,Bathroom-Shower faucet A-houseE,Bathroom
+207,Den-Door-houseE,Other
+206,Office/study-Door-houseE,Other
+201,Den-Drawer A-houseE,Other
+200,Kitchen-Containers-houseE,KitchStor
+203,Den-Drawer B-houseE,Other
+202,Bathroom-Medicine cabinet A-houseE,Bathroom
+197,Kitchen-Light switch A-houseE,Kitchen
+196,Kitchen-Sink faucet - cold-houseE,Kitchen
+199,Den-Stereo-houseE,Other
+198,Den-Light switch A-houseE,Other
+193,Kitchen-Microwave-houseE,KitchHeat
+192,Kitchen-Drawer-houseE,KitchStor
+195,Kitchen-Burner-houseE,KitchHeat
+194,Kitchen-Cabinet C-houseE,KitchStor
+220,Bathroom-Shower faucet B-houseE,Bathroom
+221,Dinning room-Cabinet B-houseE,Other
+223,Kitchen-Cabinet E-houseE,KitchStor
+216,Kitchen-Door-houseE,Kitchen
+217,Butlers Pantry-Light switch-houseE,Other
+218,Kitchen-Cabinet D-houseE,KitchStor
+219,Butlers Pantry-Cabinet C-houseE,Other
+212,Dinning room-Cabinet A-houseE,Other
+213,Living room-TV-houseE,Other
+214,Butlers Pantry-Cabinet B-houseE,Other
+215,Dinning room-Light switch-houseE,Other
+208,Office/study-Drawer A-houseE,Other
+209,Bathroom-Door-houseE,BathroomDoor
+210,Butlers Pantry-Cabinet A-houseE,Other
+211,Bathroom-Medicine cabinet B-houseE,Bathroom
+239,Kitchen-Garbage disposal-houseE,Kitchen
+238,Office/study-Drawer D-houseE,Other
+237,Butlers Pantry-Cabinet G-houseE,Other
+236,Bathroom-Hamper-houseE,Bathroom
+235,Butlers Pantry-Drawer B-houseE,Other
+234,Butlers Pantry-Cabinet F-houseE,Other
+233,Kitchen-Light switch B-houseE,Kitchen
+232,Kitchen-Refrigerator B-houseE,KitchStor
+231,Butlers Pantry-Cabinet E-houseE,Other
+230,Dinning room-Drawer B-houseE,Other
+229,Office/study-Drawer C-houseE,Other
+228,Kitchen-Freezer-houseE,KitchStor
+227,Den-Telephone-houseE,Other
+226,Office/study-Drawer B-houseE,Other
+225,Butlers Pantry-Cabinet D-houseE,Other
+224,Kitchen-Refrigerator A-houseE,KitchStor
+248,Den-Light switch B-houseE,Other
+249,Hallway-Light switch C-houseE,Outside
+246,Kitchen-Sink faucet - cold B-houseE,Kitchen
+247,Kitchen-Refrigerator D-houseE,KitchStor
+244,Bathroom-Sink faucet - cold-houseE,Bathroom
+245,Hallway-Light switch B-houseE,Outside
+242,Butlers Pantry-Drawer C-houseE,Other
+243,Kitchen-Sink faucet - cold A-houseE,Kitchen
+240,Hallway-Door-houseE,Outside
+241,Kitchen-Refrigerator C-houseE,KitchStor

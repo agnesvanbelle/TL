@@ -138,6 +138,6 @@ public class Test
 
 		HouseData.mapActivities("Preparing-a-beverage",        	"get-drink");
 		
-		houseE.formatLena(HouseData.MAPPING_LEVEL_METAFEATURE, HouseData.MAPPING_LEVEL_METAFEATURE);
+		//houseE.formatLena(HouseData.MAPPING_LEVEL_METAFEATURE, HouseData.MAPPING_LEVEL_METAFEATURE);
 	}
 }

@@ -56,11 +56,11 @@ public class Meta_feature_building{
 			int[][] frequencies = house.profileAlphaBeta(beta);
 			
 			////////////DEBUGGING/////////////////////
-			print_frequencies(frequencies);
+			//print_frequencies(frequencies);
 			Integer[] sensssors = house.sensorList();
 			int index2 =0;
 			for(Integer i: sensssors){
-				System.out.println(index2+" " + HouseData.sensorContainer(i).name);
+				//System.out.println(index2+" " + HouseData.sensorContainer(i).name);
 				index2++;
 			}
 			////////////DEBUGGING/////////////////////

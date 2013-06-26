@@ -47,7 +47,7 @@ public class Test{
 		}
 	
 		for (HouseData houseData : housesData) {
-			houseData.formatLena(HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE);
+			//houseData.formatLena(HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE);
 		}
 	}
 	
