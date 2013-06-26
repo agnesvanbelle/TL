@@ -516,8 +516,13 @@ public class HouseData
 	 * @param sensorB Second sensor ID.
 	 * @return The relative profile between two sensors, modeled as a normal distribution of the differences of their firing times.
 	 */
-	public NormalDistribution profileRelational(int sensorA, int sensorB)
+	public NormalDistribution profileRelational(int sensorA, int sensorB) throws IllegalArgumentException
 	{
+		if (sensorA == sensorB)
+		{
+			throw new IllegalArgumentException();
+		}
+		
 		List<DataPoint> dataTarget = dataID[TYPE_DATA_SENSOR].get(sensorA);
 		
 		double[][] values = new double[dataTarget.size()][1];
