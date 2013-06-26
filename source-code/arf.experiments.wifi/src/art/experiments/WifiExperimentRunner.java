@@ -34,6 +34,9 @@ public class WifiExperimentRunner {
 
 	public final String classMapFile = "../arf.experiments.wifi/housedata/input/classMap.txt";
 	public static final String ROOT_DIR = "../arf.experiments.wifi/housedata/";
+	public static final String EXP_DIR = "../arf.experiments.wifi/housedata/input/experiments/";
+	public static final String HC_MMF_DIR = "../arf.experiments.wifi/housedata/input/HF_original/";
+
 	private Random rand = new Random(System.currentTimeMillis());
 
 	private String[] houses;
@@ -138,7 +141,7 @@ public class WifiExperimentRunner {
 
 	public void init() {
 		if (numberHouses == -1) {
-			numberHouses = Utils.getDirectorySize(ROOT_DIR + "input/" + WERenums.FEATURE_TYPE.HF);
+			numberHouses = Utils.getDirectorySize(ROOT_DIR + "input/experiments/" + WERenums.FEATURE_TYPE.HF);
 		}
 		houses = new String[numberHouses];
 		maxDaysPlotPerHouse = new double[numberHouses];

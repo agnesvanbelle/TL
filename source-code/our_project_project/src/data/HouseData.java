@@ -333,16 +333,16 @@ public class HouseData
 	 * @param mappingLevelSensors Number of sensor mapping levels to apply. MAPPING_LEVEL_* constants can be used for convenience.
 	 * @param mappingLevelActivities Number of activity mapping levels to apply. MAPPING_LEVEL_* constants can be used for convenience.
 	 */
-	public void formatLena(int mappingLevelSensors, int mappingLevelActivities)
+	public void formatLena(String outputDirName, int mappingLevelSensors, int mappingLevelActivities)
 	{
 		String houseLetter = houseName.replaceAll("house", "");
 		
-		File outputDir = new File(outputDirName);
-		if (outputDir.exists()) {
-			outputDir.delete();
-		}
-		outputDir.mkdir();
-		File houseOutputDir = new File(outputDir + "/" + houseOutputDirPrefix + houseLetter + "/");
+//		File outputDir = new File(outputDirName);
+//		if (outputDir.exists()) {
+//			outputDir.delete();
+//		}
+//		outputDir.mkdir();
+		File houseOutputDir = new File(outputDirName + "/" );
 		houseOutputDir.mkdir();
 		
 		try

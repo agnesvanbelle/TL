@@ -47,7 +47,7 @@ public class Test{
 		}
 	
 		for (HouseData houseData : housesData) {
-			houseData.formatLena(HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE);
+			//houseData.formatLena(HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE);
 		}
 	}
 	
@@ -109,5 +109,44 @@ public class Test{
 			}				
 		}
 		
+	}
+	
+	private static void replicate_mapping_Koehn_et_al()
+	{
+		// To replicate the results by Koehn at all the accuracy needs to 
+		// be interpreted relaxed. E.g. bathroomdoor mapped to bathroom is considered
+		// correct. Secondly the mapping of A to B by our algorithm is interpreted as 
+		// the mapping of B to A in their implementation, because they map all target clusters
+		// the source clusters. We do this the other way around because later the clusters that
+		// map to the same clusters in another house are merged.
+		
+		ArrayList<HouseData> housesData = new ArrayList<HouseData>();
+				
+		housesData.add(new HouseData(houseNamePrefix + houseNames[0]));
+		housesData.add(new HouseData(houseNamePrefix + houseNames[1]));
+		
+		boolean diffent_meta_features = false;
+		
+		// Map B to A
+		int target_house = 0;	
+		hand_made_clusters(housesData, target_house, diffent_meta_features, Meta_feature_mapping.Sensor_distance.Profiles_individ_KL_rel_KL);
+		
+		HashMap<String, String> meta_Features_check = new  HashMap<String, String>();
+		get_extended_names(meta_Features_check, housesData.get(target_house));
+		
+		for (HouseData houseData : housesData) {
+			print_metaFeatures(houseData, meta_Features_check);
+		}
+		
+		// Map A to B
+		target_house = 1;			
+		hand_made_clusters(housesData, target_house, diffent_meta_features, Meta_feature_mapping.Sensor_distance.Profiles_individ_KL_rel_KL);
+		
+		meta_Features_check = new  HashMap<String, String>();
+		get_extended_names(meta_Features_check, housesData.get(target_house));
+		
+		for (HouseData houseData : housesData) {
+			print_metaFeatures(houseData, meta_Features_check);
+		}
 	}
 }

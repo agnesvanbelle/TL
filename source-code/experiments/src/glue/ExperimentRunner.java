@@ -3,8 +3,11 @@ package glue;
 import java.io.File;
 import java.util.ArrayList;
 
+import data.HouseData;
+
 import art.framework.utils.*;
 import art.experiments.*;
+import art.experiments.wifi.data.processor.WifiUtils;
 
 /**
  * Runs the whole stuff: metafeature making + transfer algorithm resp. from
@@ -62,16 +65,32 @@ public class ExperimentRunner {
 
 		//	System.out.println("nr. comparisons: " + experimentStructure.leafCount());
 
-		
-		
+
 		String rootOutputDir = "../our_project_project/output/";
+		
+		
+		Utils.resetDirectory(rootOutputDir);
+		Utils.resetDirectory(WifiExperimentRunner.EXP_DIR);
+		
+		int subsetMin = 3;
+		int subsetMax = 5;
+		
+		for (int i=subsetMin; i < subsetMax; i++) {
+			Utils.createDirectory(WifiExperimentRunner.EXP_DIR + HouseData.houseOutputDirPrefix + MetaFeatureMaker.allHouseNames[i]);
+			System.out.println("Created dir " + WifiExperimentRunner.EXP_DIR + HouseData.houseOutputDirPrefix + MetaFeatureMaker.allHouseNames[i]);
+		}
+		
+		MetaFeatureMaker.runForSubset(rootOutputDir, subsetMin, subsetMax, 
+				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_SP, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 
-		MetaFeatureMaker.runForSubset(rootOutputDir, 0, 5, WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+		MetaFeatureMaker.runForSubset(rootOutputDir, subsetMin, subsetMax, 
+				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 
-		//copyOutputtedMFtoWifiExperimentRunnerInput() ;
+		copyOutputToWifiExperimentRunnerInput(subsetMin, subsetMax, rootOutputDir, WifiExperimentRunner.EXP_DIR);
 
+		copyOriginalHCToWifiExperimentRunnerInput(subsetMin, subsetMax, WERenums.TRANSFER_SETTINGS.BOTH);
 		// copy (part of) her original features to input dir
-
+		
 		wer = new WifiExperimentRunner();
 
 		wer.setNumberHouses(3);
@@ -89,18 +108,41 @@ public class ExperimentRunner {
 
 	}
 
-	public void copyOutputtedMFtoWifiExperimentRunnerInput() {
+	public void copyOriginalHCToWifiExperimentRunnerInput(int subsetMin, int subsetMax, WERenums.TRANSFER_SETTINGS transferSettings){
+		
+		ArrayList<String> allHousesDir = Utils.getSubDirectories(WifiExperimentRunner.HC_MMF_DIR);
+		for (int i=subsetMin; i < subsetMax; i++) {
+			System.out.println(allHousesDir.get(i));
+			
+			//Utils.createDirectory(WifiExperimentRunner.EXP_DIR + allHousesDir.get(i) + "/" + 
+				//			WERenums.FEATURE_TYPE.HF + " " + WERenums.TRANSFER_SETTINGS.BOTH + "/");
+			
+			//WifiUtils.stop();
+//			System.out.println("Copying " +
+//					WifiExperimentRunner.HC_MMF_DIR + allHousesDir.get(i) + " \nto\n  " +
+//					WifiExperimentRunner.EXP_DIR + allHousesDir.get(i) + "/" + 
+//					WERenums.FEATURE_TYPE.HF + " " + WERenums.TRANSFER_SETTINGS.BOTH + "/" );
+			Utils.copyDirectory(new File(WifiExperimentRunner.HC_MMF_DIR + allHousesDir.get(i) + "/"),
+					new File(WifiExperimentRunner.EXP_DIR + allHousesDir.get(i) + "/" + 
+							WERenums.FEATURE_TYPE.HF + " " + WERenums.TRANSFER_SETTINGS.BOTH + "/"));
 
-		String outputDirName = WifiExperimentRunner.ROOT_DIR + "input/" + WERenums.FEATURE_TYPE.OF + "/";
-		Utils.resetDirectory(outputDirName);
+		}
+		
+	}
+
+	public void copyOutputToWifiExperimentRunnerInput(int subsetMin, int subsetMax, String from, String to) {
+
+		String outputDirName = WifiExperimentRunner.EXP_DIR;
+		//Utils.resetDirectory(outputDirName);
 		String inputDirName = MetaFeatureMaker.outputDirName;
 		File inputDir = new File(inputDirName);
 
-		ArrayList<String> dirList = Utils.getSubDirectories(inputDirName);
-		System.out.println("Listing of " + inputDir.getAbsolutePath());
-		for (String dir : dirList) {
-			System.out.println("copying " + inputDirName + "/" + dir + " to " + outputDirName + dir);
-			Utils.copyDirectory(new File(inputDirName + "/" + dir), new File(outputDirName + dir));
+		ArrayList<String> outputtedHousesDir = Utils.getSubDirectories(inputDirName);
+		//System.out.println("Listing of " + inputDir.getAbsolutePath());
+		for (int i=0; i < subsetMax-subsetMin; i++) {
+			String houseDir = outputtedHousesDir.get(i);
+			//System.out.println("copying " + inputDirName + "/" + houseDir + " to " + outputDirName + houseDir);
+			Utils.copyDirectory(new File(inputDirName + "/" + houseDir), new File(outputDirName + houseDir));
 		}
 	}
 

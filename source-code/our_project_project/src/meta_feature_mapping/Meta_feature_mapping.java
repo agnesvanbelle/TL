@@ -133,7 +133,7 @@ public class Meta_feature_mapping{
 		}
 		
 		int match = 0;
-		System.out.println("\n\nhouse: " + source_house.houseName);
+		//System.out.println("\n\nhouse: " + source_house.houseName);
 		
 		// While there are unmapped source sensors
 		while(cluster_indexes_source_house.size()!=0) 
@@ -142,7 +142,7 @@ public class Meta_feature_mapping{
 			// If there are still target clusters to which no source cluster is mapped
 			if(cluster_indexes_target_house.size()!=0)
 			{
-				System.out.println("in while loop " + cluster_indexes_source_house.size());
+				//System.out.println("in while loop " + cluster_indexes_source_house.size());
 				match++;
 				float[] best_candidate_diff = new float [cluster_indexes_target_house.size()];
 				int[] best_candidate = new int [cluster_indexes_target_house.size()];
@@ -164,7 +164,7 @@ public class Meta_feature_mapping{
 						{
 							
 								diff[index_target][index_source] = cluster_distance(clusters_target_house[index_target], clusters_source_house[index_source], target_house, source_house);
-								System.out.println("diff "+ index_target +" "+ index_source + " = " + diff[index_target][index_source]);
+								//System.out.println("diff "+ index_target +" "+ index_source + " = " + diff[index_target][index_source]);
 														
 						}
 						current_diff = diff[index_target][index_source];
