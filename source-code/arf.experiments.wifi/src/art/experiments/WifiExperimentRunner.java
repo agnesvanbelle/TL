@@ -28,12 +28,15 @@ public class WifiExperimentRunner {
 
 	// ==================== constants ====================
 
-	public static final String classMapFileRawName = "classMap.txt";
+	
 	public static final String ROOT_DIR = "../arf.experiments.wifi/housedata/";
 	public static final String EXP_DIR = "../arf.experiments.wifi/housedata/input/experiments/";
 	public static final String OUTPUT_DIR = "../arf.experiments.wifi/housedata/output/";
 
 	public static final String HC_MMF_DIR = "../arf.experiments.wifi/housedata/input/HF_original/";
+	
+	public static final String classMapFile = "../arf.experiments.wifi/housedata/input/experiments/classMap.txt";
+	
 
 	public static final String houseOutputDirPrefix = "houseInfo";
 
@@ -207,7 +210,7 @@ public class WifiExperimentRunner {
 				String[] experimentParts = experimentName.split(" ");
 				transferSettings = WERenums.TRANSFER_SETTINGS.valueOf(experimentParts[experimentParts.length - 1]);
 
-				System.out.println("\nHouse " + house + ", settings :" + experimentName);
+				System.out.println("\n\nHouse " + house + ", settings :" + experimentName);
 				System.out.println("Transfer settings : " + transferSettings);
 
 				String inputDirNameExp = inputDirNameHouse + experimentName + "/";
@@ -238,9 +241,7 @@ public class WifiExperimentRunner {
 				// file with mapping action ids to their descriptions
 				actionMapFile = new File(inputDirNameExp, "actionMap" + house + ".txt").getAbsolutePath();
 				
-				// file with mapping ids to action names for all houses als having a folder for this type of experiment
-				String classMapFile = inputDirNameExp + classMapFileRawName;
-				
+			
 				sensorReadings = WifiUtils.getLines(sensorFile);
 				actionReadings = WifiUtils.getLines(actionFile);
 
