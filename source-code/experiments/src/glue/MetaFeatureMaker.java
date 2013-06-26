@@ -126,7 +126,8 @@ public class MetaFeatureMaker {
 		int[] betas = Arrays.copyOfRange(betaAllHouses, min_nr, max_nr);
 		ArrayList<HouseData> housesData = getHousesData(houseNames);
 		
-		System.out.println("Making metafeatures for houses: " + Arrays.toString(houseNames));
+		System.out.println("Making metafeatures for houses: " + Arrays.toString(houseNames) + 
+				"(" + mfType + "," + clusterType + ", " + profileType + ", " + trSetting  + ")") ;
 	
 		
 		

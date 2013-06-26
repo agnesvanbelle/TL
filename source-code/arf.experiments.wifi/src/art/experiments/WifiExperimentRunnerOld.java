@@ -25,7 +25,7 @@ import art.framework.utils.Utils;
 import svmjava.*;
 
 
-public class WifiExperimentRunner {
+public class WifiExperimentRunnerOld {
 
 	
 	
@@ -35,11 +35,7 @@ public class WifiExperimentRunner {
 	public final String classMapFile = "../arf.experiments.wifi/housedata/input/classMap.txt";
 	public static final String ROOT_DIR = "../arf.experiments.wifi/housedata/";
 	public static final String EXP_DIR = "../arf.experiments.wifi/housedata/input/experiments/";
-	public static final String OUTPUT_DIR = "../arf.experiments.wifi/housedata/output";
-	
 	public static final String HC_MMF_DIR = "../arf.experiments.wifi/housedata/input/HF_original/";
-	
-	public static final String houseOutputDirPrefix = "houseInfo";
 
 	private Random rand = new Random(System.currentTimeMillis());
 
@@ -48,7 +44,6 @@ public class WifiExperimentRunner {
 	private double results[][][][]; // for evaluation 	
 	private double[] maxDaysPlotPerHouse;
 
-	private int startHouseNr, endHouseNr;
 	/*
 	 * specifies whether a class label should be considered when aggregating
 	 * values for predicate types, that will later be used to infer value ranges
@@ -117,7 +112,7 @@ public class WifiExperimentRunner {
 		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
 	}
 	
-	public WifiExperimentRunner() {
+	public WifiExperimentRunnerOld() {
 		// empty constructor
 		// use setters defined above to change the default settings
 	}
@@ -133,12 +128,8 @@ public class WifiExperimentRunner {
 		runEvaluation();
 	}
 	
-	public void setSubset (int l, int h) {
-		numberHouses = h-l;
-		
-		startHouseNr = l;
-		endHouseNr = h;
-		
+	public void setNumberHouses (int nr) {
+		numberHouses = nr;
 	}
 
 	public void runEvaluation() {
@@ -150,12 +141,12 @@ public class WifiExperimentRunner {
 
 	public void init() {
 		if (numberHouses == -1) {
-			numberHouses = Utils.getDirectorySize(EXP_DIR);
+			numberHouses = Utils.getDirectorySize(ROOT_DIR + "input/experiments/" + WERenums.MMF_TYPE.HF);
 		}
 		houses = new String[numberHouses];
 		maxDaysPlotPerHouse = new double[numberHouses];
 		for (int i = 0; i < numberHouses; i++) {
-			houses[i] = WifiUtils.intToString(i+startHouseNr);
+			houses[i] = WifiUtils.intToString(i);
 		}
 		// make new output directory
 		String outputDirNameAllHouses = ROOT_DIR + "output/";
@@ -171,10 +162,10 @@ public class WifiExperimentRunner {
 			List<String> otherhouses = new ArrayList<String>();
 			for (int j = 0; j < numberHouses; j++) {
 				if (j != i) {
-					otherhouses.add(WifiUtils.intToString(startHouseNr+j));
+					otherhouses.add(WifiUtils.intToString(j));
 				}
 			}
-			housesMap.put(WifiUtils.intToString(startHouseNr+i), otherhouses);
+			housesMap.put(WifiUtils.intToString(i), otherhouses);
 		}
 		return housesMap;
 	}
@@ -190,9 +181,6 @@ public class WifiExperimentRunner {
 		System.out.println("housesMap:");
 		WifiUtils.printMap(housesMap);
 
-		
-		//WifiUtils.stop();
-		
 		for (int houseNr = 0; houseNr < houses.length; houseNr++) {
 			String house = houses[houseNr];
 
@@ -200,85 +188,78 @@ public class WifiExperimentRunner {
 			System.out.println("\nHouse: " + house); 
 			
 
-			String inputDirNameHouse = EXP_DIR + houseOutputDirPrefix + house + "/";
 			// create output directory for house if it doesn't exist yet
-			String outputDirName = OUTPUT_DIR + houseOutputDirPrefix + house + "/";
+			String outputDirName = ROOT_DIR + "output/" + "houseInfo" + house + "/";
 			Utils.createDirectory(outputDirName);
 			
+			// will contain sensor and action data for this house
+			List<String> sensorReadings = null;
+			List<String> actionReadings = null;
+			Map<String, List<String>> actionMap = null;
+			Set<String> actionDates = null;
+			Map<String, List<String>> sensorMap = null ;				
+			ArrayList<String> allDates = null;
+			// filenames for raw action and sensor data
+			String sensorFile = null;
+			String actionFile= null;
+			String sensorMapFile= null;
+			String actionMapFile= null;
 			
+			for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
+				int noDays = noDaysArray[noDaysIndex];
+				System.out.println("\nDay: " + noDays);
 
-			ArrayList<String> experimentTypes = Utils.getSubDirectories(inputDirNameHouse);
-			int nrExperiments = experimentTypes.size();
-			
-			System.out.println("read " + nrExperiments + " from " + inputDirNameHouse);
-			
-			
-			for (int experimentType=0; experimentType < nrExperiments; experimentType++) {
 				
-			
-				WERenums.TRANSFER_SETTINGS transferSettings = WERenums.TRANSFER_SETTINGS.BOTH;
+				// will contain train and test data
+				Map<String, List<String>> testActionInstances = new HashMap<String, List<String>>();
+				Map<String, List<String>> testSensorInstances = new HashMap<String, List<String>>();
+				Map<String, List<String>> trainActionInstances = new HashMap<String, List<String>>();
+				Map<String, List<String>> trainSensorInstances = new HashMap<String, List<String>>();				
 				
-				String experimentName = experimentTypes.get(experimentType);
-				String[] experimentParts = experimentName.split(" ");
-				transferSettings = WERenums.TRANSFER_SETTINGS.valueOf(experimentParts[experimentParts.length-1]);
-				
-				System.out.println("transfer settings for house " + house + " settings " + experimentName + " : " + transferSettings);
-
-				String inputDirNameExp = inputDirNameHouse + experimentName;
-				// will contain sensor and action data for this house
-				List<String> sensorReadings = null;
-				List<String> actionReadings = null;
-				Map<String, List<String>> actionMap = null;
-				Set<String> actionDates = null;
-				Map<String, List<String>> sensorMap = null ;				
-				ArrayList<String> allDates = null;
-				// filenames for raw action and sensor data
-				String sensorFile = null;
-				String actionFile= null;
-				String sensorMapFile= null;
-				String actionMapFile= null;
-				
-				// file with lines consisting of a date range and a sensor id (that fire during this interval)
-				sensorFile = new File(inputDirNameExp, "house" + house + "-ss.txt").getAbsolutePath();
-
-				// file with lines consisting of a date range and an action id (that happens during this interval)
-				actionFile = new File(inputDirNameExp, "house" + house + "-as.txt").getAbsolutePath();
-
-				// file with corresponding sensor ids, descriptions, and meta-features
-				sensorMapFile = new File(inputDirNameExp, "sensorMap" + house + "-ids.txt").getAbsolutePath();
-
-				// file with mapping action ids to their descriptions
-				actionMapFile = new File(inputDirNameExp, "actionMap" + house + ".txt").getAbsolutePath();
-				
-				sensorReadings = WifiUtils.getLines(sensorFile);
-				actionReadings = WifiUtils.getLines(actionFile);
-			
-				
-				WifiUtils.stop();
-				
-				for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
-					int noDays = noDaysArray[noDaysIndex];
-					System.out.println("\nDay: " + noDays);
-	
+				for (int ftIndex=0; ftIndex < WERenums.MMF_TYPE.length(); ftIndex++) {
+				//for (WERenums.FEATURE_TYPE featureType : WERenums.FEATURE_TYPE.values()) {
+					WERenums.MMF_TYPE featureType =  WERenums.MMF_TYPE.values()[ftIndex];
 					
-					// will contain train and test data
-					Map<String, List<String>> testActionInstances = new HashMap<String, List<String>>();
-					Map<String, List<String>> testSensorInstances = new HashMap<String, List<String>>();
-					Map<String, List<String>> trainActionInstances = new HashMap<String, List<String>>();
-					Map<String, List<String>> trainSensorInstances = new HashMap<String, List<String>>();				
-					
-					
+					System.out.println("\nFeature type: " + featureType);
+
+					// check if input directory for house and featuretype exists
+					String inputDirName = ROOT_DIR + "input/" + featureType + "/" + "houseInfo" + house + "/";
+					File inputDir = new File(inputDirName);
+					if (!inputDir.exists()) {
+						System.out.println("directory with input files not found: " + inputDirName);
+						System.exit(1);
+
+					}
+
 					// make output dir for this  noDays
 					String outputDirNoDaysName = outputDirName + house + noDays + "/";
 					Utils.createDirectory(outputDirNoDaysName);
 
-			
+					// make output dir for this featureType
+					String outputDirNoDaysFeatureTypeName = outputDirNoDaysName + featureType + "/";
+					Utils.createDirectory(outputDirNoDaysFeatureTypeName);
+
+					
 					// ======== read in lines with dates and activities  ======== 					 
 					// NOTE: if-check is used to make sure we only read in once per house
 					// 		and not read the files and make the maps again for each nr. of days, or for each featuretype
 					if (sensorReadings == null) {
 						
+						// file with lines consisting of a date range and a sensor id (that fire during this interval)
+						sensorFile = new File(inputDirName, "house" + house + "-ss.txt").getAbsolutePath();
+
+						// file with lines consisting of a date range and an action id (that happens during this interval)
+						actionFile = new File(inputDirName, "house" + house + "-as.txt").getAbsolutePath();
+
+						// file with corresponding sensor ids, descriptions, and meta-features
+						sensorMapFile = new File(inputDirName, "sensorMap" + house + "-ids.txt").getAbsolutePath();
+
+						// file with mapping action ids to their descriptions
+						actionMapFile = new File(inputDirName, "actionMap" + house + ".txt").getAbsolutePath();
 						
+						sensorReadings = WifiUtils.getLines(sensorFile);
+						actionReadings = WifiUtils.getLines(actionFile);
+	
 						//WifiUtils.printList(sensorReadings);
 				 		//WifiUtils.printList(actionReadings);
 						
@@ -442,7 +423,6 @@ public class WifiExperimentRunner {
 						}					
 					}
 				}				
-			}
 			}
 		}
 	}
