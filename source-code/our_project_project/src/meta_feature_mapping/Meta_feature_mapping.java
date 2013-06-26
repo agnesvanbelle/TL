@@ -199,7 +199,7 @@ public class Meta_feature_mapping{
 				// Put the mapping in the hash map
 				String source_cluster_name = HouseData.sensorContainer(clusters_source_house[source_cluster].get(0)).metacontainer.name;
 				String meta_meta_label = meta_meta_features_labels[target_cluster];
-				//System.out.println("Match: " + match + " " + source_cluster_name + "\t\t" + meta_meta_label);
+				System.out.println("Match: " + match + " " + source_cluster_name + "\t\t" + meta_meta_label);
 				////////////////////DEBUGGING/////////////////////////////////
 //				String target_cluster_name = HouseData.sensorContainer(clusters_target_house[target_cluster].get(0)).metacontainer.name;
 //				System.out.println(source_cluster_name + "\t" + target_cluster_name +"\t\t" + meta_meta_label);
