@@ -306,25 +306,25 @@ public class Meta_feature_mapping{
 				{
 					case Profiles_individ_SSE: 			
 						// Get profile sensors
-						hist_s = house_small.profileSensor_hist(sensor_id_s, blockSizeStart ,blockNumLength, maxLengthDuration);
-						hist_l = house_large.profileSensor_hist(sensor_id_l, blockSizeStart ,blockNumLength, maxLengthDuration);
+						hist_s = house_small.profileSensor(sensor_id_s, blockSizeStart ,blockNumLength, maxLengthDuration);
+						hist_l = house_large.profileSensor(sensor_id_l, blockSizeStart ,blockNumLength, maxLengthDuration);
 						current_min_div = sse_dist(hist_s, hist_l); break;
 					case Profiles_individ_SSE_rel_OL:
 						// Get profile sensors
-						hist_s = house_small.profileSensor_hist(sensor_id_s, blockSizeStart ,blockNumLength, maxLengthDuration);
-						hist_l = house_large.profileSensor_hist(sensor_id_l, blockSizeStart ,blockNumLength, maxLengthDuration);
+						hist_s = house_small.profileSensor(sensor_id_s, blockSizeStart ,blockNumLength, maxLengthDuration);
+						hist_l = house_large.profileSensor(sensor_id_l, blockSizeStart ,blockNumLength, maxLengthDuration);
 						float sensor_profile_distance = sse_dist(hist_s, hist_l);		
 						float sensor_rel_distance = relative_distance(house_small, house_large, sensor_id_s, sensor_id_l, Sensor_distance.Profiles_individ_SSE_rel_OL);
 						current_min_div = (profile_weight*sensor_profile_distance)+( (1-profile_weight)*sensor_rel_distance);
 						break;
 					case Profiles_individ_KL:
-						nd_s = house_small.profileSensor_nd(sensor_id_s);
-						nd_l = house_large.profileSensor_nd(sensor_id_l);						
+						nd_s = house_small.profileSensor(sensor_id_s);
+						nd_l = house_large.profileSensor(sensor_id_l);						
 						current_min_div = nd_s.KLDivergence(nd_l);
 						break;
 					case Profiles_individ_KL_rel_KL:
-						nd_s = house_small.profileSensor_nd(sensor_id_s);
-						nd_l = house_large.profileSensor_nd(sensor_id_l);
+						nd_s = house_small.profileSensor(sensor_id_s);
+						nd_l = house_large.profileSensor(sensor_id_l);
 						float sensor_profile_distance_kl = nd_s.KLDivergence(nd_l);		
 						float sensor_rel_distance_kl = relative_distance(house_small, house_large, sensor_id_s, sensor_id_l, Sensor_distance.Profiles_individ_KL_rel_KL);
 						current_min_div =  (profile_weight*sensor_profile_distance_kl)+( (1-profile_weight)*sensor_rel_distance_kl);

@@ -75,9 +75,7 @@ public class Test
 		
 		NormalDistribution r1 = houseA.profileRelational(1, 2); // Hall-Toilet door vs Hall-Bathroom door
 		NormalDistribution r2 = houseA.profileRelational(1, 8); // Hall-Toilet door vs Toilet Flush
-		
-		System.out.println(r1.mu + ", " + r1.sigma);
-		System.out.println(r2.mu + ", " + r2.sigma);
+
 		System.out.println(r1.KLDivergence(r2));
 		System.out.println(r2.KLDivergence(r1));
 		
@@ -85,18 +83,24 @@ public class Test
 		
 		System.out.println("\nExample 6:");
 		
-		NormalDistribution a = new NormalDistribution(new float[]{10f}, new float[]{5f});
-		NormalDistribution b = new NormalDistribution(new float[]{8f},  new float[]{7f});
+		double[][] dataA = {{1}, {2}, {3}};
+		double[][] dataB = {{1}, {3}, {5}};
+		
+		NormalDistribution a = new NormalDistribution(dataA);
+		NormalDistribution b = new NormalDistribution(dataB);
 		
 		System.out.println(a.overlapLevel(b));
 		System.out.println(b.overlapLevel(a));
 		System.out.println(a.overlapLevel(a));
 		
+		System.out.println(a.KLDivergence(b));
+		System.out.println(b.KLDivergence(a));
+		
 		// Example 7:
 		
 		System.out.println("\nExample 7:");
 		
-		float[][] profile = houseA.profileSensor_hist(houseA.sensorList()[1], 3600, 4, 3600);
+		float[][] profile = houseA.profileSensor(houseA.sensorList()[1], 3600, 4, 3600);
 		
 		for (int i = 0; i < profile.length; i++)
 		{

@@ -1,99 +1,122 @@
 package data;
 
-import java.util.*;
-import org.apache.commons.math3.special.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.math3.linear.*;
+import org.apache.commons.math3.special.Erf;
+import org.apache.commons.math3.stat.correlation.Covariance;
 
 public class NormalDistribution
 {
 	private final static double EQ_THRESHOLD = 0.001;
 	
-	public final float[] mu, sigma;
+	private RealVector mu, sigma;
+	private RealMatrix covariance;
 
 	/**
 	 * Models a list of values as a normal distribution.
-	 * @param values A list of numerical values.
+	 * @param values A list of numerical, double values.
 	 */
-	public NormalDistribution(List values)
+	public NormalDistribution(double[][] values)
 	{
-		int dimensions = 1; // Number of dimensions of the future (multivariate) normal distribution.
+		calculateCharacteristics(values);
+	}
+	
+	/**
+	 * Models a list of values as a normal distribution.
+	 * @param values A list of numerical, integer values.
+	 */
+	public NormalDistribution(int[][] values)
+	{
+		// Value transformation into doubles:
 		
-		Object example = values.get(0);
+		double[][] valuesDouble = new double[values.length][values[0].length];
 		
-		if (example instanceof List)
+		for (int i = 0; i < values.length; i++)
 		{
-			dimensions = ((List) example).size();
+			for (int j = 0; j < values[i].length; j++)
+			{
+				valuesDouble[i][j] = (double) values[i][j];
+			}
 		}
 		
-		mu    = new float[dimensions];
-		sigma = new float[dimensions];
+		calculateCharacteristics(valuesDouble);
+	}
+	
+	private void calculateCharacteristics(double[][] values)
+	{
+		int dimensions = values[0].length; // Number of dimensions of the future (multivariate) normal distribution.
+		
+		RealMatrix valuesMatrix = new Array2DRowRealMatrix(values);
+		
+		// Distribution characteristics calculation:
+		
+		covariance = (new Covariance(valuesMatrix)).getCovarianceMatrix();
+		
+		double[] muVector    = new double[dimensions];
+		double[] sigmaVector = new double[dimensions];
 		
 		long[] sum = new long[dimensions];
 		
-		for (Object value: values)
+		for (int i = 0; i < values.length; i++)
 		{
-			if (value instanceof Integer)
+			for (int j = 0; j < dimensions; j++)
 			{
-				sum[0] += (Integer) value;
-			}
-			else if (value instanceof List)
-			{
-				for (int i = 0; i < dimensions; i++)
-				{
-					sum[i] += (Integer) ((List) value).get(i);
-				}
+				sum[j] += values[i][j];
 			}
 		}
 		
 		for (int i = 0; i < dimensions; i++)
 		{
-			mu[i] = (float) sum[i] / values.size();
+			muVector[i] = (double) sum[i] / values.length;
 		}
 		
-		float diff[] = new float[dimensions];
+		double diff[] = new double[dimensions];
 		
-		for (Object value: values)
+		for (int i = 0; i < values.length; i++)
 		{
-			if (value instanceof Integer)
+			for (int j = 0; j < dimensions; j++)
 			{
-				diff[0] += Math.pow((Integer) value - mu[0], 2);
-			}
-			else if (value instanceof List)
-			{
-				for (int i = 0; i < dimensions; i++)
-				{
-					diff[i] += Math.pow((Integer) ((List) value).get(i) - mu[i], 2);
-				}
+				diff[j] += Math.pow(values[i][j] - muVector[j], 2);
 			}
 		}
 		
 		for (int i = 0; i < dimensions; i++)
 		{
-			sigma[i] = (float) Math.sqrt(diff[i] / values.size());
+			sigmaVector[i] = Math.sqrt(diff[i] / values.length);
 		}
-	}
-	
-	public NormalDistribution(float[] mu, float[] sigma)
-	{
-		this.mu    = mu;
-		this.sigma = sigma;
+		
+		mu    = new ArrayRealVector(muVector);
+		sigma = new ArrayRealVector(sigmaVector);
 	}
 	
 	/**
 	 * Calculates the Kullback-Leibler divergence from this normal distribution to another one.
-	 * Inspired from http://stats.stackexchange.com/questions/7440/kl-divergence-between-two-univariate-gaussians
+	 * Inspired from https://en.wikipedia.org/wiki/Multivariate_normal_distribution
 	 * @param other The normal distribution to compare this distribution with.
 	 * @return The KL distance from this normal distribution to another one.
 	 */
 	public float KLDivergence(NormalDistribution other)
 	{
-		double sum = 0;
+		double output = 0;
 		
-		for (int i = 0; i < mu.length; i++)
-		{
-			sum += (Math.pow(this.mu[i] - other.mu[i], 2) + Math.pow(this.sigma[i], 2)) / (2 * Math.pow(other.sigma[i], 2)) + Math.log(other.sigma[i] / this.sigma[i]) - 0.5;
-		}
+		RealMatrix covarianceInvOther = (new LUDecomposition(other.covariance)).getSolver().getInverse();
 		
-		return (float) sum;
+		output += covarianceInvOther.multiply(this.covariance).getTrace();
+		
+		RealMatrix diffMeans = new Array2DRowRealMatrix(other.mu.subtract(this.mu).toArray());
+		
+		output += diffMeans.multiply(covarianceInvOther).multiply(diffMeans.transpose()).getTrace();
+		
+		output -= mu.getDimension();
+		
+		double determinantThis  = new LUDecomposition(this.covariance).getDeterminant();
+		double determinantOther = new LUDecomposition(other.covariance).getDeterminant();
+		
+		output -= Math.log(determinantThis / determinantOther);
+		
+		return (float) (output * 0.5);
 	}
 	
 	/**
@@ -105,7 +128,7 @@ public class NormalDistribution
 	{
 		double sum = 0;
 		
-		for (int i = 0; i < mu.length; i++)
+		for (int i = 0; i < mu.getDimension(); i++)
 		{
 			// Points where both distributions yield the same value:
 			
@@ -115,13 +138,13 @@ public class NormalDistribution
 			
 			// Calculation of the set of overlapping points:
 			
-			double a = Math.pow(other.sigma[i], 2) - Math.pow(this.sigma[i], 2);
+			double a = Math.pow(other.sigma.getEntry(i), 2) - Math.pow(this.sigma.getEntry(i), 2);
 			
 			if (Math.abs(a) <= EQ_THRESHOLD)
 			{
 				// a = 0, so we cannot solve the quadratic equation.
 				
-				if (Math.abs(this.mu[i] - other.mu[i]) <= EQ_THRESHOLD)
+				if (Math.abs(this.mu.getEntry(i) - other.mu.getEntry(i)) <= EQ_THRESHOLD)
 				{
 					// Same distribution:
 					
@@ -131,17 +154,17 @@ public class NormalDistribution
 				{
 					// Equal variances, different means:
 					
-					m.add((this.mu[i] + other.mu[i]) / 2.0);
+					m.add((this.mu.getEntry(i) + other.mu.getEntry(i)) / 2.0);
 				}
 			}
 			else
 			{
 				// a != 0, so we can solve the quadratic equation.
 				
-				double b = 2 * (Math.pow(this.sigma[i], 2) * other.mu[i] - Math.pow(other.sigma[i], 2) * this.mu[i]);
-				double c = + Math.pow(this.sigma[i], 2)  * Math.pow(other.mu[i], 2)
-						   - Math.pow(other.sigma[i], 2) * Math.pow(this.mu[i],  2)
-						   + 2 * Math.pow(this.sigma[i], 2) * Math.pow(other.sigma[i], 2) * Math.log(other.sigma[i] / this.sigma[i]);
+				double b = 2 * (Math.pow(this.sigma.getEntry(i), 2) * other.mu.getEntry(i) - Math.pow(other.sigma.getEntry(i), 2) * this.mu.getEntry(i));
+				double c = + Math.pow(this.sigma.getEntry(i), 2)  * Math.pow(other.mu.getEntry(i), 2)
+						   - Math.pow(other.sigma.getEntry(i), 2) * Math.pow(this.mu.getEntry(i),  2)
+						   + 2 * Math.pow(this.sigma.getEntry(i), 2) * Math.pow(other.sigma.getEntry(i), 2) * Math.log(other.sigma.getEntry(i) / this.sigma.getEntry(i));
 	
 				double r = Math.pow(b, 2) - 4 * a * c;
 				
@@ -183,7 +206,7 @@ public class NormalDistribution
 			sum += overlap;
 		}
 		
-		return (float) sum;
+		return (float) sum / mu.getDimension();
 	}
 	
 	/**
@@ -195,6 +218,6 @@ public class NormalDistribution
 	 */
 	public double definiteIntegral(double a, double b, int d)
 	{
-		return 0.5 * Erf.erf((a - mu[d]) / (sigma[d] * Math.sqrt(2)), (b - mu[d]) / (sigma[d] * Math.sqrt(2)));
+		return 0.5 * Erf.erf((a - mu.getEntry(d)) / (sigma.getEntry(d) * Math.sqrt(2)), (b - mu.getEntry(d)) / (sigma.getEntry(d) * Math.sqrt(2)));
 	}
 }
