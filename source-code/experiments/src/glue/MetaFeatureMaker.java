@@ -1,5 +1,8 @@
 package glue;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -14,7 +17,6 @@ import art.experiments.WERenums.PROFILE_TYPE;
 import art.experiments.wifi.data.processor.WifiUtils;
 
 /**
- * !!! static class !!!
  * 
  * Creates the metafeatures Does the whole procedure Place were parameters need
  * * to be given though
@@ -99,7 +101,38 @@ public class MetaFeatureMaker {
 	}
 
 	
-	
+	public static void saveClassMapFile(String fileName) {
+		ArrayList<String> aa = HouseData.getAllActivities();
+		
+		BufferedWriter bf = null;
+		
+		try {
+			bf = new BufferedWriter(new FileWriter(fileName,false));
+			
+			int nr=0;
+			for (String activity : aa) {
+				bf.write(nr + "," + activity + "\n");
+				nr++;
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (bf != null) {
+				try {
+					bf.close();
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
 
 	/**
 	 * Make and save metafeatures for subset of houses with specified settings
@@ -134,6 +167,7 @@ public class MetaFeatureMaker {
 
 		// map house D and E sensors (AFTER housesData has been made!)
 		makeMappingForHouseDandE();
+		
 		
 		//////// build metafeatures ////////
 		// TODO: these should inherit the same Interface or class...
@@ -186,7 +220,9 @@ public class MetaFeatureMaker {
 				System.err.println("No Meta_feature_mapping provided going with " + Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE);
 				sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE;
 				break;
-		}				
+		}
+		
+	
 		// for all houses
 		for (int targetHouseIndex = 0; targetHouseIndex < max_nr-min_nr; targetHouseIndex++) {
 
@@ -201,8 +237,13 @@ public class MetaFeatureMaker {
 			
 			HouseData targetHouse = housesData.get(targetHouseIndex);				
 			targetHouse.formatLena(outputSubDir,HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE); 
+			
+			saveClassMapFile(outputSubDir + WifiExperimentRunner.classMapFileRawName);
+			
 			System.out.println("Created metafeatures for house " + houseNames[targetHouseIndex]);
-		}		
+		}
+		
+		
 	}
 
 

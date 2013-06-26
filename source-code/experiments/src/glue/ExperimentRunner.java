@@ -19,7 +19,6 @@ public class ExperimentRunner {
 
 	private WifiExperimentRunner wer;
 	
-	private String rootOutputDir = "../our_project_project/output/";
 
 
 	public ExperimentRunner() {
@@ -30,7 +29,7 @@ public class ExperimentRunner {
 	
 	public void experiment1MakeFiles(int subsetMin, int subsetMax) {
 
-		Utils.resetDirectory(rootOutputDir);
+		Utils.resetDirectory(HouseData.outputDirName);
 		Utils.resetDirectory(WifiExperimentRunnerOld.EXP_DIR);
 		
 		
@@ -39,14 +38,14 @@ public class ExperimentRunner {
 			System.out.println("Created dir " + WifiExperimentRunnerOld.EXP_DIR + HouseData.houseOutputDirPrefix + MetaFeatureMaker.allHouseNames[i]);
 		}
 		
-		MetaFeatureMaker.runForSubset(rootOutputDir, subsetMin, subsetMax, 
+		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_SP, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 
-		MetaFeatureMaker.runForSubset(rootOutputDir, subsetMin, subsetMax, 
+		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 
 		// copy our created experiment files to input dir
-		copyOutputToWifiExperimentRunnerInput(subsetMin, subsetMax, rootOutputDir, WifiExperimentRunnerOld.EXP_DIR);
+		copyOutputToWifiExperimentRunnerInput(subsetMin, subsetMax, HouseData.outputDirName, WifiExperimentRunnerOld.EXP_DIR);
 
 		// copy (part of) her original features to input dir
 		copyOriginalHCToWifiExperimentRunnerInput(subsetMin, subsetMax, WERenums.TRANSFER_SETTINGS.BOTH);
@@ -61,7 +60,7 @@ public class ExperimentRunner {
 		int subsetMax = 5;
 
 		
-		//experiment1MakeFiles(subsetMin, subsetMax);
+		experiment1MakeFiles(subsetMin, subsetMax);
 		
 		wer = new WifiExperimentRunner();
 
