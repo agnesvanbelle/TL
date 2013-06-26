@@ -416,12 +416,10 @@ public class HouseData
 		}
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (UnsupportedEncodingException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 	}
@@ -434,11 +432,11 @@ public class HouseData
 	 * @param maxLength Maximum informative firing length. Lengths above this value will simply be regarded as being this value.
 	 * @return A matrix of sensor activations over start times (first index) and firing lengths (second index).
 	 */
-	public float[][] profileSensor_hist(int ID, int blockSizeStart, int blockNumLength, int maxLength)
+	public float[][] profileSensor(int ID, int blockSizeStart, int blockNumLength, int maxLength)
 	{
 		if (!sensorProfiles_hist.containsKey(ID))
 		{
-			float[][] profile = buildProfileSensor_hist(ID, blockSizeStart, blockNumLength, maxLength);
+			float[][] profile = buildProfileSensor(ID, blockSizeStart, blockNumLength, maxLength);
 			
 			sensorProfiles_hist.put(ID, profile);
 		}
@@ -446,11 +444,11 @@ public class HouseData
 		return sensorProfiles_hist.get(ID);
 	}
 	
-	public NormalDistribution profileSensor_nd(int ID)
+	public NormalDistribution profileSensor(int ID)
 	{
 		if (!sensorProfiles_nd.containsKey(ID))
 		{
-			NormalDistribution profile = buildProfileSensor_nd(ID);
+			NormalDistribution profile = buildProfileSensor(ID);
 			
 			sensorProfiles_nd.put(ID, profile);
 		}
@@ -459,22 +457,22 @@ public class HouseData
 	} 
 	
 	
-	private NormalDistribution buildProfileSensor_nd(int ID)
+	private NormalDistribution buildProfileSensor(int ID)
 	{
-		ArrayList<ArrayList<Integer>> values = new ArrayList<ArrayList<Integer>>();		
+		List<DataPoint> data = dataID[TYPE_DATA_SENSOR].get(ID);
+		
+		double[][] values = new double[data.size()][2];
 			
-		for(DataPoint data_point: dataID[TYPE_DATA_SENSOR].get(ID))
+		for (int i = 0; i < data.size(); i++)
 		{
-			ArrayList<Integer> new_values = new ArrayList<Integer>();
-			new_values.add(data_point.startBlock(1));
-			new_values.add(data_point.length);
-			values.add(new_values);
+			values[i][0] = data.get(i).startBlock(1);
+			values[i][1] = data.get(i).length;
 		}		
 		
 		return new NormalDistribution(values);
 	}
 	
-	private float[][] buildProfileSensor_hist(int ID, int blockSizeStart, int blockNumLength, int maxLength)
+	private float[][] buildProfileSensor(int ID, int blockSizeStart, int blockNumLength, int maxLength)
 	{
 		int nr_start_time_bins = (24 * 3600) / blockSizeStart;
 		
@@ -520,10 +518,14 @@ public class HouseData
 	 */
 	public NormalDistribution profileRelational(int sensorA, int sensorB)
 	{
-		ArrayList<Integer> values = new ArrayList<Integer>();
+		List<DataPoint> dataTarget = dataID[TYPE_DATA_SENSOR].get(sensorA);
 		
-		for (DataPoint dataA: dataID[TYPE_DATA_SENSOR].get(sensorA))
+		double[][] values = new double[dataTarget.size()][1];
+		
+		for (int i = 0; i < dataTarget.size(); i++)
 		{
+			DataPoint dataA = dataTarget.get(i);
+			
 			int minDiff = Integer.MAX_VALUE;
 			
 			for (DataPoint dataB: dataID[TYPE_DATA_SENSOR].get(sensorB))
@@ -536,7 +538,7 @@ public class HouseData
 				}
 			}
 			
-			values.add(minDiff);
+			values[i][0] = (double) minDiff;
 		}
 		
 		return new NormalDistribution(values);
