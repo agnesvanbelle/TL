@@ -107,7 +107,7 @@ public class NormalDistribution
 		
 		RealMatrix diffMeans = new Array2DRowRealMatrix(other.mu.subtract(this.mu).toArray());
 		
-		output += diffMeans.multiply(covarianceInvOther).multiply(diffMeans.transpose()).getTrace();
+		output += diffMeans.transpose().multiply(covarianceInvOther).multiply(diffMeans).getTrace();
 		
 		output -= mu.getDimension();
 		
