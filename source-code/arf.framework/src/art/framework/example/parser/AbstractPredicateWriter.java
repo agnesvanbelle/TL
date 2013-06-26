@@ -228,6 +228,7 @@ public class AbstractPredicateWriter {
 	 */
 	public void getFeatureRepresentationOfData(String intputFile, 
 			String outputFile, String rulesFile, String classMapFile, boolean useClass) {
+		
 		 getFeatureRepresentationOfData(intputFile, outputFile,  
 				 rulesFile, null, null, classMapFile, useClass);
 	}

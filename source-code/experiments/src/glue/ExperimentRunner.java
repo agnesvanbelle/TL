@@ -66,8 +66,8 @@ public class ExperimentRunner {
 		wer = new WifiExperimentRunner();
 
 		wer.setSubset(subsetMin, subsetMax);
-		wer.set_NO_DATA_INSTANCES(100);
-		int[] noDaysConsidered = { 2, 3, 6, 11, 21 };
+		wer.set_NO_DATA_INSTANCES(5);
+		int[] noDaysConsidered = { 2, 3 };
 		wer.setNoDaysArray(noDaysConsidered);
 		wer.turnLoggingOff();
 		wer.setWithRanges(true);

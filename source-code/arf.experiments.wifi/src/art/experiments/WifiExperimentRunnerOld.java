@@ -141,7 +141,7 @@ public class WifiExperimentRunnerOld {
 
 	public void init() {
 		if (numberHouses == -1) {
-			numberHouses = Utils.getDirectorySize(ROOT_DIR + "input/experiments/" + WERenums.MMF_TYPE.HF);
+			numberHouses = Utils.getDirectorySize(EXP_DIR);
 		}
 		houses = new String[numberHouses];
 		maxDaysPlotPerHouse = new double[numberHouses];
