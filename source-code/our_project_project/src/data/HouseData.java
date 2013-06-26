@@ -8,7 +8,7 @@ public class HouseData
 	
 	public static final String outputDirName = "../our_project_project/output/";
 	public static final String inputDataDir = "../our_project_project/data/";
-	public static final String houseOutputDirPrefix = "houseInfo";
+	public static final String houseOutputDirPrefix = "houseInfo"; //TODO set via wer
 	
 	// Example mapping levels for sensorData() and activityData():
 	
