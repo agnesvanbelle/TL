@@ -152,6 +152,7 @@ public class Meta_feature_mapping{
 				// Find best candidate for each target house cluster
 				for(int index_target:cluster_indexes_target_house)
 				{
+					System.out.println("Target cluster: " + index_target);
 					float current_diff = -1.0f;
 					float smallest_diff = 100000.0f;
 					int candidate = -1;
@@ -325,6 +326,7 @@ public class Meta_feature_mapping{
 					case Profiles_individ_KL_rel_KL:
 						nd_s = house_small.profileSensor(sensor_id_s);
 						nd_l = house_large.profileSensor(sensor_id_l);
+//						System.out.println("ID1: " + sensor_id_l+" ID2: " + sensor_id_s);
 						float sensor_profile_distance_kl = nd_s.KLDivergence(nd_l);		
 						float sensor_rel_distance_kl = relative_distance(house_small, house_large, sensor_id_s, sensor_id_l, Sensor_distance.Profiles_individ_KL_rel_KL);
 						current_min_div =  (profile_weight*sensor_profile_distance_kl)+( (1-profile_weight)*sensor_rel_distance_kl);
@@ -406,19 +408,22 @@ public class Meta_feature_mapping{
 		{
 			for(Integer beta: sensors_beta)
 			{
-				data.NormalDistribution a_b = house_small.profileRelational(sensor_id_s, b);
-				data.NormalDistribution alpha_beta = house_large.profileRelational(sensor_id_l, beta);
-				
-				switch(sensor_distance_type)
+				if(sensor_id_s!= b && sensor_id_l != beta)
 				{
-				case Profiles_individ_SSE_rel_OL: current_dist = a_b.overlapLevel(alpha_beta); break;
-				case Profiles_individ_KL_rel_KL: current_dist = a_b.KLDivergence(alpha_beta); break;
-				default:	System.out.println("Unusable distance metric for relative distance usage"); break;
-				}
-				
-				if(current_dist < relative_dist)
-				{
-					relative_dist = current_dist; 
+					data.NormalDistribution a_b = house_small.profileRelational(sensor_id_s, b);
+					data.NormalDistribution alpha_beta = house_large.profileRelational(sensor_id_l, beta);
+					
+					switch(sensor_distance_type)
+					{
+					case Profiles_individ_SSE_rel_OL: current_dist = a_b.overlapLevel(alpha_beta); break;
+					case Profiles_individ_KL_rel_KL: current_dist = a_b.KLDivergence(alpha_beta); break;
+					default:	System.out.println("Unusable distance metric for relative distance usage"); break;
+					}
+					
+					if(current_dist < relative_dist)
+					{
+						relative_dist = current_dist; 
+					}
 				}
 					
 			}

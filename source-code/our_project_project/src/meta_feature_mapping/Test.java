@@ -17,7 +17,7 @@ public class Test{
 //	public static final int [] alpha = {5, 5,5,5,5};
 //	public static int [] beta = {14, 7,7,10,12};
 	
-	public static final String[] houseNames = { "D", "E"};
+	public static final String[] houseNames = {"A", "B", "C", "D", "E"};
 	public static final int nrHouses = houseNames.length;
 	public static final String houseNamePrefix = "house";
 	public static final int [] alpha = {5, 5,5,5,5};
@@ -25,30 +25,31 @@ public class Test{
 	
 	public static void main(String[] args) 
 	{
+		replicate_mapping_Koehn_et_al();
 		
-		ArrayList<HouseData> housesData = new ArrayList<HouseData>();
-		
-		for (String houseName : houseNames) {
-			HouseData h = new HouseData(houseNamePrefix + houseName);
-			housesData.add(h);
-		}
-		int target_house = 1;
+//		ArrayList<HouseData> housesData = new ArrayList<HouseData>();
+//		
+//		for (String houseName : houseNames) {
+//			HouseData h = new HouseData(houseNamePrefix + houseName);
+//			housesData.add(h);
+//		}
+//		int target_house = 1;
 		
 //		automatic_clustering(housesData, target_house);		
 		
-		boolean diffent_meta_features = true;
-		hand_made_clusters(housesData, target_house, diffent_meta_features, Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE);
-		
-		HashMap<String, String> meta_Features_check = new  HashMap<String, String>();
-		get_extended_names(meta_Features_check, housesData.get(target_house));
-		
-		for (HouseData houseData : housesData) {
-			print_metaFeatures(houseData, meta_Features_check);
-		}
+//		boolean diffent_meta_features = true;
+//		hand_made_clusters(housesData, target_house, diffent_meta_features, Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE);
+//		
+//		HashMap<String, String> meta_Features_check = new  HashMap<String, String>();
+//		get_extended_names(meta_Features_check, housesData.get(target_house));
+//		
+//		for (HouseData houseData : housesData) {
+//			print_metaFeatures(houseData, meta_Features_check);
+//		}
 	
-		for (HouseData houseData : housesData) {
-			//houseData.formatLena(HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE);
-		}
+//		for (HouseData houseData : housesData) {
+//			houseData.formatLena(HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE);
+//		}
 	}
 	
 	

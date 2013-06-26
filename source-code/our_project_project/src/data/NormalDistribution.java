@@ -101,18 +101,38 @@ public class NormalDistribution
 	{
 		double output = 0;
 		
-		RealMatrix covarianceInvOther = (new LUDecomposition(other.covariance)).getSolver().getInverse();
+		double determinantThis  = new LUDecomposition(this.covariance).getDeterminant();
+		double determinantOther = new LUDecomposition(other.covariance).getDeterminant();
 		
+		if(determinantOther==0.0)
+		{
+			System.out.println("print covariance matrix:");
+//			double[][] cov = other.covariance.getData();
+//			for(double[] row:cov)
+//			{
+//				for(double value: row)
+//				{
+//					System.out.print(value + "\t");
+//				}
+//				System.out.println("");
+//			}
+		}
+		
+		RealMatrix covarianceInvOther;
+		try{	
+			covarianceInvOther = (new LUDecomposition(other.covariance)).getSolver().getInverse();
+		}
+		catch(SingularMatrixException a)
+		{
+			return Float.POSITIVE_INFINITY;
+		}
 		output += covarianceInvOther.multiply(this.covariance).getTrace();
 		
 		RealMatrix diffMeans = new Array2DRowRealMatrix(other.mu.subtract(this.mu).toArray());
 		
 		output += diffMeans.transpose().multiply(covarianceInvOther).multiply(diffMeans).getTrace();
 		
-		output -= mu.getDimension();
-		
-		double determinantThis  = new LUDecomposition(this.covariance).getDeterminant();
-		double determinantOther = new LUDecomposition(other.covariance).getDeterminant();
+		output -= mu.getDimension();		
 		
 		output -= Math.log(determinantThis / determinantOther);
 		
