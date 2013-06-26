@@ -10,11 +10,20 @@ import data.NormalDistribution;
 
 public class Meta_feature_mapping{
 	
+	
+	public enum Sensor_distance {
+		Profiles_individ_KL, //TODO // KL divergence distance measure
+		Profiles_individ_SSE,  //sum squared errors distance measure, sensor profile
+		Profiles_individ_KL_rel_KL, //TODO
+		Profiles_individ_SSE_rel_OL //sum squared errors distance measure , sensor profile + relational profile (?)
+	};
+	
+	
 	// Needed to compute sensor profile with histogram
 	public int blockSizeStart;
 	public int blockNumLength;
 	public int maxLengthDuration;
-	Sensor_distance distance_metric;
+	public Sensor_distance distance_metric;
 	public float profile_weight; 
 	
 	/**
@@ -32,7 +41,7 @@ public class Meta_feature_mapping{
 		profile_weight = 0.5f;
 	}
 	
-	public enum Sensor_distance {Profiles_individ_KL, Profiles_individ_SSE, Profiles_individ_KL_rel_KL, Profiles_individ_SSE_rel_OL};
+	
 	
 	/**
 	 * Maps meta-features of each house to a shared feature space (meta-meta-features). This mapping is stored inside HouseData 
@@ -397,9 +406,16 @@ public class Meta_feature_mapping{
 		{
 			for(Integer beta: sensors_beta)
 			{
+<<<<<<< HEAD
 				data.NormalDistribution a_b = house_small.profileRelative(sensor_id_s, b);
 				data.NormalDistribution alpha_beta = house_large.profileRelative(sensor_id_l, beta);
 				switch(sensor_distance_type)
+=======
+				data.NormalDistribution a_b = house_small.profileRelational(sensor_id_s, b);
+				data.NormalDistribution alpha_beta = house_large.profileRelational(sensor_id_l, beta);
+				float overlap = a_b.overlapLevel(alpha_beta);
+				if(overlap < relative_dist)
+>>>>>>> 57196486e1035ef4a8ce021706f4894a5e9005f7
 				{
 				case Profiles_individ_SSE_rel_OL: current_dist = a_b.overlapLevel(alpha_beta); break;
 				case Profiles_individ_KL_rel_KL: current_dist = a_b.KLDivergence(alpha_beta); break;

@@ -23,7 +23,7 @@ public class Test{
 	public static final int [] alpha = {5, 5,5,5,5};
 	public static int [] beta = {14, 7,7,14,14};
 	
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) 
 	{
 		
 		ArrayList<HouseData> housesData = new ArrayList<HouseData>();
@@ -53,8 +53,9 @@ public class Test{
 	
 	
 
-	private static void hand_made_clusters(ArrayList<HouseData> housesData, int target_house_index, boolean diffent_meta_features, Meta_feature_mapping.Sensor_distance distance_type) throws IOException {
-		Meta_features_apply_handcrafted.apply_hand_crafted_meta_features(housesData, diffent_meta_features);
+	private static void hand_made_clusters(ArrayList<HouseData> housesData, int target_house_index, boolean diffent_meta_features, Meta_feature_mapping.Sensor_distance distance_type)  {
+		Meta_features_apply_handcrafted mf_hc = new Meta_features_apply_handcrafted();
+		mf_hc.apply_hand_crafted_meta_features(housesData, diffent_meta_features);
 		int two_hours = 60*60*2;
 		Meta_feature_mapping map = new Meta_feature_mapping(two_hours, 5, 200,distance_type);
 		map.map_metafeatures_one_to_one_heuristic(housesData, target_house_index); //2nd param. is index houseData 
