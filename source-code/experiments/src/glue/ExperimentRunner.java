@@ -86,10 +86,12 @@ public class ExperimentRunner {
 		MetaFeatureMaker.runForSubset(rootOutputDir, subsetMin, subsetMax, 
 				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 
+		// copy our created experiment files to input dir
 		copyOutputToWifiExperimentRunnerInput(subsetMin, subsetMax, rootOutputDir, WifiExperimentRunner.EXP_DIR);
 
-		copyOriginalHCToWifiExperimentRunnerInput(subsetMin, subsetMax, WERenums.TRANSFER_SETTINGS.BOTH);
 		// copy (part of) her original features to input dir
+		copyOriginalHCToWifiExperimentRunnerInput(subsetMin, subsetMax, WERenums.TRANSFER_SETTINGS.BOTH);
+		
 		
 		wer = new WifiExperimentRunner();
 
@@ -124,7 +126,7 @@ public class ExperimentRunner {
 //					WERenums.FEATURE_TYPE.HF + " " + WERenums.TRANSFER_SETTINGS.BOTH + "/" );
 			Utils.copyDirectory(new File(WifiExperimentRunner.HC_MMF_DIR + allHousesDir.get(i) + "/"),
 					new File(WifiExperimentRunner.EXP_DIR + allHousesDir.get(i) + "/" + 
-							WERenums.FEATURE_TYPE.HF + " " + WERenums.TRANSFER_SETTINGS.BOTH + "/"));
+							WERenums.MMF_TYPE.HF + " " + WERenums.TRANSFER_SETTINGS.BOTH + "/"));
 
 		}
 		

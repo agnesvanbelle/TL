@@ -141,7 +141,7 @@ public class WifiExperimentRunner {
 
 	public void init() {
 		if (numberHouses == -1) {
-			numberHouses = Utils.getDirectorySize(ROOT_DIR + "input/experiments/" + WERenums.FEATURE_TYPE.HF);
+			numberHouses = Utils.getDirectorySize(ROOT_DIR + "input/experiments/" + WERenums.MMF_TYPE.HF);
 		}
 		houses = new String[numberHouses];
 		maxDaysPlotPerHouse = new double[numberHouses];
@@ -216,9 +216,9 @@ public class WifiExperimentRunner {
 				Map<String, List<String>> trainActionInstances = new HashMap<String, List<String>>();
 				Map<String, List<String>> trainSensorInstances = new HashMap<String, List<String>>();				
 				
-				for (int ftIndex=0; ftIndex < WERenums.FEATURE_TYPE.length(); ftIndex++) {
+				for (int ftIndex=0; ftIndex < WERenums.MMF_TYPE.length(); ftIndex++) {
 				//for (WERenums.FEATURE_TYPE featureType : WERenums.FEATURE_TYPE.values()) {
-					WERenums.FEATURE_TYPE featureType =  WERenums.FEATURE_TYPE.values()[ftIndex];
+					WERenums.MMF_TYPE featureType =  WERenums.MMF_TYPE.values()[ftIndex];
 					
 					System.out.println("\nFeature type: " + featureType);
 
@@ -429,7 +429,7 @@ public class WifiExperimentRunner {
 
 	public void evaluateUsingSVM() {
 
-		results = new double[numberHouses][noDaysArray.length][WERenums.FEATURE_TYPE.length()][WERenums.TRANSFER_TYPE.length()];
+		results = new double[numberHouses][noDaysArray.length][WERenums.MMF_TYPE.length()][WERenums.TRANSFER_TYPE.length()];
 
 		System.out.println("\nGoing to evaluate using libSVM...");
 
@@ -442,7 +442,7 @@ public class WifiExperimentRunner {
 				if (maxDaysPlotPerHouse[houseNr] > noDays){
 					String outputDirHouseDays = outputDirHouse + houses[houseNr] + noDays + "/";
 	
-					for (WERenums.FEATURE_TYPE fT : WERenums.FEATURE_TYPE.values()) {
+					for (WERenums.MMF_TYPE fT : WERenums.MMF_TYPE.values()) {
 	
 						for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
 	
@@ -479,7 +479,7 @@ public class WifiExperimentRunner {
 				int noDays = noDaysArray[noDaysIndex];
 				System.out.println("NoDays: " + noDays);
 
-				for (WERenums.FEATURE_TYPE fT : WERenums.FEATURE_TYPE.values()) {
+				for (WERenums.MMF_TYPE fT : WERenums.MMF_TYPE.values()) {
 					System.out.println("FT: " + fT);
 
 					for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
@@ -528,8 +528,8 @@ public class WifiExperimentRunner {
 
 				String dvString = "datavalues";
 
-				for (WERenums.FEATURE_TYPE fT : WERenums.FEATURE_TYPE.values()) {
-					String ftString = fT == WERenums.FEATURE_TYPE.OF ? dvString + "_of" : dvString + "_hf";
+				for (WERenums.MMF_TYPE fT : WERenums.MMF_TYPE.values()) {
+					String ftString = fT == WERenums.MMF_TYPE.AUTO ? dvString + "_of" : dvString + "_hf";
 
 					for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
 						String ttString = tT == WERenums.TRANSFER_TYPE.NOTRANSFER ? ftString + "_notr" : ftString + "_tr";
@@ -664,7 +664,7 @@ public class WifiExperimentRunner {
 	 * @param conf - minimum confidence threshold
 	 */
 	private void getFeatureRepresentationOfTrainAndTestDataForNoTransferCase(AbstractPredicateWriter apw, String sensorMapFile, String actionMapFile, String rootDirHouse, String dirName,
-			File rootDir_, String sensorTrainFile, String actionTrainFile, String sensorTestFile, String actionTestFile, String conf, int noDaysIndex, int houseNr, WERenums.FEATURE_TYPE featureType) {
+			File rootDir_, String sensorTrainFile, String actionTrainFile, String sensorTestFile, String actionTestFile, String conf, int noDaysIndex, int houseNr, WERenums.MMF_TYPE featureType) {
 
 		Map<String, List<EventInfo>> consecutiveIntervals = new TreeMap<String, List<EventInfo>>();
 		Map<String, Sensor> sensorModels = new TreeMap<String, Sensor>();
@@ -921,7 +921,7 @@ public class WifiExperimentRunner {
 	 *            all houses
 	 * @param consecutiveIntervals - aligned sensor and activity information
 	 */
-	private void combineTrainingData(Map<String, List<String>> housesMap, String house, Map<String, Sensor> sensorModelsTarget, Map<String, List<EventInfo>> consecutiveIntervals, WERenums.FEATURE_TYPE ft) {
+	private void combineTrainingData(Map<String, List<String>> housesMap, String house, Map<String, Sensor> sensorModelsTarget, Map<String, List<EventInfo>> consecutiveIntervals, WERenums.MMF_TYPE ft) {
 		List<String> sourceDomains = housesMap.get(house);
 
 		List<Map<String, Sensor>> sensorModelsAll = new ArrayList<Map<String, Sensor>>();

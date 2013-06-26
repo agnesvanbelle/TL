@@ -75,12 +75,12 @@ public class WERenums {
 		}
 	}
 
-	public static enum FEATURE_TYPE { // used for folder names
-		OF(0), HF(1); // Our Features, or Her/Handcrafted Features
+	public static enum MMF_TYPE { // used for folder names
+		AUTO(0), HF(1); // Our Features, or Her/Handcrafted Features
 
 		private final int index;
 
-		FEATURE_TYPE(int index) {
+		MMF_TYPE(int index) {
 			this.index = index;
 		}
 
