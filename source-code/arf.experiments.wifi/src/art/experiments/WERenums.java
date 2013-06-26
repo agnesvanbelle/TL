@@ -21,13 +21,47 @@ public class WERenums {
 	
 	}
 	
-	
+//	public static class FEATURE_TYPE {
+//		
+//		public static TRANSFER_TYPE tT;
+//		
+//		public static class TRANSFER_TYPE {
+//			
+//		}
+//	}
 
+//	public static class Pair<L,R> {
+//		
+//		
+//	    private L l;
+//	    private R r;
+//	    public Pair(L l, R r){
+//	        this.l = l;
+//	        this.r = r;
+//	    }
+//	    public L getL(){ return l; }
+//	    public R getR(){ return r; }
+//	    public void setL(L l){ this.l = l; }
+//	    public void setR(R r){ this.r = r; }
+//	}
+	
+	
 	public static enum TRANSFER_TYPE { // used for folder names
 		TRANSFER(0), NOTRANSFER(1); // transfer, or no-transfer
 
 		private final int index;
 
+		
+		public static String[] valuesStr() {
+			TRANSFER_TYPE[] vs = TRANSFER_TYPE.values();
+			String[] v = new String[TRANSFER_TYPE.length()];
+			int i=0;
+			for (TRANSFER_TYPE pt : vs) {
+				v[i++]=pt.name();
+			}
+			return v;
+		}
+		
 		TRANSFER_TYPE(int index) {
 			this.index = index;
 		}
@@ -131,6 +165,34 @@ public class WERenums {
 		private final int index;
 
 		MF_TYPE(int index) {
+			this.index = index;
+		}
+
+		public int index() {
+			return index;
+		}
+
+		public static int length() {
+			return values().length;
+		}
+	}
+	
+	public static enum TRANSFER_SETTINGS { 
+		ONLY_TRANSFER(0), ONLY_NONTRANSFER(1), BOTH(2); 
+
+		public static String[] valuesStr() {
+			TRANSFER_SETTINGS[] vs = TRANSFER_SETTINGS.values();
+			String[] v = new String[TRANSFER_SETTINGS.length()];
+			int i=0;
+			for (TRANSFER_SETTINGS pt : vs) {
+				v[i++]=pt.name();
+			}
+			return v;
+		}
+		
+		private final int index;
+
+		TRANSFER_SETTINGS(int index) {
 			this.index = index;
 		}
 

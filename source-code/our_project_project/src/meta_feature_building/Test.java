@@ -75,7 +75,8 @@ public class Test
 			data.add(house);
 		}		
 		boolean diffent_meta_features = false;
-		Meta_features_apply_handcrafted.apply_hand_crafted_meta_features(data, diffent_meta_features);
+		Meta_features_apply_handcrafted mf_hc = new Meta_features_apply_handcrafted();
+		mf_hc.apply_hand_crafted_meta_features(data, diffent_meta_features);
 		for(HouseData house: data){
 			printClusters(house, "Hand crafted ");
 		}

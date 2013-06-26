@@ -5,30 +5,32 @@ import java.util.ArrayList;
 
 import art.experiments.WERenums;
 
-public class Directory {
+public class Directory<N> {
 
-	public String name;
+	public N name;
 
-	public ArrayList<Directory> children = null;
+	public ArrayList<Directory<N>> children = null;
 
-	public Directory(String name) {
+	public Directory(N name) {
 		this.name = name;
-		children = new ArrayList<Directory>();
+		children = new ArrayList<Directory<N>>();
+	}
+	
+	public N name () {
+		return this.name;
 	}
 
-	public void addChild(String s) {
-		children.add(new Directory(s));
+	public void addChild(N s) {
+		children.add(new Directory<N>(s));
 	}
 
-	public void addChild(Directory d) {
-		children.add(d);
-	}
+	
 	
 	public void removeChildren() {
 		children.clear();
 	}
 
-	
+	 
 	public int leafCount() {
 		int sum=0;
 		if (!this.children.isEmpty()) {
@@ -42,12 +44,12 @@ public class Directory {
 		return sum;
 	}
 
-	public void add(String[] ss) {
-		for (String s : ss)
-			children.add(new Directory(s));
+	public void add(N[] ss) {
+		for (N s : ss)
+			children.add(new Directory<N>(s));
 	}
 
-	public ArrayList<Directory> getChildren() {
+	public ArrayList<Directory<N>> getChildren() {
 		return children;
 	}
 
@@ -86,42 +88,42 @@ public class Directory {
 
 	}
 
-	public void addChildToAllLeafs(Directory d) {
+	public void addChildToAllLeafs(Directory<N> d) {
 
 		if (!this.children.isEmpty()) {
-			for (Directory child : this.children) {
+			for (Directory<N> child : this.children) {
 				child.addChildToAllLeafs(d);
 			}
 		}
 		else {
-			addChild(d);
+			addChild((N)d);
 		}
 
 	}
 	
-	public void addChildToAllLeafs(String s ) {
+	public void addChildToAllLeafs(N s ) {
 
 		if (!this.children.isEmpty()) {
-			for (Directory child : this.children) {
+			for (Directory<N> child : this.children) {
 				child.addChildToAllLeafs(s);
 			}
 		}
 		else {
-			addChild(new Directory(s));
+			addChild((N) s);
 		}
 
 	}
 
-	public void addChildToAllLeafs(String[] ss) {
+	public void addChildToAllLeafs(N[] ss) {
 
 		if (!children.isEmpty()) {
-			for (Directory child : this.children) {
+			for (Directory<N> child : this.children) {
 				child.addChildToAllLeafs(ss);
 			}
 		}
 		else {
-			for (String s : ss) {
-				this.addChild(new Directory(s));
+			for (N s : ss) {
+				this.addChild((N)s);
 			}
 		}
 
@@ -149,7 +151,7 @@ public class Directory {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Directory other = (Directory) obj;
+		Directory<?> other = (Directory<?>) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -159,16 +161,16 @@ public class Directory {
 		return true;
 	}
 
-	public Directory get(int index) {
+	public Directory<N> get(int index) {
 		return children.get(index);
 	}
 
-	public Directory get(String indexName) {
+	public Directory<?> get(N indexName) {
 		//	System.out.println("children.size(): " + children.size());
 		//for (int i=0; i < children.size(); i++) {
 		//System.out.println(children.get(i).name);
 		//}
-		int index = children.indexOf(new Directory(indexName));
+		int index = children.indexOf(new Directory<N>(indexName));
 		//System.out.println("index:" + index);
 		if (index != -1) {
 			return get(index);

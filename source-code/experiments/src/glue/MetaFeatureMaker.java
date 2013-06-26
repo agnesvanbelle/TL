@@ -97,36 +97,51 @@ public class MetaFeatureMaker {
 
 	}
 
-	public static void fetchSpecs(Directory d) {
+	
+	
 
-	}
-
-	public static void runForSubsetClusterMapping(int min_nr, int max_nr, 
-			WERenums.PROFILE_TYPE profileType, WERenums.CLUSTER_TYPE clusterType , WERenums.MF_TYPE mfType) { // first max_nr houses
+	/**
+	 * Make and save metafeatures for subset of houses with specified settings
+	 * @param min_nr
+	 * @param max_nr
+	 * @param profileType
+	 * @param clusterType
+	 * @param mfType
+	 */
+	public static void runForSubset(String rootOutputDir, int min_nr, int max_nr, 
+			 WERenums.MF_TYPE mfType, WERenums.CLUSTER_TYPE clusterType , WERenums.PROFILE_TYPE profileType, WERenums.TRANSFER_SETTINGS trSetting) { 
+		
+		
+		String outputSubDir = new String(mfType + " " + clusterType + " " + profileType + " " + trSetting);
+		
+		
 		if (max_nr > nrAllHouses) {
 			System.err.println("There are only " + nrAllHouses + " houses you called runForSubset with " + max_nr);
+			return;
 		}
-
+		
+		// get settings for specified subset  of houses
 		String[] houseNames = Arrays.copyOfRange(allHouseNames, min_nr, max_nr);
 		int[] alphas = Arrays.copyOfRange(alphaAllHouses, min_nr, max_nr);
 		int[] betas = Arrays.copyOfRange(betaAllHouses, min_nr, max_nr);
-		//double alpha = // TODO: check with relative alpha
-
-		
+		ArrayList<HouseData> housesData = getHousesData(houseNames);
 		
 		System.out.println("Making metafeatures for houses: " + Arrays.toString(houseNames));
+	
+		
+		
 
-		ArrayList<HouseData> housesData = getHousesData(houseNames);
+		// map house D and E sensors (AFTER housesData has been made!)
 		makeMappingForHouseDandE();
 		
-		// build metafeatures
+		//////// build metafeatures ////////
+		// TODO: these should inherit the same Interface or class...
 		Meta_feature_building mfb = new Meta_feature_building();
-		
-		
-		Meta_feature_mapping.Sensor_distance sd;
-		
+		Meta_features_apply_handcrafted mfb_hc = new Meta_features_apply_handcrafted();			
 	
-		if (mfType == WERenums.MF_TYPE.AUTO) { 
+		// automatic metafeatures (not handcrafted)
+		if (mfType == WERenums.MF_TYPE.AUTO) { 			
+			// clustering: abs or relative alpha 
 			switch (clusterType) {
 				case CT_ABS:
 					mfb.set_relative_alpha(relativeAlpha);
@@ -140,49 +155,42 @@ public class MetaFeatureMaker {
 					mfb.set_alphas(alphas);
 					mfb.set_betas(betas);
 					break;		
-			}
-			
-			switch (profileType) {
-				case PR_SP:
-					sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE;
-					break;
-				case PR_BOTH: 
-					sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE_rel_OL;				
-					break;
-				default:
-					System.err.println("No Meta_feature_mapping provided going with " + Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE);
-					sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE;
-					break;
-			}
+			}			
 			
 			mfb.alpha_beta_clustering(housesData);
 		}
-		
+		// handcrafted metafeatures
 		else if  (mfType == WERenums.MF_TYPE.HC) {
-			Meta_features_apply_handcrafted.apply_hand_crafted_meta_features(housesData, diffent_meta_features);
+			mfb_hc.apply_hand_crafted_meta_features(housesData, diffent_meta_features);
 		}
 		
-	
 		
-
-	
+		//////// map metafeatures ////////
+		Meta_feature_mapping.Sensor_distance sd;
+		// sensor distances (for mapping):  only sensor profile, or both sensor profile and relational profile
+		switch (profileType) {
+			case PR_SP:
+				sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE;
+				break;
+			case PR_BOTH: 
+				sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE_rel_OL;				
+				break;
+			default:
+				System.err.println("No Meta_feature_mapping provided going with " + Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE);
+				sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE;
+				break;
+		}				
+		// for all houses
 		for (int targetHouseIndex = 0; targetHouseIndex < max_nr-min_nr; targetHouseIndex++) {
 
-			
-			//createMetaFeatures(housesData, targetHouseIndex, bin_width_start_time, nr_bins_duration, max_length_duration);
-			
-	
 			Meta_feature_mapping map = new Meta_feature_mapping(bin_width_start_time, bin_width_start_time, max_length_duration, sd);
 			map.map_metafeatures_one_to_one_heuristic(housesData, targetHouseIndex);
 
-			HouseData targetHouse = housesData.get(targetHouseIndex);
-			
-			
-			targetHouse.formatLena(HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE);
+			HouseData targetHouse = housesData.get(targetHouseIndex);				
+			targetHouse.formatLena(HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE); //TODO: specify output dir
 
 			System.out.println("Created metafeatures for house " + houseNames[targetHouseIndex]);
-		}
-		
+		}		
 	}
 
 

@@ -16,7 +16,7 @@ public class Meta_features_apply_handcrafted {
 	 * @param different_meta_features boolean for using different meta features
 	 *            or shared meta features (handcrafted meta meta features)
 	 */
-	public static void apply_hand_crafted_meta_features(ArrayList<HouseData> houses, boolean different_meta_features) {
+	public  void apply_hand_crafted_meta_features(ArrayList<HouseData> houses, boolean different_meta_features) {
 		BufferedReader br = null;
 		String line = "";
 
