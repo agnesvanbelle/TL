@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import data.HouseData;
+import data.NormalDistribution;
 
 public class Meta_feature_mapping{
 	
@@ -286,17 +287,39 @@ public class Meta_feature_mapping{
 			for(int j = 0; j<large_cluster.size(); j++)
 			{				
 				int sensor_id_l = large_cluster.get(j);
-				float current_min_div = -1.0f;
-				// Get profile sensors
-				float[][] hist_s = house_small.profileSensor(sensor_id_s, blockSizeStart ,blockNumLength, maxLengthDuration);
-				float[][] hist_l = house_large.profileSensor(sensor_id_l, blockSizeStart ,blockNumLength, maxLengthDuration);
+				float current_min_div = -1.0f;	
+				float[][] hist_s = null;
+				float[][] hist_l = null;
+				NormalDistribution nd_s = null;
+				NormalDistribution nd_l = null;
 				// Calculate difference between them
 				switch(distance_metric)
 				{
-					case Profiles_individ_SSE: 			current_min_div = sse_dist(hist_s, hist_l); break;
-					case Profiles_individ_SSE_rel_OL: 	current_min_div = sensor_distance_ind_sse_rel_ol(hist_s, hist_l, house_small, house_large, sensor_id_s, sensor_id_l);break;
-					case Profiles_individ_KL:			System.out.println("Not yet implemented");break;
-					case Profiles_individ_KL_rel_KL:	System.out.println("Not yet implemented");break;
+					case Profiles_individ_SSE: 			
+						// Get profile sensors
+						hist_s = house_small.profileSensor_hist(sensor_id_s, blockSizeStart ,blockNumLength, maxLengthDuration);
+						hist_l = house_large.profileSensor_hist(sensor_id_l, blockSizeStart ,blockNumLength, maxLengthDuration);
+						current_min_div = sse_dist(hist_s, hist_l); break;
+					case Profiles_individ_SSE_rel_OL:
+						// Get profile sensors
+						hist_s = house_small.profileSensor_hist(sensor_id_s, blockSizeStart ,blockNumLength, maxLengthDuration);
+						hist_l = house_large.profileSensor_hist(sensor_id_l, blockSizeStart ,blockNumLength, maxLengthDuration);
+						float sensor_profile_distance = sse_dist(hist_s, hist_l);		
+						float sensor_rel_distance = relative_distance(house_small, house_large, sensor_id_s, sensor_id_l, Sensor_distance.Profiles_individ_SSE_rel_OL);
+						current_min_div = (profile_weight*sensor_profile_distance)+( (1-profile_weight)*sensor_rel_distance);
+						break;
+					case Profiles_individ_KL:
+						nd_s = house_small.profileSensor_nd(sensor_id_s);
+						nd_l = house_large.profileSensor_nd(sensor_id_l);						
+						current_min_div = nd_s.KLDivergence(nd_l);
+						break;
+					case Profiles_individ_KL_rel_KL:
+						nd_s = house_small.profileSensor_nd(sensor_id_s);
+						nd_l = house_large.profileSensor_nd(sensor_id_l);
+						float sensor_profile_distance_kl = nd_s.KLDivergence(nd_l);		
+						float sensor_rel_distance_kl = relative_distance(house_small, house_large, sensor_id_s, sensor_id_l, Sensor_distance.Profiles_individ_KL_rel_KL);
+						current_min_div =  (profile_weight*sensor_profile_distance_kl)+( (1-profile_weight)*sensor_rel_distance_kl);
+						break;
 					default:							System.out.println("Unknown distance type"); break;					
 				}				
 			
@@ -364,25 +387,32 @@ public class Meta_feature_mapping{
 		return labels;
 	}
 	
-	private float sensor_distance_ind_sse_rel_ol(float[][] hist_s, float[][] hist_l, HouseData house_small, HouseData house_large, Integer sensor_id_s, Integer sensor_id_l){
-		float sensor_profile_distance = sse_dist(hist_s, hist_l);
+	private float relative_distance(HouseData house_small, HouseData house_large, Integer sensor_id_s, Integer sensor_id_l, Sensor_distance sensor_distance_type){
+		
 		Integer[] sensors_b = house_small.sensorList();
 		Integer[] sensors_beta = house_large.sensorList();
-		float relative_dist = 2.0f;
+		float relative_dist = 100000000f;
+		float current_dist = -1.0f;
 		for(Integer b:sensors_b)
 		{
 			for(Integer beta: sensors_beta)
 			{
 				data.NormalDistribution a_b = house_small.profileRelative(sensor_id_s, b);
 				data.NormalDistribution alpha_beta = house_large.profileRelative(sensor_id_l, beta);
-				float overlap = a_b.overlapLevel(alpha_beta);
-				if(overlap < relative_dist)
+				switch(sensor_distance_type)
 				{
-					relative_dist = overlap; 
+				case Profiles_individ_SSE_rel_OL: current_dist = a_b.overlapLevel(alpha_beta); break;
+				case Profiles_individ_KL_rel_KL: current_dist = a_b.KLDivergence(alpha_beta); break;
 				}
+				
+				if(current_dist < relative_dist)
+				{
+					relative_dist = current_dist; 
+				}
+					
 			}
 		}
-		return (profile_weight*sensor_profile_distance)+( (1-profile_weight)*relative_dist);
+		return relative_dist;
 	}
 	
 	

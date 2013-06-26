@@ -35,7 +35,8 @@ public class HouseData
 	
 	// Sensor profile cache:
 	
-	private final HashMap<Integer, float[][]> sensorProfiles = new HashMap<Integer, float[][]>(); 
+	private final HashMap<Integer, float[][]> sensorProfiles_hist = new HashMap<Integer, float[][]>(); 
+	private final HashMap<Integer, NormalDistribution> sensorProfiles_nd = new HashMap<Integer, NormalDistribution>(); 
 	private final HashMap<Integer, Integer> firingFrequencies = new HashMap<Integer, Integer> ();
 	
 	// Dynamic methods:
@@ -433,19 +434,47 @@ public class HouseData
 	 * @param maxLength Maximum informative firing length. Lengths above this value will simply be regarded as being this value.
 	 * @return A matrix of sensor activations over start times (first index) and firing lengths (second index).
 	 */
-	public float[][] profileSensor(int ID, int blockSizeStart, int blockNumLength, int maxLength)
+	public float[][] profileSensor_hist(int ID, int blockSizeStart, int blockNumLength, int maxLength)
 	{
-		if (!sensorProfiles.containsKey(ID))
+		if (!sensorProfiles_hist.containsKey(ID))
 		{
-			float[][] profile = buildProfileSensor(ID, blockSizeStart, blockNumLength, maxLength);
+			float[][] profile = buildProfileSensor_hist(ID, blockSizeStart, blockNumLength, maxLength);
 			
-			sensorProfiles.put(ID, profile);
+			sensorProfiles_hist.put(ID, profile);
 		}
 		
-		return sensorProfiles.get(ID);
+		return sensorProfiles_hist.get(ID);
 	}
 	
-	private float[][] buildProfileSensor(int ID, int blockSizeStart, int blockNumLength, int maxLength)
+	public NormalDistribution profileSensor_nd(int ID)
+	{
+		if (!sensorProfiles_nd.containsKey(ID))
+		{
+			NormalDistribution profile = buildProfileSensor_nd(ID);
+			
+			sensorProfiles_nd.put(ID, profile);
+		}
+		
+		return sensorProfiles_nd.get(ID);
+	} 
+	
+	
+	private NormalDistribution buildProfileSensor_nd(int ID)
+	{
+		ArrayList<ArrayList<Integer>> values = new ArrayList<ArrayList<Integer>>();		
+			
+		for(DataPoint data_point: dataID[TYPE_DATA_SENSOR].get(ID))
+		{
+			ArrayList<Integer> new_values = new ArrayList<Integer>();
+			new_values.add(data_point.startBlock(1));
+			new_values.add(data_point.length);
+			values.add(new_values);
+		}		
+		
+		return new NormalDistribution(values);
+	}
+	
+	private float[][] buildProfileSensor_hist(int ID, int blockSizeStart, int blockNumLength, int maxLength)
 	{
 		int nr_start_time_bins = (24 * 3600) / blockSizeStart;
 		
