@@ -82,7 +82,12 @@ public class Test
 		}
 	}
 	
-	
+	private static void replicate_clustering_Koehn_et_al()
+	{
+		// Reported result is in between the rollowing results:
+		generate_clusters("houseA", "Absolute", 2, 4);
+		generate_clusters("houseA", "Absolute", 2, 5);
+	}
 	
 	
 }
