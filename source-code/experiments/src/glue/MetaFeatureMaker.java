@@ -99,17 +99,21 @@ public class MetaFeatureMaker {
 	}
 
 	public static void saveClassMapFile(String fileName) {
-		ArrayList<String> aa = HouseData.getAllActivities();
+		Integer[] activityIDList = HouseData.activityListAll();
 
 		BufferedWriter bf = null;
 
+		
 		try {
 			bf = new BufferedWriter(new FileWriter(fileName, false));
 
-			int nr = 0;
-			for (String activity : aa) {
-				bf.write(nr + "," + activity + "\n");
-				nr++;
+			for (int activityIndex=0; activityIndex < activityIDList.length; activityIndex++) {
+				Integer id = activityIDList[activityIndex ];
+				System.out.println("activity ID: " + id);
+				System.out.println("didnt occur yet");
+				//String activityName = HouseData.indexID[HouseData.TYPE_DATA_ACTIVITY].get(id).name;
+				bf.write(activityIndex + "," + id + "\n");
+				
 			}
 		}
 		catch (IOException e) {

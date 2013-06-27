@@ -41,8 +41,8 @@ public class ExperimentRunner {
 		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_SP, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 
-		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
-				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+		//MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+		//		WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 
 		// copy our created experiment files to input dir
 		copyOutputToWifiExperimentRunnerInput(subsetMin, subsetMax, HouseData.outputDirName, WifiExperimentRunnerOld.EXP_DIR);
@@ -58,26 +58,26 @@ public class ExperimentRunner {
 
 
 
-		int subsetMin = 3;
+		int subsetMin = 2;
 		int subsetMax = 5;
 
 		
 		experiment1MakeFiles(subsetMin, subsetMax);
 		
-		wer = new WifiExperimentRunner();
-
-		wer.setSubset(subsetMin, subsetMax);
-		wer.set_NO_DATA_INSTANCES(5);
-		int[] noDaysConsidered = { 2, 3 };
-		wer.setNoDaysArray(noDaysConsidered);
-		wer.turnLoggingOff();
-		wer.setWithRanges(true);
-
-		System.out.println("\n------ WER settings : ------");
-		System.out.println(wer);
-		System.out.println("----------------------------\n");
-
-		wer.run();
+//		wer = new WifiExperimentRunner();
+//
+//		wer.setSubset(subsetMin, subsetMax);
+//		wer.set_NO_DATA_INSTANCES(5);
+//		int[] noDaysConsidered = { 2, 3 };
+//		wer.setNoDaysArray(noDaysConsidered);
+//		wer.turnLoggingOff();
+//		wer.setWithRanges(true);
+//
+//		System.out.println("\n------ WER settings : ------");
+//		System.out.println(wer);
+//		System.out.println("----------------------------\n");
+//
+//		wer.run();
 
 	}
 
