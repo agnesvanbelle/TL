@@ -28,12 +28,15 @@ public class WifiExperimentRunner {
 
 	// ==================== constants ====================
 
-	public final String classMapFile = "../arf.experiments.wifi/housedata/input/classMap.txt";
+	
 	public static final String ROOT_DIR = "../arf.experiments.wifi/housedata/";
 	public static final String EXP_DIR = "../arf.experiments.wifi/housedata/input/experiments/";
 	public static final String OUTPUT_DIR = "../arf.experiments.wifi/housedata/output/";
 
 	public static final String HC_MMF_DIR = "../arf.experiments.wifi/housedata/input/HF_original/";
+	
+	public static final String classMapFile = "../arf.experiments.wifi/housedata/input/experiments/classMap.txt";
+	
 
 	public static final String houseOutputDirPrefix = "houseInfo";
 
@@ -207,7 +210,7 @@ public class WifiExperimentRunner {
 				String[] experimentParts = experimentName.split(" ");
 				transferSettings = WERenums.TRANSFER_SETTINGS.valueOf(experimentParts[experimentParts.length - 1]);
 
-				System.out.println("\nHouse " + house + ", settings :" + experimentName);
+				System.out.println("\n\nHouse " + house + ", settings :" + experimentName);
 				System.out.println("Transfer settings : " + transferSettings);
 
 				String inputDirNameExp = inputDirNameHouse + experimentName + "/";
@@ -237,7 +240,8 @@ public class WifiExperimentRunner {
 
 				// file with mapping action ids to their descriptions
 				actionMapFile = new File(inputDirNameExp, "actionMap" + house + ".txt").getAbsolutePath();
-
+				
+			
 				sensorReadings = WifiUtils.getLines(sensorFile);
 				actionReadings = WifiUtils.getLines(actionFile);
 
@@ -249,6 +253,7 @@ public class WifiExperimentRunner {
 				sensorMap = saveSensorLinesByDate(sensorReadings, actionDates);
 
 
+				
 				allDates = new ArrayList<String>(actionMap.keySet());
 
 				maxDaysPlotPerHouse[houseNr] = actionMap.size() - 1;
@@ -349,12 +354,14 @@ public class WifiExperimentRunner {
 								Utils.createDirectory(outputDirNameExpNoDaysTransferType);
 
 								getFeatureRepresentationOfTrainAndTestDataForNoTransferCase(apw, sensorMapFile, actionMapFile, outputDirNameExpNoDaysTransferType, dirName,
-										outputDirNoDaysSplit, sensorTrainFile, actionTrainFile, sensorTestFile, actionTestFile, conf, noDaysIndex, houseNr);
+										outputDirNoDaysSplit, sensorTrainFile, actionTrainFile, sensorTestFile, actionTestFile, conf, noDaysIndex, houseNr, classMapFile);
 
 							}
 							// ======== build transfer model ========
 							if (transferSettings == WERenums.TRANSFER_SETTINGS.BOTH || transferSettings == WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER) {
+								
 								String outputDirNameExpNoDaysTransferType = outputDirNameExpNoDays + WERenums.TRANSFER_TYPE.TRANSFER + "/";
+								
 								
 								// ======== get rules from all domains for transfer ========
 								String outputFileCombined = new File(outputDirNoDaysSplit, Constants.WIFI_EXAMPLES_FILE + "-train-tr").getAbsolutePath();
@@ -413,7 +420,7 @@ public class WifiExperimentRunner {
 								// represent domain test data in terms of new features					
 								String resultFileTest2 = new File(outputDirNameExpNoDaysTransferType, WERenums.SET_TYPE.TEST + "/" + "wifi" + dirName).getAbsolutePath();
 								getFeatureRepresentationOfTestData(outputDirNoDaysSplit, sensorTestFile, actionTestFile, sensorMapFile, actionMapFile, sensorModelsComb, resultFileTest2,
-										targetRulesFileComb, "transfer", apw);
+										targetRulesFileComb, "transfer", apw, classMapFile);
 							}
 						}
 					}
@@ -659,7 +666,7 @@ public class WifiExperimentRunner {
 	 * @param conf - minimum confidence threshold
 	 */
 	private void getFeatureRepresentationOfTrainAndTestDataForNoTransferCase(AbstractPredicateWriter apw, String sensorMapFile, String actionMapFile, String rootDirHouse, String dirName,
-			File rootDir_, String sensorTrainFile, String actionTrainFile, String sensorTestFile, String actionTestFile, String conf, int noDaysIndex, int houseNr) {
+			File rootDir_, String sensorTrainFile, String actionTrainFile, String sensorTestFile, String actionTestFile, String conf, int noDaysIndex, int houseNr, String classMapFile) {
 
 		Map<String, List<EventInfo>> consecutiveIntervals = new TreeMap<String, List<EventInfo>>();
 		Map<String, Sensor> sensorModels = new TreeMap<String, Sensor>();
@@ -735,7 +742,7 @@ public class WifiExperimentRunner {
 		// also do for test data (but use extracted rules of train data?)
 
 		String svmFileTest = new File(rootDirHouse, WERenums.SET_TYPE.TEST + "/" + "wifi" + dirName).getAbsolutePath();
-		getFeatureRepresentationOfTestData(rootDir_, sensorTestFile, actionTestFile, sensorMapFile, actionMapFile, sensorModels, svmFileTest, targetRulesFile, "notransfer", apw);
+		getFeatureRepresentationOfTestData(rootDir_, sensorTestFile, actionTestFile, sensorMapFile, actionMapFile, sensorModels, svmFileTest, targetRulesFile, "notransfer", apw, classMapFile);
 	}
 
 	/**
@@ -860,7 +867,7 @@ public class WifiExperimentRunner {
 	 *            feature form.
 	 */
 	private void getFeatureRepresentationOfTestData(File rootDir_, String sensorTestFile, String actionTestFile, String sensorMapFile, String actionMapFile, Map<String, Sensor> sensorModels,
-			String svmFileTest, String rulesFile, String transferType, AbstractPredicateWriter apw) {
+			String svmFileTest, String rulesFile, String transferType, AbstractPredicateWriter apw, String classMapFile) {
 
 		String outputFileTest = new File(rootDir_, Constants.WIFI_EXAMPLES_FILE + "-test-" + transferType).getAbsolutePath();
 		String outputAbstructFileTest = new File(rootDir_, Constants.WIFI_ABSTRUCT_EXAMPLES_FILE + "-test-" + transferType).getAbsolutePath();

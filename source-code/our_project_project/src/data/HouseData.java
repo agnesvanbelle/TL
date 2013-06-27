@@ -648,6 +648,13 @@ public class HouseData
 		}
 	}
 	
+	public static ArrayList<String> getAllActivities() {
+		Set<String> names = indexName[TYPE_DATA_ACTIVITY].keySet();
+		ArrayList<String> namesList = new ArrayList<String>();
+		namesList.addAll(names);
+		return namesList;
+	}
+	
 	public Integer sensorFiringFrequency(Integer ID)
 	{
 		return firingFrequencies.get(ID);
