@@ -235,8 +235,8 @@ public class MetaFeatureMaker {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("Doing nothing.");
-		System.out.println("Better to invoke \"our_project_project.experiment.MetaFeatureMaker.java\" from package \"experiments.glue\".");
+		System.err.println("Doing nothing.");
+		System.err.println("Better to invoke \".experiment.MetaFeatureMaker.java\" from class \"ExperimentRunner.java\".");
 	}
 
 }
