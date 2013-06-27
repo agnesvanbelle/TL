@@ -541,6 +541,9 @@ public class WifiExperimentRunner {
 	}
 
 	public void evaluationResultsToMatlabPerHouse() {
+		
+		String regex = "_";
+		
 		String matlabDir = ROOT_DIR + "output/" + "matlab/";
 		String plotOutputDir = new File(matlabDir).getAbsolutePath();
 		Utils.createDirectory(matlabDir);
@@ -559,7 +562,7 @@ public class WifiExperimentRunner {
 				for (int resultIndex = 0; resultIndex < resultsNames[houseNr].size(); resultIndex++) {
 					//	System.out.println(resultsNames[houseNr].get(resultIndex) + ": " + results[houseNr][noDaysIndex].get(resultIndex));
 
-					bw.write("expLegend{" + (resultIndex+1) + "}='" + resultsNames[houseNr].get(resultIndex).toString() + "';\n");
+					bw.write("expLegend{" + (resultIndex+1) + "}='" + resultsNames[houseNr].get(resultIndex).toString().replaceAll(regex, "\\_") + "';\n");
 
 					for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
 

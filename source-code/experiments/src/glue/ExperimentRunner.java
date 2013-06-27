@@ -28,7 +28,7 @@ public class ExperimentRunner {
 	}
 
 	
-	public void experiment1MakeFiles(int subsetMin, int subsetMax) {
+	public void experiment1MakeMappings(int subsetMin, int subsetMax) {
 
 		Utils.resetDirectory(HouseData.outputDirName);
 		Utils.resetDirectory(WifiExperimentRunner.EXP_DIR);
@@ -42,8 +42,8 @@ public class ExperimentRunner {
 		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_SP, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 
-		//MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
-		//		WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 
 		// copy our created experiment files to input dir
 		copyOutputToWifiExperimentRunnerInput(subsetMin, subsetMax, HouseData.outputDirName, WifiExperimentRunner.EXP_DIR);
@@ -66,17 +66,17 @@ public class ExperimentRunner {
 
 
 		// Note that subsetMax - subsetMin should be > 1  for transfer case
-		int subsetMin = 2;
-		int subsetMax = 4;
+		int subsetMin = 0;
+		int subsetMax = 5;
 
 		
-		//experiment1MakeFiles(subsetMin, subsetMax);
+		experiment1MakeMappings(subsetMin, subsetMax);
 		
 		wer = new WifiExperimentRunner();
 
 		wer.setSubset(subsetMin, subsetMax);
-		wer.set_NO_DATA_INSTANCES(1);
-		int[] noDaysConsidered = { 2, 3 };
+		wer.set_NO_DATA_INSTANCES(100);
+		int[] noDaysConsidered = { 2, 3 ,4,6,11,16,21};
 		wer.setNoDaysArray(noDaysConsidered);
 		wer.turnLoggingOff();
 		wer.setWithRanges(true);
@@ -100,7 +100,7 @@ public class ExperimentRunner {
 
 			Utils.copyDirectory(new File(WifiExperimentRunner.HC_MMF_DIR + allHousesDir.get(i) + "/"),
 					new File(WifiExperimentRunner.EXP_DIR + allHousesDir.get(i) + "/" + 
-							WERenums.MMF_TYPE.HF + " " + transferSettings + "/"));
+							WERenums.MMF_TYPE.HC_MMF + " " + transferSettings + "/"));
 
 		}
 		

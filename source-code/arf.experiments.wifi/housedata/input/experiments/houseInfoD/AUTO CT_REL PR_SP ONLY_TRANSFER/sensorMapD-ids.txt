@@ -1,0 +1,72 @@
+61,Bathroom-Toilet Flush -houseD,374
+62,Bathroom-Light switch-houseD,379
+63,Foyer-Light switch-houseD,378
+64,Kitchen-Light switch A-houseD,376
+65,Kitchen-Burner A-houseD,364
+66,Living room-Light switch A-houseD,389
+67,Bedroom-Light switch-houseD,387
+69,Kitchen-Burner B-houseD,442
+70,Kitchen-Coffee machine-houseD,385
+71,Kitchen-Light switch B-houseD,383
+72,Kitchen-Drawer A-houseD,359
+73,Kitchen-Refrigerator A-houseD,371
+74,Kitchen-Oven-houseD,384
+75,Bathroom-Door-houseD,362
+76,Kitchen-Toaster-houseD,353
+77,Kitchen-Cabinet A-houseD,354
+78,Kitchen-Cabinet B-houseD,351
+79,Kitchen-Drawer B-houseD,352
+81,Kitchen-Freezer-houseD,371
+82,Kitchen-Cabinet C-houseD,372
+83,Bedroom-Jewelry box-houseD,370
+84,Foyer-Door-houseD,355
+85,Kitchen-Door A-houseD,442
+86,Kitchen-Washing Machine-houseD,442
+87,Kitchen-Microwave-houseD,356
+88,Kitchen-Refrigerator B-houseD,371
+89,Kitchen-Cereal-houseD,360
+90,Bedroom-Drawer A-houseD,363
+91,Kitchen-Cabinet D-houseD,366
+92,Kitchen-Drawer C-houseD,367
+93,Kitchen-Cabinet E-houseD,359
+94,Kitchen-Door B-houseD,368
+95,Kitchen-Cabinet F-houseD,359
+96,Living room-DVD -houseD,361
+97,Bathroom-Medicine cabinet A-houseD,374
+98,Bathroom-Medicine cabinet B-houseD,374
+99,Kitchen-Cabinet G-houseD,377
+100,Kitchen-Containers-houseD,388
+101,Kitchen-Cabinet H-houseD,386
+102,Bedroom-Drawer B-houseD,393
+103,Kitchen-Cabinet I-houseD,365
+104,Bedroom-Lamp-houseD,382
+105,Kitchen-Cabinet J-houseD,377
+106,Bathroom-Cabinet A-houseD,380
+107,Bathroom-Sink faucet - hot-houseD,374
+108,Kitchen-Drawer D-houseD,369
+109,Kitchen-Dishwasher-houseD,373
+110,Bedroom-Drawer C-houseD,398
+111,Kitchen-Cabinet K-houseD,360
+112,Kitchen-Cabinet L-houseD,360
+113,Bedroom-Drawer D-houseD,400
+114,Living room-Lamp-houseD,396
+115,Kitchen-Drawer E-houseD,399
+116,Bathroom-Cabinet B-houseD,402
+117,Kitchen-Cabinet M-houseD,365
+118,Foyer-Closet-houseD,443
+119,Office/study-Drawer-houseD,357
+120,Kitchen-Cabinet N-houseD,401
+121,Kitchen-Drawer F-houseD,359
+123,Bedroom-Drawer E-houseD,375
+124,Kitchen-Drawer G-houseD,395
+125,Bathroom-Sink faucet - cold-houseD,374
+127,Kitchen-Laundry Dryer-houseD,442
+128,Kitchen-Refrigerator C-houseD,371
+129,Office/study-Light switch-houseD,403
+130,Bathroom-Shower faucet-houseD,394
+131,Kitchen-Burner C-houseD,397
+132,Kitchen-Light switch C-houseD,392
+133,Bathroom-Exhaust Fan-houseD,391
+134,Living room-Light switch B-houseD,358
+135,Kitchen-Garbage disposal-houseD,390
+136,Kitchen-Burner D-houseD,381

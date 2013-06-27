@@ -76,7 +76,7 @@ public class WERenums {
 	}
 
 	public static enum MMF_TYPE { // used for folder names
-		AUTO(0), HF(1); // Our Features, or Her/Handcrafted Features
+		AUTO(0), HC_MMF(1); // Our Features, or Her/Handcrafted Features
 
 		private final int index;
 
