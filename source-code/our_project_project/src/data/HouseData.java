@@ -289,21 +289,6 @@ public class HouseData
 		return output;
 	}
 	
-	private int mapApply(int ID, int mappingLevel, int typeData)
-	{
-		NameContainer entity = indexID[typeData].get(ID);
-		
-		for (int l = 0; l < mappingLevel; l++)
-		{
-			if (entity.metacontainer != null)
-			{
-				entity = entity.metacontainer;
-			}
-		}
-		
-		return entity.ID;
-	}
-	
 	/**
 	 * Returns an array of lists where each list contains the IDs of sensors present in one group after mapping.
 	 * @param mappingLevel Number of sensor mapping levels to apply. MAPPING_LEVEL_* constants can be used for convenience.
@@ -617,26 +602,24 @@ public class HouseData
 	
 	/**
 	 * Returns an array with the activity IDs present in the data for all houses.
-	 * The activities are returned in the order implicitly assumed throughout the methods of this class.
+	 * @param mappingLevel Number of activity mapping levels to apply. MAPPING_LEVEL_* constants can be used for convenience.
 	 * @return An array with the activity IDs present in the data for all houses.
 	 */
-	public static Integer[] activityListAll()
+	public static Integer[] activityListAll(int mappingLevel)
 	{
-		Integer[] output = indexID[TYPE_DATA_ACTIVITY].keySet().toArray(new Integer[0]);
+		Set<Integer> IDs = new HashSet<Integer>();
 		
-		Arrays.sort(output);
+		for (int ID: indexID[TYPE_DATA_ACTIVITY].keySet())
+		{
+			int mappedID = mapApply(ID, mappingLevel, TYPE_DATA_ACTIVITY);
+			
+			if (!IDs.contains(mappedID))
+			{
+				IDs.add(mappedID);
+			}
+		}
 		
-		return output;
-	}
-	
-	/**
-	 * Returns an array with the sensor IDs present in the data for all houses.
-	 * The sensors are returned in the order implicitly assumed throughout the methods of this class.
-	 * @return An array with the sensor IDs present in the data for all houses.
-	 */
-	public static Integer[] sensorListAll()
-	{
-		Integer[] output = indexID[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
+		Integer[] output = IDs.toArray(new Integer[0]);
 		
 		Arrays.sort(output);
 		
@@ -690,5 +673,20 @@ public class HouseData
 	public Integer sensorFiringFrequency(Integer ID)
 	{
 		return firingFrequencies.get(ID);
+	}
+	
+	private static int mapApply(int ID, int mappingLevel, int typeData)
+	{
+		NameContainer entity = indexID[typeData].get(ID);
+		
+		for (int l = 0; l < mappingLevel; l++)
+		{
+			if (entity.metacontainer != null)
+			{
+				entity = entity.metacontainer;
+			}
+		}
+		
+		return entity.ID;
 	}
 }
