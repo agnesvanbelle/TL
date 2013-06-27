@@ -21,26 +21,26 @@ public class Alpha_beta_search {
 	public static void main(String[] args) {
 
 		Meta_feature_building.Alpha_beta_type alpha_style = Meta_feature_building.Alpha_beta_type.Absolute;
+//		Meta_feature_building.Alpha_beta_type alpha_style = Meta_feature_building.Alpha_beta_type.Relative;
 
-		int[] alphasA = { 2, 4, 6, 8, 10 };
+		int[] alphasA = {1, 2, 3, 4, 6, 8, 10 };
 		int[] betasA = { 3, 6, 9, 12, 15 };
 
-		int[] alphasB = { 2, 3, 4, 6, 8, 10 };
-		int[] betasB = { 3, 6, 7, 9, 12, 15 };
+		int[] alphasB = {1, 2, 3, 4, 6, 8, 10 };
+		int[] betasB = { 3, 6, 9, 12, 15 };
 
-		int[] alphasC = { 2, 4, 6, 8, 10 };
+		int[] alphasC = {1, 2, 3, 4, 6, 8, 10 };
 		int[] betasC = { 3, 6, 9, 12, 15 };
 
-		int[] alphasD = { 2, 4, 6, 8, 10 };
+		int[] alphasD = {1, 2, 3, 4, 6, 8, 10 };
 		int[] betasD = { 3, 6, 9, 12, 15 };
 
-		int[] alphasE = { 2, 4, 6, 8, 10 };
+		int[] alphasE = {1, 2, 3, 4, 6, 8, 10 };
 		int[] betasE = { 3, 6, 9, 12, 15 };
 
 		float[] single_alphas = { 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f };
 
-		//		String[] houseNames = {"A", "B","C","D","E"};
-		String[] houseNames = { "B" };
+		String[] houseNames = {"A", "B","C","D","E"};
 		ArrayList<HouseData> houses = new ArrayList<HouseData>();
 		for (String houseName : houseNames) {
 			houses.add(new HouseData("house" + houseName));
@@ -48,16 +48,16 @@ public class Alpha_beta_search {
 
 		ArrayList<int[]> alphas = new ArrayList<int[]>();
 		ArrayList<int[]> betas = new ArrayList<int[]>();
-		//		alphas.add(alphasA);
+		alphas.add(alphasA);
 		alphas.add(alphasB);
-		//		alphas.add(alphasC);
-		//		alphas.add(alphasD);
-		//		alphas.add(alphasE);
-		//		betas.add(betasA);
+		alphas.add(alphasC);
+		alphas.add(alphasD);
+		alphas.add(alphasE);
+		betas.add(betasA);
 		betas.add(betasB);
-		//		betas.add(betasC);
-		//		betas.add(betasD);
-		//		betas.add(betasE);		
+		betas.add(betasC);
+		betas.add(betasD);
+		betas.add(betasE);		
 
 		int[] alpha = { 0 };
 		int[] beta = { 0 };

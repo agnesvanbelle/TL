@@ -29,8 +29,7 @@ public class NormalDistribution
 	 */
 	public NormalDistribution(int[][] values)
 	{
-		// Value transformation into doubles:
-		
+		// Value transformation into doubles:		
 		double[][] valuesDouble = new double[values.length][values[0].length];
 		
 		for (int i = 0; i < values.length; i++)
@@ -50,8 +49,7 @@ public class NormalDistribution
 		
 		RealMatrix valuesMatrix = new Array2DRowRealMatrix(values);
 		
-		// Distribution characteristics calculation:
-		
+		// Distribution characteristics calculation:		
 		covariance = (new Covariance(valuesMatrix)).getCovarianceMatrix();
 		
 		double[] muVector    = new double[dimensions];
@@ -104,26 +102,18 @@ public class NormalDistribution
 		double determinantThis  = new LUDecomposition(this.covariance).getDeterminant();
 		double determinantOther = new LUDecomposition(other.covariance).getDeterminant();
 		
-		if(determinantOther==0.0)
-		{
-			System.out.println("print covariance matrix:");
-//			double[][] cov = other.covariance.getData();
-//			for(double[] row:cov)
-//			{
-//				for(double value: row)
-//				{
-//					System.out.print(value + "\t");
-//				}
-//				System.out.println("");
-//			}
-		}
-		
+				
 		RealMatrix covarianceInvOther;
 		try{	
 			covarianceInvOther = (new LUDecomposition(other.covariance)).getSolver().getInverse();
 		}
 		catch(SingularMatrixException a)
-		{
+		{			
+			if(mu.getEntry(0) == mu.getEntry(1))
+			{
+				System.out.println("exact same distribution");
+				return 0.0f;
+			}
 			return Float.POSITIVE_INFINITY;
 		}
 		output += covarianceInvOther.multiply(this.covariance).getTrace();

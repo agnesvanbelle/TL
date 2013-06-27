@@ -6,18 +6,15 @@ import java.util.HashMap;
 
 import meta_feature_building.Meta_feature_building;
 import meta_feature_building.Meta_features_apply_handcrafted;
+import meta_feature_mapping.Meta_feature_mapping.Sensor_distance;
 import data.HouseData;
 import data.NameContainer;
 
 public class Test{
 	
 //	public static final String[] houseNames = {"A", "B", "C", "D", "E"};
-//	public static final int nrHouses = houseNames.length;
-//	public static final String houseNamePrefix = "house";
-//	public static final int [] alpha = {5, 5,5,5,5};
-//	public static int [] beta = {14, 7,7,10,12};
 	
-	public static final String[] houseNames = {"A", "B", "C", "D", "E"};
+	public static final String[] houseNames = {"A", "B", "C"};
 	public static final int nrHouses = houseNames.length;
 	public static final String houseNamePrefix = "house";
 	public static final int [] alpha = {5, 5,5,5,5};
@@ -25,31 +22,31 @@ public class Test{
 	
 	public static void main(String[] args) 
 	{
-		replicate_mapping_Koehn_et_al();
+		// Replicate mapping results as described by Koehn et al (comment all stuff below first)
+//		replicate_mapping_Koehn_et_al();
 		
-//		ArrayList<HouseData> housesData = new ArrayList<HouseData>();
-//		
-//		for (String houseName : houseNames) {
-//			HouseData h = new HouseData(houseNamePrefix + houseName);
-//			housesData.add(h);
-//		}
-//		int target_house = 1;
+		ArrayList<HouseData> housesData = new ArrayList<HouseData>();
 		
-//		automatic_clustering(housesData, target_house);		
+		for (String houseName : houseNames) {
+			HouseData h = new HouseData(houseNamePrefix + houseName);
+			housesData.add(h);
+		}
+		int target_house = 1;
 		
+		//Test procedure with automatic clustering
+		automatic_clustering(housesData, target_house, Sensor_distance.Profiles_individ_KL_rel_KL);		
+		
+		// Test procedure of mapping with handmade clusters
 //		boolean diffent_meta_features = true;
 //		hand_made_clusters(housesData, target_house, diffent_meta_features, Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE);
-//		
-//		HashMap<String, String> meta_Features_check = new  HashMap<String, String>();
-//		get_extended_names(meta_Features_check, housesData.get(target_house));
-//		
-//		for (HouseData houseData : housesData) {
-//			print_metaFeatures(houseData, meta_Features_check);
-//		}
-	
-//		for (HouseData houseData : housesData) {
-//			houseData.formatLena(HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE);
-//		}
+		
+		HashMap<String, String> meta_Features_check = new  HashMap<String, String>();
+		get_extended_names(meta_Features_check, housesData.get(target_house));
+		
+		for (HouseData houseData : housesData) {
+			print_metaFeatures(houseData, meta_Features_check);
+		}
+		
 	}
 	
 	
@@ -96,7 +93,7 @@ public class Test{
 	}
 	
 	private static void get_extended_names(
-			HashMap<String, String> meta_Features_check, HouseData houseData) {
+		HashMap<String, String> meta_Features_check, HouseData houseData) {
 		String cluster_name = null;
 		String meta_meta_name = null;
 		for(Integer sensor_id: houseData.sensorList())

@@ -60,6 +60,7 @@ public class Meta_feature_mapping{
 		// For each house
 		for(int house_index = 0; house_index < data.size(); house_index++)
 		{ 			
+			System.out.println(data.get(house_index).houseName);
 			// If it is a source house
 			if(house_index!=target_house_index)
 			{
@@ -152,9 +153,8 @@ public class Meta_feature_mapping{
 				// Find best candidate for each target house cluster
 				for(int index_target:cluster_indexes_target_house)
 				{
-					System.out.println("Target cluster: " + index_target);
 					float current_diff = -1.0f;
-					float smallest_diff = 100000.0f;
+					float smallest_diff = Float.POSITIVE_INFINITY;
 					int candidate = -1;
 //					System.out.println("\tCandidates:");
 					for(int index_source: cluster_indexes_source_house)
@@ -169,7 +169,7 @@ public class Meta_feature_mapping{
 														
 						}
 						current_diff = diff[index_target][index_source];
-						if(current_diff < smallest_diff)
+						if(current_diff <= smallest_diff)
 						{
 							smallest_diff = current_diff;
 							candidate = index_source;
@@ -185,26 +185,22 @@ public class Meta_feature_mapping{
 					array_index++;
 				}
 				// Find match with smallest distance
-				float smallest_diff = 100000.0f;
+				float smallest_diff = Float.POSITIVE_INFINITY;
 				int source_cluster = -1;
 				int target_cluster = -1;
 				for(int i =0; i<best_candidate.length; i++)
-				{
+				{					
 					if(best_candidate_diff[i]<smallest_diff)
-					{
+					{						
 						smallest_diff = best_candidate_diff[i];
 						source_cluster = best_candidate[i];
 						target_cluster = cluster_index[i];
 					}
 				}
 				// Put the mapping in the hash map
+				
 				String source_cluster_name = HouseData.sensorContainer(clusters_source_house[source_cluster].get(0)).metacontainer.name;
-				String meta_meta_label = meta_meta_features_labels[target_cluster];
-				System.out.println("Match: " + match + " " + source_cluster_name + "\t\t" + meta_meta_label);
-				////////////////////DEBUGGING/////////////////////////////////
-//				String target_cluster_name = HouseData.sensorContainer(clusters_target_house[target_cluster].get(0)).metacontainer.name;
-//				System.out.println(source_cluster_name + "\t" + target_cluster_name +"\t\t" + meta_meta_label);
-				////////////////////DEBUGGING/////////////////////////////////
+				String meta_meta_label = meta_meta_features_labels[target_cluster];				
 				
 				// Save mapping
 				mapping.put(source_cluster_name, meta_meta_label);
@@ -212,22 +208,15 @@ public class Meta_feature_mapping{
 				// Remove source and target clusters from sets
 				cluster_indexes_target_house.remove(target_cluster);
 				cluster_indexes_source_house.remove(source_cluster);	
-				
-				////////////////////DEBUGGING/////////////////////////////////
-//				System.out.println("Removed clusters " + target_cluster + " " + source_cluster);
-//				System.out.println("nr unmapped source clusters: " + cluster_indexes_source_house.size());
-//				System.out.println("nr unmapped target clusters: " + cluster_indexes_target_house.size());
-				////////////////////DEBUGGING/////////////////////////////////
-				
+								
 			}
 			else
 			{
-//				System.out.println("Map remaining source clusters");
 				// Map remaining source clusters to target cluster with smallest distance
 				for(int id_source: cluster_indexes_source_house)
 				{
 					float current_diff = -1.0f;
-					float smallest_diff = 100000.0f;
+					float smallest_diff = Float.POSITIVE_INFINITY;
 					int target_cluster = -1;
 					for(int index_target=0; index_target<clusters_target_house.length;index_target++)
 					{
@@ -248,7 +237,6 @@ public class Meta_feature_mapping{
 					// Save mapping
 					mapping.put(source_cluster_name, meta_meta_label);
 					cluster_indexes_source_house.remove(id_source);
-//					System.out.println("Removed cluster " + id_source);
 				}
 			}
 		}
@@ -292,7 +280,7 @@ public class Meta_feature_mapping{
 		for(int i = 0; i<small_cluster.size(); i++)
 		{
 			int sensor_id_s = small_cluster.get(i);
-			float min_div = 1000000.0f;
+			float min_div = Float.POSITIVE_INFINITY;
 			// For each sensor in the large cluster
 			for(int j = 0; j<large_cluster.size(); j++)
 			{				
@@ -358,23 +346,7 @@ public class Meta_feature_mapping{
 	 * @return sum of squared error between two histograms
 	 */
 	public float sse_dist(float[][] hist_1, float[][] hist_2)
-	{
-//		System.out.println("Histogram 1");
-//		for(int i =0; i<hist_1.length;i++){
-//			for(int j = 0; j<hist_1[i].length;j++){
-//				System.out.print(hist_1[i][j]+"\t");
-//			}
-//			System.out.println("\n");
-//		}
-//		System.out.println("\n + Histogram 2");
-//		for(int i =0; i<hist_2.length;i++){
-//			for(int j = 0; j<hist_2[i].length;j++){
-//				System.out.print(hist_2[i][j]+"\t");
-//			}
-//			System.out.println("\n");
-//		}
-		
-		
+	{		
 		float bcoeff = 0.0f;
 		int nr_bins_x = hist_1.length;
 		int nr_bins_y = hist_1[0].length;
@@ -402,7 +374,7 @@ public class Meta_feature_mapping{
 		
 		Integer[] sensors_b = house_small.sensorList();
 		Integer[] sensors_beta = house_large.sensorList();
-		float relative_dist = 100000000f;
+		float relative_dist = Float.POSITIVE_INFINITY;
 		float current_dist = -1.0f;
 		for(Integer b:sensors_b)
 		{
