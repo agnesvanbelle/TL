@@ -512,7 +512,13 @@ public class HouseData
 			throw new IllegalArgumentException();
 		}
 		
+		System.out.println("sensorA:" + sensorContainer(sensorA).name);
+		System.out.println("sensorB:" + sensorContainer(sensorB).name);
+		
 		List<DataPoint> dataTarget = dataID[TYPE_DATA_SENSOR].get(sensorA);
+		
+		
+		System.out.println(dataTarget.size());
 		
 		double[][] values = new double[dataTarget.size()][1];
 		

@@ -308,7 +308,7 @@ public class Meta_feature_mapping{
 						break;
 					case Profiles_individ_KL:
 						nd_s = house_small.profileSensor(sensor_id_s);
-						nd_l = house_large.profileSensor(sensor_id_l);						
+						nd_l = house_large.profileSensor(sensor_id_l);	
 						current_min_div = nd_s.KLDivergence(nd_l);
 						break;
 					case Profiles_individ_KL_rel_KL:
@@ -384,6 +384,7 @@ public class Meta_feature_mapping{
 				{
 					data.NormalDistribution a_b = house_small.profileRelational(sensor_id_s, b);
 					data.NormalDistribution alpha_beta = house_large.profileRelational(sensor_id_l, beta);
+					System.out.println("small: " + house_small.houseName + ", large: " + house_large.houseName);
 					
 					switch(sensor_distance_type)
 					{

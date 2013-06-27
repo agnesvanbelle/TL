@@ -137,6 +137,8 @@ public class NormalDistribution
 				
 				int[] variantDimensions = new int[i];
 				
+				System.out.println(variantDimensions.length);
+				System.out.println(variantDimensionsPseudo.length);
 				for (int j = 0; j < mu.getDimension(); j++)
 				{
 					variantDimensions[j] = variantDimensionsPseudo[j];
