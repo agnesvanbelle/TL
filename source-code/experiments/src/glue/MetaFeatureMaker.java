@@ -78,7 +78,8 @@ public class MetaFeatureMaker {
 		HouseData.mapActivities("Going-out-to-school", "leave-house");
 		HouseData.mapActivities("Going-out-for-entertainment", "leave-house");
 		HouseData.mapActivities("Going-out-for-shopping", "leave-house");
-
+		HouseData.mapActivities("Going-out-to-exercise", "leave-house");
+		
 		HouseData.mapActivities("Toileting", "use-toilet");
 
 		HouseData.mapActivities("Bathing", "take-shower");
@@ -99,7 +100,7 @@ public class MetaFeatureMaker {
 	}
 
 	public static void saveClassMapFile(String fileName) {
-		Integer[] activityIDList = HouseData.activityListAll();
+		Integer[] activityIDList = HouseData.activityListAll(HouseData.MAPPING_LEVEL_METAMETAFEATURE);
 
 		BufferedWriter bf = null;
 
@@ -110,9 +111,10 @@ public class MetaFeatureMaker {
 			for (int activityIndex=0; activityIndex < activityIDList.length; activityIndex++) {
 				Integer id = activityIDList[activityIndex ];
 				System.out.println("activity ID: " + id);
-				System.out.println("didnt occur yet");
+				String activityName = HouseData.activityContainer(id).name;
+				System.out.println("activity name: " + activityName);
 				//String activityName = HouseData.indexID[HouseData.TYPE_DATA_ACTIVITY].get(id).name;
-				bf.write(activityIndex + "," + id + "\n");
+				bf.write(activityIndex + "," + activityName + "\n");
 				
 			}
 		}

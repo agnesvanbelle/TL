@@ -59,25 +59,25 @@ public class ExperimentRunner {
 
 
 		int subsetMin = 2;
-		int subsetMax = 5;
+		int subsetMax = 4;
 
 		
 		experiment1MakeFiles(subsetMin, subsetMax);
 		
-//		wer = new WifiExperimentRunner();
-//
-//		wer.setSubset(subsetMin, subsetMax);
-//		wer.set_NO_DATA_INSTANCES(5);
-//		int[] noDaysConsidered = { 2, 3 };
-//		wer.setNoDaysArray(noDaysConsidered);
-//		wer.turnLoggingOff();
-//		wer.setWithRanges(true);
-//
-//		System.out.println("\n------ WER settings : ------");
-//		System.out.println(wer);
-//		System.out.println("----------------------------\n");
-//
-//		wer.run();
+		wer = new WifiExperimentRunner();
+
+		wer.setSubset(subsetMin, subsetMax);
+		wer.set_NO_DATA_INSTANCES(5);
+		int[] noDaysConsidered = { 2, 3 };
+		wer.setNoDaysArray(noDaysConsidered);
+		wer.turnLoggingOff();
+		wer.setWithRanges(true);
+
+		System.out.println("\n------ WER settings : ------");
+		System.out.println(wer);
+		System.out.println("----------------------------\n");
+
+		wer.run();
 
 	}
 

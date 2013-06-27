@@ -358,6 +358,7 @@ public class WifiExperimentRunner {
 
 							}
 							// ======== build transfer model ========
+							//TODO check if posisble if nr houses=1?
 							if (transferSettings == WERenums.TRANSFER_SETTINGS.BOTH || transferSettings == WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER) {
 								
 								String outputDirNameExpNoDaysTransferType = outputDirNameExpNoDays + WERenums.TRANSFER_TYPE.TRANSFER + "/";

@@ -1,21 +1,21 @@
-0,mat bed right pressure mat-houseC,313
-1,matt couch living room-houseC,313
-2,freezer drove-houseC,313
-3,toilet flush top flush-houseC,313
-4,toilet flush bottom flush-houseC,315
-5,keys-houseC,313
-6,bath lift left-houseC,313
-7,cutlery drawer mercury sensor-houseC,313
-8,table pans reed-houseC,314
-9,microwave reed-houseC,313
-10,table scraps containers reed-houseC,317
-11,cabinet signs/herb reed-houseC,313
-12,door downstairs toilet-houseC,316
-13,cabinet cups/bowl/ tuna reed-houseC,313
-14,front door reed-houseC,313
-15,bedroom door-houseC,313
-16,refrigerator reed-houseC,313
-17,bathtub pir-houseC,313
-18,dresser pir-houseC,312
-19,sink top flush-houseC,313
-20,bed mat left pressure mat-houseC,312
+0,mat bed right pressure mat-houseC,190
+1,matt couch living room-houseC,190
+2,freezer drove-houseC,190
+3,toilet flush top flush-houseC,190
+4,toilet flush bottom flush-houseC,192
+5,keys-houseC,190
+6,bath lift left-houseC,190
+7,cutlery drawer mercury sensor-houseC,190
+8,table pans reed-houseC,191
+9,microwave reed-houseC,190
+10,table scraps containers reed-houseC,194
+11,cabinet signs/herb reed-houseC,190
+12,door downstairs toilet-houseC,193
+13,cabinet cups/bowl/ tuna reed-houseC,190
+14,front door reed-houseC,190
+15,bedroom door-houseC,190
+16,refrigerator reed-houseC,190
+17,bathtub pir-houseC,190
+18,dresser pir-houseC,189
+19,sink top flush-houseC,190
+20,bed mat left pressure mat-houseC,189
