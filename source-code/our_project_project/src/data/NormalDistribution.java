@@ -154,7 +154,7 @@ public class NormalDistribution
 				NormalDistribution thisPseudo  = new NormalDistribution(thisPseudoMu,  thisPseudoSigma,  thisPseudoCovariance);
 				NormalDistribution otherPseudo = new NormalDistribution(otherPseudoMu, otherPseudoSigma, otherPseudoCovariance);
 				
-				return thisPseudo.KLDivergence(otherPseudo);
+				return thisPseudo.KLDivergence(otherPseudo) * 1.5f;
 			}
 			else if (this.mu.getDistance(other.mu) <= EQ_THRESHOLD)
 			{
