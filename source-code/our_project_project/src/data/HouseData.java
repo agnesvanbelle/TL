@@ -233,7 +233,9 @@ public class HouseData
 	public Integer[] sensorList()
 	{
 		Integer [] output = dataID[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
+		
 		Arrays.sort(output);
+		
 		return output;
 	}
 	
@@ -245,7 +247,9 @@ public class HouseData
 	public Integer[] activityList()
 	{
 		Integer[] output = dataID[TYPE_DATA_ACTIVITY].keySet().toArray(new Integer[0]);
+		
 		Arrays.sort(output);
+		
 		return output;
 	}
 	
@@ -609,6 +613,34 @@ public class HouseData
 	public static NameContainer activityContainer(String name)
 	{
 		return indexName[TYPE_DATA_ACTIVITY].get(name);
+	}
+	
+	/**
+	 * Returns an array with the activity IDs present in the data for all houses.
+	 * The activities are returned in the order implicitly assumed throughout the methods of this class.
+	 * @return An array with the activity IDs present in the data for all houses.
+	 */
+	public static Integer[] activityListAll()
+	{
+		Integer[] output = indexID[TYPE_DATA_ACTIVITY].keySet().toArray(new Integer[0]);
+		
+		Arrays.sort(output);
+		
+		return output;
+	}
+	
+	/**
+	 * Returns an array with the sensor IDs present in the data for all houses.
+	 * The sensors are returned in the order implicitly assumed throughout the methods of this class.
+	 * @return An array with the sensor IDs present in the data for all houses.
+	 */
+	public static Integer[] sensorListAll()
+	{
+		Integer[] output = indexID[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
+		
+		Arrays.sort(output);
+		
+		return output;
 	}
 	
 	/**

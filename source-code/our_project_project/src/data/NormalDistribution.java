@@ -101,19 +101,22 @@ public class NormalDistribution
 		
 		double determinantThis  = new LUDecomposition(this.covariance).getDeterminant();
 		double determinantOther = new LUDecomposition(other.covariance).getDeterminant();
-		
 				
 		RealMatrix covarianceInvOther;
-		try{	
+		
+		try
+		{	
 			covarianceInvOther = (new LUDecomposition(other.covariance)).getSolver().getInverse();
 		}
-		catch(SingularMatrixException a)
+		catch (SingularMatrixException a)
 		{			
-			if(mu.getEntry(0) == mu.getEntry(1))
+			if (this.mu.getDistance(other.mu) <= EQ_THRESHOLD)
 			{
 				System.out.println("exact same distribution");
+				
 				return 0.0f;
 			}
+			
 			return Float.POSITIVE_INFINITY;
 		}
 		output += covarianceInvOther.multiply(this.covariance).getTrace();
