@@ -542,7 +542,7 @@ public class WifiExperimentRunner {
 
 	public void evaluationResultsToMatlabPerHouse() {
 		
-		String regex = "_";
+		String regex = "[_]";
 		
 		String matlabDir = ROOT_DIR + "output/" + "matlab/";
 		String plotOutputDir = new File(matlabDir).getAbsolutePath();

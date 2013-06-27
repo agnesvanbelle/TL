@@ -380,7 +380,7 @@ public class Meta_feature_mapping{
 		{
 			for(Integer beta: sensors_beta)
 			{
-				if(sensor_id_s!= b && sensor_id_l != beta)
+				if(sensor_id_s.intValue() != b.intValue() && sensor_id_l.intValue() != beta.intValue())
 				{
 					data.NormalDistribution a_b = house_small.profileRelational(sensor_id_s, b);
 					data.NormalDistribution alpha_beta = house_large.profileRelational(sensor_id_l, beta);
