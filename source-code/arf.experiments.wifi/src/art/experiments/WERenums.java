@@ -149,6 +149,35 @@ public class WERenums {
 		}
 	}
 	
+	public static enum DISTANCE_MEASURE { 
+		SSE(0), KL(1); 
+
+		public static String[] valuesStr() {
+			DISTANCE_MEASURE[] vs = DISTANCE_MEASURE.values();
+			String[] v = new String[PROFILE_TYPE.length()];
+			int i=0;
+			for (DISTANCE_MEASURE pt : vs) {
+				v[i++]=pt.name();
+			}
+			return v;
+		}
+		
+		private final int index;
+
+		DISTANCE_MEASURE(int index) {
+			this.index = index;
+		}
+
+		public int index() {
+			return index;
+		}
+
+		public static int length() {
+			return values().length;
+		}
+	}
+	
+	
 	public static enum MF_TYPE { 
 		HC(0), AUTO(1); 
 
@@ -204,6 +233,7 @@ public class WERenums {
 			return values().length;
 		}
 	}
+	
 	
 	
 	

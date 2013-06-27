@@ -12,10 +12,10 @@ public class Meta_feature_mapping{
 	
 	
 	public enum Sensor_distance {
-		Profiles_individ_KL, //TODO // KL divergence distance measure
+		Profiles_individ_KL,  // KL divergence distance measure, sensor profile
 		Profiles_individ_SSE,  //sum squared errors distance measure, sensor profile
-		Profiles_individ_KL_rel_KL, //TODO
-		Profiles_individ_SSE_rel_OL //sum squared errors distance measure , sensor profile + relational profile (?)
+		Profiles_individ_KL_rel_KL, //KL divergence distance measure , sensor profile + relational profile 
+		Profiles_individ_SSE_rel_OL //sum squared errors distance measure , sensor profile + relational profile 
 	};
 	
 	

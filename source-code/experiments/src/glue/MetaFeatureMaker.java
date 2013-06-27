@@ -13,6 +13,7 @@ import data.HouseData;
 import art.framework.utils.*;
 import art.experiments.*;
 import art.experiments.WERenums.CLUSTER_TYPE;
+import art.experiments.WERenums.DISTANCE_MEASURE;
 import art.experiments.WERenums.PROFILE_TYPE;
 import art.experiments.wifi.data.processor.WifiUtils;
 
@@ -147,7 +148,7 @@ public class MetaFeatureMaker {
 	 * @param mfType
 	 */
 	public static void runForSubset(String rootOutputDir, int min_nr, int max_nr, WERenums.MF_TYPE mfType, WERenums.CLUSTER_TYPE clusterType, WERenums.PROFILE_TYPE profileType,
-			WERenums.TRANSFER_SETTINGS trSetting) {
+			WERenums.DISTANCE_MEASURE distanceMeasure,	WERenums.TRANSFER_SETTINGS trSetting) {
 
 
 		if (max_nr > nrAllHouses) {
@@ -199,19 +200,26 @@ public class MetaFeatureMaker {
 		}
 
 		//////// map metafeatures ////////
-		Meta_feature_mapping.Sensor_distance sd;
+		Meta_feature_mapping.Sensor_distance sd ;
 		// sensor distances (for mapping):  only sensor profile, or both sensor profile and relational profile
-		switch (profileType) {
-		case PR_SP:
+				
+		if (profileType == PROFILE_TYPE.PR_SP && distanceMeasure == DISTANCE_MEASURE.SSE) {
 			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE;
-			break;
-		case PR_BOTH:
+		}
+		else if (profileType == PROFILE_TYPE.PR_SP && distanceMeasure == DISTANCE_MEASURE.KL) {
+			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_KL;
+					
+		}
+		else if (profileType == PROFILE_TYPE.PR_BOTH && distanceMeasure == DISTANCE_MEASURE.SSE) {
 			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE_rel_OL;
-			break;
-		default:
-			System.err.println("No Meta_feature_mapping provided going with " + Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE);
+			
+		}
+		else if (profileType == PROFILE_TYPE.PR_BOTH && distanceMeasure == DISTANCE_MEASURE.KL) {
+			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_KL_rel_KL;
+		}
+		else {
+			System.err.println("No profile type and/or distance measure provided going with " + Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE);
 			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE;
-			break;
 		}
 
 		// for all specified houses
