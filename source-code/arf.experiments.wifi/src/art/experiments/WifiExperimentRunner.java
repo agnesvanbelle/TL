@@ -45,7 +45,7 @@ public class WifiExperimentRunner {
 	private String[] houses;
 	private int numberHouses = -1;
 	private ArrayList<Double>[][] results; // for evaluation 
-	private ArrayList<String> [] resultsNames ;
+	private ArrayList<String>[] resultsNames;
 	private double[] maxDaysPlotPerHouse;
 
 	private int startHouseNr, endHouseNr;
@@ -82,7 +82,7 @@ public class WifiExperimentRunner {
 	}
 
 	public void setNoDaysArray(int[] noDaysArray) {
-		this.noDaysArray = noDaysArray;
+		this.noDaysArray = noDaysArray.clone();
 	}
 
 	public void setConf(String conf) {
@@ -120,8 +120,7 @@ public class WifiExperimentRunner {
 
 	public static void main(String[] args) {
 		System.err.println("Doing nothing.");
-		System.err.println("Better to invoke WER from project \"experiments\", package \"glue\"" +
-				"			,class \"ExperimentRunner.java\". After specifying settings through WER's setter-methods.");
+		System.err.println("Better to invoke WER from project \"experiments\", package \"glue\"" + "			,class \"ExperimentRunner.java\". After specifying settings through WER's setter-methods.");
 	}
 
 	public void run() {
@@ -146,7 +145,7 @@ public class WifiExperimentRunner {
 	public void runEvaluation() {
 		evaluateUsingSVM();
 		printEvaluationResults();
-		//evaluationResultsToMatlabPerHouse();
+		evaluationResultsToMatlabPerHouse();
 	}
 
 	public void init() {
@@ -426,38 +425,36 @@ public class WifiExperimentRunner {
 
 	public void evaluateUsingSVM() {
 
-	
+		results = new ArrayList/* <Double> */[numberHouses][noDaysArray.length];
 
-		results = new ArrayList[numberHouses][noDaysArray.length];
-
-		resultsNames = new ArrayList[numberHouses];
+		resultsNames = new ArrayList/* <String> */[numberHouses];
 
 		System.out.println("\nGoing to evaluate using libSVM...");
 
 		String[] patterns = TRANSFER_SETTINGS.valuesStr();
 		String regex = "(";
-		for (int i=0; i < patterns.length; i++) {
+		for (int i = 0; i < patterns.length; i++) {
 			regex += patterns[i] + "|";
 		}
-		regex = regex.substring(0,regex.length()-1);
+		regex = regex.substring(0, regex.length() - 1);
 		regex += ")";
 		//System.out.println("regex: " + regex);
-		
+
 		for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
-			
+
 			String outputDirHouse = OUTPUT_DIR + "houseInfo" + houses[houseNr] + "/";
 
 			ArrayList<String> experimentNames = Utils.getSubDirectories(outputDirHouse);
 
 			resultsNames[houseNr] = new ArrayList<String>();
-			
+
 			for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
 				int noDays = noDaysArray[noDaysIndex];
 
 				results[houseNr][noDaysIndex] = new ArrayList<Double>();
 
 				for (int expIndex = 0; expIndex < experimentNames.size(); expIndex++) {
-					
+
 					String expName = experimentNames.get(expIndex);
 					String outputDirHouseExp = outputDirHouse + expName + "/";
 
@@ -471,11 +468,11 @@ public class WifiExperimentRunner {
 							if (f.exists()) { // if was run for this transfer setting
 
 								// add transfer_type to expname instead of transfer_setting
-								String finalName = expName.replaceFirst(regex, tT.name()); 						
-							
-								
-								resultsNames[houseNr].add(finalName);
-								
+								String finalName = expName.replaceFirst(regex, tT.name());
+
+								if (noDaysIndex == 0) {
+									resultsNames[houseNr].add(finalName);
+								}
 
 								String testDir = outputDirHouseExpDays + "/" + tT + "/" + WERenums.SET_TYPE.TEST + "/";
 								String trainDir = outputDirHouseExpDays + "/" + tT + "/" + WERenums.SET_TYPE.TRAIN + "/";
@@ -496,7 +493,7 @@ public class WifiExperimentRunner {
 							}
 						}
 					}
-				}		
+				}
 			}
 		}
 		System.out.println("Done evaluating using libSVM.\n");
@@ -504,6 +501,7 @@ public class WifiExperimentRunner {
 	}
 
 	public void printEvaluationResults() {
+		System.out.println("\nResults:");
 		for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
 			System.out.println("House: " + houses[houseNr]);
 
@@ -511,7 +509,7 @@ public class WifiExperimentRunner {
 				int noDays = noDaysArray[noDaysIndex];
 				System.out.println("NoDays: " + noDays);
 
-				for (int resultIndex=0; resultIndex < results[houseNr][noDaysIndex].size(); resultIndex++) {
+				for (int resultIndex = 0; resultIndex < results[houseNr][noDaysIndex].size(); resultIndex++) {
 					System.out.println(resultsNames[houseNr].get(resultIndex) + ": " + results[houseNr][noDaysIndex].get(resultIndex));
 
 				}
@@ -542,72 +540,68 @@ public class WifiExperimentRunner {
 		return accuracy / 100.0;
 	}
 
-	//	public void evaluationResultsToMatlabPerHouse() {
-	//		String matlabDir = ROOT_DIR + "output/" + "matlab/";
-	//		String plotOutputDir = new File(matlabDir).getAbsolutePath();
-	//		Utils.createDirectory(matlabDir);
-	//
-	//		for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
-	//
-	//			BufferedWriter bw = null;
-	//			try {
-	//				File file = new File(matlabDir + "dataHouse" + houses[houseNr] + ".m");
-	//				bw = new BufferedWriter(new FileWriter(file));
-	//
-	//				String dvString = "datavalues";
-	//
-	//				for (WERenums.MMF_TYPE fT : WERenums.MMF_TYPE.values()) {
-	//					String ftString = fT == WERenums.MMF_TYPE.AUTO ? dvString + "_of" : dvString + "_hf";
-	//
-	//					for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
-	//						String ttString = tT == WERenums.TRANSFER_TYPE.NOTRANSFER ? ftString + "_notr" : ftString + "_tr";
-	//
-	//						bw.write(ttString + "= [");
-	//						for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
-	//							if (noDaysArray[noDaysIndex] < maxDaysPlotPerHouse[houseNr]) {
-	//								// int noDays = noDaysArray[noDaysIndex];
-	//								bw.write(Double.toString(results[houseNr][noDaysIndex][fT.index()][tT.index()]));
-	//
-	//								if (noDaysIndex < noDaysArray.length - 1) {
-	//									bw.write(", ");
-	//								}
-	//							}
-	//						}
-	//						bw.write("];\n");
-	//					}
-	//				}
-	//				bw.write("datapoints = [");
-	//				for (int nD = 0; nD < noDaysArray.length && noDaysArray[nD] < maxDaysPlotPerHouse[houseNr]; nD++) {
-	//					if (noDaysArray[nD] < maxDaysPlotPerHouse[houseNr]) {
-	//						bw.write(Integer.toString(noDaysArray[nD] - 1));
-	//						bw.write(" ");
-	//					}
-	//				}
-	//				bw.write("];\n");
-	//
-	//				bw.write("directory='" + plotOutputDir + "/';\n");
-	//				bw.write("housename=' " + houses[houseNr] + "';\n");
-	//				bw.write("addpath ../../input/matlab/\n");
-	//				bw.write("run ../../input/matlab/saveplot;");
-	//
-	//			}
-	//			catch (IOException e) {
-	//				e.printStackTrace();
-	//			}
-	//			finally {
-	//				if (bw != null) {
-	//					try {
-	//						bw.close();
-	//					}
-	//					catch (Exception e) {
-	//						e.printStackTrace();
-	//					}
-	//				}
-	//			}
-	//		}
-	//		System.out.println("\nWriting to Matlab files done.");
-	//		System.out.println("See directory " + matlabDir + " for the matlab scripts.");
-	//	}
+	public void evaluationResultsToMatlabPerHouse() {
+		String matlabDir = ROOT_DIR + "output/" + "matlab/";
+		String plotOutputDir = new File(matlabDir).getAbsolutePath();
+		Utils.createDirectory(matlabDir);
+
+		for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
+
+			BufferedWriter bw = null;
+			try {
+				File file = new File(matlabDir + "dataHouse" + houses[houseNr] + ".m");
+				bw = new BufferedWriter(new FileWriter(file));
+
+				bw.write("exp = [];\n");
+				bw.write("expLegend={};\n");
+				bw.write("datapoints=[];\n");
+
+				for (int resultIndex = 0; resultIndex < resultsNames[houseNr].size(); resultIndex++) {
+					//	System.out.println(resultsNames[houseNr].get(resultIndex) + ": " + results[houseNr][noDaysIndex].get(resultIndex));
+
+					bw.write("expLegend{" + (resultIndex+1) + "}='" + resultsNames[houseNr].get(resultIndex).toString() + "';\n");
+
+					for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
+
+						if (noDaysArray[noDaysIndex] < maxDaysPlotPerHouse[houseNr]) {
+							
+//							System.out.println("houseNr:" + houseNr);
+//							System.out.println("resultIndex:"+ resultIndex);
+//							System.out.println("noDaysIndex:" + noDaysIndex);
+							
+							bw.write("exp(" + (resultIndex+1) + "," + (noDaysIndex+1) + ")=" + results[houseNr][noDaysIndex].get(resultIndex).toString() + ";\n");
+
+							bw.write("datapoints(" + (noDaysIndex+1) + ",1)=" + noDaysArray[noDaysIndex] + ";\n");
+						}
+						bw.write("\n");
+					}
+					bw.write("\n");
+				}
+				bw.write("\n");
+
+				bw.write("directory='" + plotOutputDir + "/';\n");
+				bw.write("houseName=' " + houses[houseNr] + "';\n");
+				bw.write("addpath ../../input/matlab/\n");
+				bw.write("run ../../input/matlab/saveplot;");
+
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			finally {
+				if (bw != null) {
+					try {
+						bw.close();
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		System.out.println("\nWriting to Matlab files done.");
+		System.out.println("See directory " + matlabDir + " for the matlab scripts.");
+	}
 
 	/**
 	 * Constructs a mapping of date/time to sensor readings

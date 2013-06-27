@@ -48,8 +48,9 @@ public class ExperimentRunner {
 		// copy our created experiment files to input dir
 		copyOutputToWifiExperimentRunnerInput(subsetMin, subsetMax, HouseData.outputDirName, WifiExperimentRunner.EXP_DIR);
 
-		// copy action id's mapped while making our experients to lena's original files dir
-		// to replace actionmap*.txt and *-as.txt files
+		// copy action id's mapped while making our experiments to lena's original files dir
+		// to replace the original actionmap*.txt and *-as.txt files
+		// this should only matter for house D and E really
 		copyActionListFilesToOriginalHC(subsetMin, subsetMax);
 		
 		// copy (part of) her original files to input dir
@@ -64,7 +65,7 @@ public class ExperimentRunner {
 	public void experiment1() {
 
 
-		// subsetMax - subsetMin should be > 1 !
+		// Note that subsetMax - subsetMin should be > 1  for transfer case
 		int subsetMin = 2;
 		int subsetMax = 4;
 
