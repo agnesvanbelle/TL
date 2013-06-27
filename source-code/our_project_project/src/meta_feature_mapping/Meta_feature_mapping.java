@@ -380,16 +380,16 @@ public class Meta_feature_mapping{
 		{
 			for(Integer beta: sensors_beta)
 			{
-				if(sensor_id_s.intValue() != b.intValue() && sensor_id_l.intValue() != beta.intValue())
+				if((sensor_id_s.compareTo(b) != 0) && (sensor_id_l.compareTo(beta) != 0))
 				{
 					data.NormalDistribution a_b = house_small.profileRelational(sensor_id_s, b);
 					data.NormalDistribution alpha_beta = house_large.profileRelational(sensor_id_l, beta);
 					
 					switch(sensor_distance_type)
 					{
-					case Profiles_individ_SSE_rel_OL: current_dist = a_b.overlapLevel(alpha_beta); break;
-					case Profiles_individ_KL_rel_KL: current_dist = a_b.KLDivergence(alpha_beta); break;
-					default:	System.out.println("Unusable distance metric for relative distance usage"); break;
+						case Profiles_individ_SSE_rel_OL: current_dist = a_b.overlapLevel(alpha_beta); break;
+						case Profiles_individ_KL_rel_KL: current_dist = a_b.KLDivergence(alpha_beta); break;
+						default:	System.out.println("Unusable distance metric for relative distance usage"); break;
 					}
 					
 					if(current_dist < relative_dist)

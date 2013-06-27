@@ -162,7 +162,7 @@ public class MetaFeatureMaker {
 		int[] betas = Arrays.copyOfRange(betaAllHouses, min_nr, max_nr);
 		ArrayList<HouseData> housesData = getHousesData(houseNames);
 
-		System.out.println("Making metafeatures for houses: " + Arrays.toString(houseNames) + " (Experiment settings: " + mfType + "," + clusterType + ", " + profileType + ", " + trSetting + ")");
+		System.out.println("Making metafeatures for houses: " + Arrays.toString(houseNames) + " (Experiment settings: " + mfType + "," + clusterType + ", " + profileType + ", " + distanceMeasure + ", " +  trSetting + ")");
 
 		// map house D and E sensors (AFTER housesData has been made!)
 		makeMappingForHouseDandE();

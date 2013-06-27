@@ -535,6 +535,7 @@ public class HouseData
 			values[i][0] = (double) minDiff;
 		}
 		
+		
 		return new NormalDistribution(values);
 	}
 	
