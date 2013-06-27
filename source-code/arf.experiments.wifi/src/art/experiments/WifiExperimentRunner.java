@@ -44,7 +44,7 @@ public class WifiExperimentRunner {
 
 	private String[] houses;
 	private int numberHouses = -1;
-	private double results[][][][]; // for evaluation 	
+	private double  run[][][][]; // for evaluation 	
 	private double[] maxDaysPlotPerHouse;
 
 	private int startHouseNr, endHouseNr;
@@ -124,13 +124,21 @@ public class WifiExperimentRunner {
 	}
 
 	public void run() {
+		
+		if (numberHouses <= 1) {
+			System.err.println("Number of houses not set, or set too low " +
+								" (should be larger than 1 )");
+			System.exit(1);
+		}
 		runTransferAlgorithm();
 		//runEvaluation();
 	}
 
 	public void setSubset(int l, int h) {
+		
+		
 		numberHouses = h - l;
-
+		
 		startHouseNr = l;
 		endHouseNr = h;
 
@@ -433,41 +441,65 @@ public class WifiExperimentRunner {
 
 	public void evaluateUsingSVM() {
 
-		results = new double[numberHouses][noDaysArray.length][WERenums.MMF_TYPE.length()][WERenums.TRANSFER_TYPE.length()];
+//		ArrayList[][][] arrayQ;
+//		arrayQ = new ArrayList[90][13][18];
+//
+//		for (int i = 0; i < 90; i++) {
+//	      for (int j = 0; j < 13; j++) {
+//	        for (int k = 0; k < 18; k++) {
+//	          arrayQ[i][j][k] = new ArrayList<int>();
+//	        }  
+//	      } 
+//	    }
+//		
+		results = new ArrayList<Double>[numberHouses][noDaysArray.length];
 
 		System.out.println("\nGoing to evaluate using libSVM...");
 
 		for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
-			String outputDirHouse = ROOT_DIR + "output/" + "houseInfo" + houses[houseNr] + "/";
+			String outputDirHouse = OUTPUT_DIR + "houseInfo" + houses[houseNr] + "/";
 
-			for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
-				int noDays = noDaysArray[noDaysIndex];
-
-				if (maxDaysPlotPerHouse[houseNr] > noDays) {
-					String outputDirHouseDays = outputDirHouse + houses[houseNr] + noDays + "/";
-
-					for (WERenums.MMF_TYPE fT : WERenums.MMF_TYPE.values()) {
-
-						for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
-
-							String testDir = outputDirHouseDays + fT + "/" + tT + "/" + WERenums.SET_TYPE.TEST + "/";
-							String trainDir = outputDirHouseDays + fT + "/" + tT + "/" + WERenums.SET_TYPE.TRAIN + "/";
-
-							ArrayList<String> testFiles = Utils.getDirectoryListing(testDir);
-							ArrayList<String> trainFiles = Utils.getDirectoryListing(trainDir);
-
-							String tempOutputDir = outputDirHouseDays + fT + "/" + tT + "/" + "tempOutput/";
-							double total = 0;
-							for (int fileNameIndex = 0; fileNameIndex < trainFiles.size(); fileNameIndex++) {
-								total += callSVM(trainDir, testDir, tempOutputDir, trainFiles.get(fileNameIndex), testFiles.get(fileNameIndex));
+			ArrayList<String> experimentNames = Utils.getSubDirectories(outputDirHouse);
+			
+			
+			for (int expIndex = 0; expIndex < experimentNames.size(); expIndex++) {
+				String outputDirHouseExp = outputDirHouse + experimentNames.get(expIndex) + "/";
+				
+				for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
+					int noDays = noDaysArray[noDaysIndex];
+	
+					if (maxDaysPlotPerHouse[houseNr] > noDays) {
+						String outputDirHouseExpDays = outputDirHouseExp + houses[houseNr] + noDays + "/";
+	
+							
+	
+							for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
+	
+								File f = new File(outputDirHouseExpDays + tT + "/");
+								if (f.exists()) {
+									
+									// add transfertype to expname 
+									String testDir = outputDirHouseExpDays + "/" + tT + "/" + WERenums.SET_TYPE.TEST + "/";
+									String trainDir = outputDirHouseExpDays + "/" + tT + "/" + WERenums.SET_TYPE.TRAIN + "/";
+		
+									ArrayList<String> testFiles = Utils.getDirectoryListing(testDir);
+									ArrayList<String> trainFiles = Utils.getDirectoryListing(trainDir);
+		
+									String tempOutputDir = outputDirHouseExpDays +  "/" + tT + "/" + "tempOutput/";
+									double total = 0;
+									for (int fileNameIndex = 0; fileNameIndex < trainFiles.size(); fileNameIndex++) {
+										total += callSVM(trainDir, testDir, tempOutputDir, trainFiles.get(fileNameIndex), testFiles.get(fileNameIndex));
+									}
+									total /= trainFiles.size();
+		
+									
+									//results[houseNr][noDaysIndex][expIndex][tT.index()] = total;
+		
+									Utils.deleteDir(tempOutputDir);
+								}
 							}
-							total /= trainFiles.size();
-
-							results[houseNr][noDaysIndex][fT.index()][tT.index()] = total;
-
-							Utils.deleteDir(tempOutputDir);
 						}
-					}
+					
 				}
 			}
 		}

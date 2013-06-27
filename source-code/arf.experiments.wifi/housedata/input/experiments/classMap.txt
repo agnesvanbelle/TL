@@ -23,5 +23,4 @@
 22,Watching-TV
 23,Listening-to-music
 24,Working-at-computer
-25,Going-out-to-exercise
-26,Other
+25,Other

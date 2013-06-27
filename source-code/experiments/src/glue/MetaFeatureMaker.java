@@ -84,7 +84,7 @@ public class MetaFeatureMaker {
 
 		HouseData.mapActivities("Bathing", "take-shower");
 
-		HouseData.mapActivities("Grooming", "brush-teeth");
+		HouseData.mapActivities("Grooming", "brush-teeth"); // ?
 
 		HouseData.mapActivities("Sleeping", "go-to-bed");
 		HouseData.mapActivities("Resting", "go-to-bed");
@@ -110,9 +110,9 @@ public class MetaFeatureMaker {
 
 			for (int activityIndex=0; activityIndex < activityIDList.length; activityIndex++) {
 				Integer id = activityIDList[activityIndex ];
-				System.out.println("activity ID: " + id);
+				//System.out.println("activity ID: " + id);
 				String activityName = HouseData.activityContainer(id).name;
-				System.out.println("activity name: " + activityName);
+				//System.out.println("activity name: " + activityName);
 				//String activityName = HouseData.indexID[HouseData.TYPE_DATA_ACTIVITY].get(id).name;
 				bf.write(activityIndex + "," + activityName + "\n");
 				
