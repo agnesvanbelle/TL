@@ -12,6 +12,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -273,6 +274,35 @@ public class Utils {
 					}
 				}
 			}
+		}
+	}
+	
+	public static void copyFile(File sourceFile, File destFile)  {
+		
+		try {
+		    if(!destFile.exists()) {
+		        destFile.createNewFile();
+		    }
+
+		    FileChannel source = null;
+		    FileChannel destination = null;
+	
+		    try {
+		        source = new FileInputStream(sourceFile).getChannel();
+		        destination = new FileOutputStream(destFile).getChannel();
+		        destination.transferFrom(source, 0, source.size());
+		    }
+		    finally {
+		        if(source != null) {
+		            source.close();
+		        }
+		        if(destination != null) {
+		            destination.close();
+		        }
+		    }
+		}
+		catch (Exception e){
+			e.printStackTrace();
 		}
 	}
 

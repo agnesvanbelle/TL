@@ -12,10 +12,10 @@ public class Meta_feature_mapping{
 	
 	
 	public enum Sensor_distance {
-		Profiles_individ_KL, //TODO // KL divergence distance measure
+		Profiles_individ_KL,  // KL divergence distance measure, sensor profile
 		Profiles_individ_SSE,  //sum squared errors distance measure, sensor profile
-		Profiles_individ_KL_rel_KL, //TODO
-		Profiles_individ_SSE_rel_OL //sum squared errors distance measure , sensor profile + relational profile (?)
+		Profiles_individ_KL_rel_KL, //KL divergence distance measure , sensor profile + relational profile 
+		Profiles_individ_SSE_rel_OL //sum squared errors distance measure , sensor profile + relational profile 
 	};
 	
 	
@@ -308,7 +308,7 @@ public class Meta_feature_mapping{
 						break;
 					case Profiles_individ_KL:
 						nd_s = house_small.profileSensor(sensor_id_s);
-						nd_l = house_large.profileSensor(sensor_id_l);						
+						nd_l = house_large.profileSensor(sensor_id_l);	
 						current_min_div = nd_s.KLDivergence(nd_l);
 						break;
 					case Profiles_individ_KL_rel_KL:
@@ -380,16 +380,17 @@ public class Meta_feature_mapping{
 		{
 			for(Integer beta: sensors_beta)
 			{
-				if(sensor_id_s!= b && sensor_id_l != beta)
+				if((sensor_id_s.compareTo(b) != 0) && (sensor_id_l.compareTo(beta) != 0))
 				{
 					data.NormalDistribution a_b = house_small.profileRelational(sensor_id_s, b);
 					data.NormalDistribution alpha_beta = house_large.profileRelational(sensor_id_l, beta);
+					System.out.println("small: " + house_small.houseName + ", large: " + house_large.houseName);
 					
 					switch(sensor_distance_type)
 					{
-					case Profiles_individ_SSE_rel_OL: current_dist = a_b.overlapLevel(alpha_beta); break;
-					case Profiles_individ_KL_rel_KL: current_dist = a_b.KLDivergence(alpha_beta); break;
-					default:	System.out.println("Unusable distance metric for relative distance usage"); break;
+						case Profiles_individ_SSE_rel_OL: current_dist = a_b.overlapLevel(alpha_beta); break;
+						case Profiles_individ_KL_rel_KL: current_dist = a_b.KLDivergence(alpha_beta); break;
+						default:	System.out.println("Unusable distance metric for relative distance usage"); break;
 					}
 					
 					if(current_dist < relative_dist)

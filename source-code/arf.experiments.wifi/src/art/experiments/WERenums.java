@@ -76,7 +76,7 @@ public class WERenums {
 	}
 
 	public static enum MMF_TYPE { // used for folder names
-		AUTO(0), HF(1); // Our Features, or Her/Handcrafted Features
+		AUTO(0), HC_MMF(1); // Our Features, or Her/Handcrafted Features
 
 		private final int index;
 
@@ -149,6 +149,35 @@ public class WERenums {
 		}
 	}
 	
+	public static enum DISTANCE_MEASURE { 
+		SSE(0), KL(1); 
+
+		public static String[] valuesStr() {
+			DISTANCE_MEASURE[] vs = DISTANCE_MEASURE.values();
+			String[] v = new String[PROFILE_TYPE.length()];
+			int i=0;
+			for (DISTANCE_MEASURE pt : vs) {
+				v[i++]=pt.name();
+			}
+			return v;
+		}
+		
+		private final int index;
+
+		DISTANCE_MEASURE(int index) {
+			this.index = index;
+		}
+
+		public int index() {
+			return index;
+		}
+
+		public static int length() {
+			return values().length;
+		}
+	}
+	
+	
 	public static enum MF_TYPE { 
 		HC(0), AUTO(1); 
 
@@ -206,6 +235,7 @@ public class WERenums {
 	}
 	
 	
-
+	
+	
 
 }

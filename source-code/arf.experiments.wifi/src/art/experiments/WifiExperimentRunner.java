@@ -15,6 +15,8 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.mahout.fpm.pfpgrowth.FPGrowthDriver;
+
+import art.experiments.WERenums.TRANSFER_SETTINGS;
 import art.experiments.wifi.data.processor.EventInfo;
 import art.experiments.wifi.data.processor.Sensor;
 import art.experiments.wifi.data.processor.WifiAligner;
@@ -28,15 +30,13 @@ public class WifiExperimentRunner {
 
 	// ==================== constants ====================
 
-	
 	public static final String ROOT_DIR = "../arf.experiments.wifi/housedata/";
 	public static final String EXP_DIR = "../arf.experiments.wifi/housedata/input/experiments/";
 	public static final String OUTPUT_DIR = "../arf.experiments.wifi/housedata/output/";
 
 	public static final String HC_MMF_DIR = "../arf.experiments.wifi/housedata/input/HF_original/";
-	
+
 	public static final String classMapFile = "../arf.experiments.wifi/housedata/input/experiments/classMap.txt";
-	
 
 	public static final String houseOutputDirPrefix = "houseInfo";
 
@@ -44,7 +44,8 @@ public class WifiExperimentRunner {
 
 	private String[] houses;
 	private int numberHouses = -1;
-	private double results[][][][]; // for evaluation 	
+	private ArrayList<Double>[][] results; // for evaluation 
+	private ArrayList<String>[] resultsNames;
 	private double[] maxDaysPlotPerHouse;
 
 	private int startHouseNr, endHouseNr;
@@ -81,7 +82,7 @@ public class WifiExperimentRunner {
 	}
 
 	public void setNoDaysArray(int[] noDaysArray) {
-		this.noDaysArray = noDaysArray;
+		this.noDaysArray = noDaysArray.clone();
 	}
 
 	public void setConf(String conf) {
@@ -118,17 +119,22 @@ public class WifiExperimentRunner {
 	}
 
 	public static void main(String[] args) {
-		WifiExperimentRunner wer = new WifiExperimentRunner();
-		wer.turnLoggingOff();
-		wer.run();
+		System.err.println("Doing nothing.");
+		System.err.println("Better to invoke WER from project \"experiments\", package \"glue\"" + "			,class \"ExperimentRunner.java\". After specifying settings through WER's setter-methods.");
 	}
 
 	public void run() {
+
+		if (numberHouses <= 1) {
+			System.err.println("Number of houses not set, or set too low " + " (should be larger than 1 )");
+			System.exit(1);
+		}
 		runTransferAlgorithm();
-		//runEvaluation();
+		runEvaluation();
 	}
 
 	public void setSubset(int l, int h) {
+
 		numberHouses = h - l;
 
 		startHouseNr = l;
@@ -138,6 +144,7 @@ public class WifiExperimentRunner {
 
 	public void runEvaluation() {
 		evaluateUsingSVM();
+		printEvaluationResults();
 		evaluationResultsToMatlabPerHouse();
 	}
 
@@ -199,9 +206,6 @@ public class WifiExperimentRunner {
 
 			System.out.println("read " + nrExperiments + " from " + inputDirNameHouse);
 
-			
-
-			
 			for (int experimentType = 0; experimentType < nrExperiments; experimentType++) {
 
 				WERenums.TRANSFER_SETTINGS transferSettings = WERenums.TRANSFER_SETTINGS.BOTH;
@@ -240,8 +244,7 @@ public class WifiExperimentRunner {
 
 				// file with mapping action ids to their descriptions
 				actionMapFile = new File(inputDirNameExp, "actionMap" + house + ".txt").getAbsolutePath();
-				
-			
+
 				sensorReadings = WifiUtils.getLines(sensorFile);
 				actionReadings = WifiUtils.getLines(actionFile);
 
@@ -252,36 +255,31 @@ public class WifiExperimentRunner {
 				actionDates = actionMap.keySet();
 				sensorMap = saveSensorLinesByDate(sensorReadings, actionDates);
 
-
-				
 				allDates = new ArrayList<String>(actionMap.keySet());
 
 				maxDaysPlotPerHouse[houseNr] = actionMap.size() - 1;
 
 				System.out.println("max days for house " + house + "( " + houseNr + ") : " + maxDaysPlotPerHouse[houseNr]);
 
-				
-	
 				// will contain train and test data
-//				ArrayList<Map<String, List<String>>> testActionInstancesAllDays = new ArrayList<Map<String, List<String>>>();
-//				ArrayList<Map<String, List<String>>> testSensorInstancesAllDays = new ArrayList<Map<String, List<String>>>();
-//				ArrayList<Map<String, List<String>>> trainActionInstancesAllDays = new ArrayList<Map<String, List<String>>>();
-//				ArrayList<Map<String, List<String>>> trainSensorInstancesAllDays = new ArrayList<Map<String, List<String>>>();
-//
-//				
-//				for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
-//					if (maxDaysPlotPerHouse[houseNr] >= noDaysArray[noDaysIndex]) {
-//						
-//						testActionInstancesAllDays.add(new HashMap<String, List<String>>());
-//						testSensorInstancesAllDays.add(new HashMap<String, List<String>>());
-//						trainActionInstancesAllDays.add(new HashMap<String, List<String>>());
-//						trainSensorInstancesAllDays.add(new HashMap<String, List<String>>());
-//					}
-//				
-//				}
-				
-				
-			//	WifiUtils.stop();
+				//				ArrayList<Map<String, List<String>>> testActionInstancesAllDays = new ArrayList<Map<String, List<String>>>();
+				//				ArrayList<Map<String, List<String>>> testSensorInstancesAllDays = new ArrayList<Map<String, List<String>>>();
+				//				ArrayList<Map<String, List<String>>> trainActionInstancesAllDays = new ArrayList<Map<String, List<String>>>();
+				//				ArrayList<Map<String, List<String>>> trainSensorInstancesAllDays = new ArrayList<Map<String, List<String>>>();
+				//
+				//				
+				//				for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
+				//					if (maxDaysPlotPerHouse[houseNr] >= noDaysArray[noDaysIndex]) {
+				//						
+				//						testActionInstancesAllDays.add(new HashMap<String, List<String>>());
+				//						testSensorInstancesAllDays.add(new HashMap<String, List<String>>());
+				//						trainActionInstancesAllDays.add(new HashMap<String, List<String>>());
+				//						trainSensorInstancesAllDays.add(new HashMap<String, List<String>>());
+				//					}
+				//				
+				//				}
+
+				//	WifiUtils.stop();
 
 				for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
 					int noDays = noDaysArray[noDaysIndex];
@@ -299,7 +297,6 @@ public class WifiExperimentRunner {
 
 					if (maxDaysPlotPerHouse[houseNr] >= noDays) {
 
-							
 						// make test&train data
 						testActionInstances = new HashMap<String, List<String>>();
 						testSensorInstances = new HashMap<String, List<String>>();
@@ -308,8 +305,7 @@ public class WifiExperimentRunner {
 						trainSensorInstances = new HashMap<String, List<String>>();
 
 						getTestAndTrainingSetsLeaveOneOut(noDays, actionMap, sensorMap, allDates, testActionInstances, testSensorInstances, trainActionInstances, trainSensorInstances);
-					
-				
+
 						// for each train/test set
 						// dirName = id , denotes a specific train+test set combi
 						Set<String> sn = testActionInstances.keySet();
@@ -346,38 +342,36 @@ public class WifiExperimentRunner {
 							Utils.saveLines(sensors, sensorTrainFile);
 							Utils.saveLines(actions, actionTrainFile);
 
-							
 							// ======== build no transfer model ========
 							if (transferSettings == WERenums.TRANSFER_SETTINGS.BOTH || transferSettings == WERenums.TRANSFER_SETTINGS.ONLY_NONTRANSFER) {
-								
+
 								String outputDirNameExpNoDaysTransferType = outputDirNameExpNoDays + WERenums.TRANSFER_TYPE.NOTRANSFER + "/";
 								Utils.createDirectory(outputDirNameExpNoDaysTransferType);
 
-								getFeatureRepresentationOfTrainAndTestDataForNoTransferCase(apw, sensorMapFile, actionMapFile, outputDirNameExpNoDaysTransferType, dirName,
-										outputDirNoDaysSplit, sensorTrainFile, actionTrainFile, sensorTestFile, actionTestFile, conf, noDaysIndex, houseNr, classMapFile);
+								getFeatureRepresentationOfTrainAndTestDataForNoTransferCase(apw, sensorMapFile, actionMapFile, outputDirNameExpNoDaysTransferType, dirName, outputDirNoDaysSplit,
+										sensorTrainFile, actionTrainFile, sensorTestFile, actionTestFile, conf, noDaysIndex, houseNr, classMapFile);
 
 							}
 							// ======== build transfer model ========
 							if (transferSettings == WERenums.TRANSFER_SETTINGS.BOTH || transferSettings == WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER) {
-								
+
 								String outputDirNameExpNoDaysTransferType = outputDirNameExpNoDays + WERenums.TRANSFER_TYPE.TRANSFER + "/";
-								
-								
+
 								// ======== get rules from all domains for transfer ========
 								String outputFileCombined = new File(outputDirNoDaysSplit, Constants.WIFI_EXAMPLES_FILE + "-train-tr").getAbsolutePath();
 								String outputAbstructFileCombined = new File(outputDirNoDaysSplit, Constants.WIFI_ABSTRUCT_EXAMPLES_FILE + "-train-tr").getAbsolutePath();
 								String outputMapFileCombined = new File(outputDirNoDaysSplit, Constants.WIFI_CLASS_MAP_FILE + "-train-tr").getAbsolutePath();
-	
+
 								// get a copy of original sensor model
 								Map<String, List<EventInfo>> consecutiveIntervalsTarget = new TreeMap<String, List<EventInfo>>();
 								Map<String, Sensor> sensorModelsComb = new TreeMap<String, Sensor>();
 								WifiAligner.getAlignedSensorData(sensorTrainFile, actionTrainFile, sensorMapFile, actionMapFile, consecutiveIntervalsTarget, sensorModelsComb);
-	
+
 								// combine training data from different houses
 								Map<String, List<EventInfo>> consecutiveIntervals = new HashMap<String, List<EventInfo>>();
 								combineTrainingData(housesMap, house, sensorModelsComb, consecutiveIntervals, experimentName);
 								// saveSensorModel(sensorModelsComb, "sensorModelComb");
-	
+
 								// save basic relations
 								WifiAligner.getPredicates(consecutiveIntervals, sensorModelsComb, outputFileCombined, false);
 								// save abstract relations
@@ -385,22 +379,22 @@ public class WifiExperimentRunner {
 								// save rules
 								String rulesFileTransfer = new File(outputDirNoDaysSplit, "rules.txt").getAbsolutePath();
 								getRules(outputMapFileCombined, rulesFileTransfer, confTr);
-	
+
 								// ======== represent data in a new domain in terms of these rules ============
-	
+
 								// get target training data represented in terms of the
 								// extended model
 								String outputTargetFile = new File(outputDirNoDaysSplit, Constants.WIFI_EXAMPLES_FILE + "-train-trmodel-target").getAbsolutePath();
 								WifiAligner.getPredicates(consecutiveIntervalsTarget, sensorModelsComb, outputTargetFile, true);
-	
+
 								String outputAbstructFileTarget = new File(outputDirNoDaysSplit, Constants.WIFI_ABSTRUCT_EXAMPLES_FILE + "-train-trmodel-target").getAbsolutePath();
 								String outputMapFileTarget = new File(outputDirNoDaysSplit, Constants.WIFI_CLASS_MAP_FILE + "-train-trmodel-target").getAbsolutePath();
 								WifiAligner.saveAbstructRelations(outputTargetFile, outputAbstructFileTarget, outputMapFileTarget, withRanges, null);
-	
+
 								// extract new rules from the domain data
 								String rulesFileTargetExtModel = new File(outputDirNoDaysSplit, "rules-target-extmodel.txt").getAbsolutePath();
 								getRules(outputMapFileTarget, rulesFileTargetExtModel, conf);
-	
+
 								// combine the rules extracted from source and target
 								// domains
 								String targetRulesFileComb = new File(outputDirNoDaysSplit, "rules-comb.txt").getAbsolutePath();
@@ -408,15 +402,14 @@ public class WifiExperimentRunner {
 								List<String> lines2 = Utils.readLines(rulesFileTransfer);
 								lines2.addAll(lines1);
 								Utils.saveLines(lines2, targetRulesFileComb);
-	
-							
+
 								Utils.createDirectory(outputDirNameExpNoDaysTransferType);
 								// represent domain training data in terms of new
 								// features
-	
+
 								String resultFile2 = new File(outputDirNameExpNoDaysTransferType, WERenums.SET_TYPE.TRAIN + "/" + "wifi" + dirName).getAbsolutePath();
 								apw.getFeatureRepresentationOfData(outputTargetFile, resultFile2, targetRulesFileComb, classMapFile, USE_CLASS);
-	
+
 								// represent domain test data in terms of new features					
 								String resultFileTest2 = new File(outputDirNameExpNoDaysTransferType, WERenums.SET_TYPE.TEST + "/" + "wifi" + dirName).getAbsolutePath();
 								getFeatureRepresentationOfTestData(outputDirNoDaysSplit, sensorTestFile, actionTestFile, sensorMapFile, actionMapFile, sensorModelsComb, resultFileTest2,
@@ -432,49 +425,83 @@ public class WifiExperimentRunner {
 
 	public void evaluateUsingSVM() {
 
-		results = new double[numberHouses][noDaysArray.length][WERenums.MMF_TYPE.length()][WERenums.TRANSFER_TYPE.length()];
+		results = new ArrayList/* <Double> */[numberHouses][noDaysArray.length];
+
+		resultsNames = new ArrayList/* <String> */[numberHouses];
 
 		System.out.println("\nGoing to evaluate using libSVM...");
 
+		String[] patterns = TRANSFER_SETTINGS.valuesStr();
+		String regex = "(";
+		for (int i = 0; i < patterns.length; i++) {
+			regex += patterns[i] + "|";
+		}
+		regex = regex.substring(0, regex.length() - 1);
+		regex += ")";
+		//System.out.println("regex: " + regex);
+
 		for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
-			String outputDirHouse = ROOT_DIR + "output/" + "houseInfo" + houses[houseNr] + "/";
+
+			String outputDirHouse = OUTPUT_DIR + "houseInfo" + houses[houseNr] + "/";
+
+			ArrayList<String> experimentNames = Utils.getSubDirectories(outputDirHouse);
+
+			resultsNames[houseNr] = new ArrayList<String>();
 
 			for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
 				int noDays = noDaysArray[noDaysIndex];
 
-				if (maxDaysPlotPerHouse[houseNr] > noDays) {
-					String outputDirHouseDays = outputDirHouse + houses[houseNr] + noDays + "/";
+				results[houseNr][noDaysIndex] = new ArrayList<Double>();
 
-					for (WERenums.MMF_TYPE fT : WERenums.MMF_TYPE.values()) {
+				for (int expIndex = 0; expIndex < experimentNames.size(); expIndex++) {
+
+					String expName = experimentNames.get(expIndex);
+					String outputDirHouseExp = outputDirHouse + expName + "/";
+
+					if (maxDaysPlotPerHouse[houseNr] > noDays) {
+
+						String outputDirHouseExpDays = outputDirHouseExp + houses[houseNr] + noDays + "/";
 
 						for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
 
-							String testDir = outputDirHouseDays + fT + "/" + tT + "/" + WERenums.SET_TYPE.TEST + "/";
-							String trainDir = outputDirHouseDays + fT + "/" + tT + "/" + WERenums.SET_TYPE.TRAIN + "/";
+							File f = new File(outputDirHouseExpDays + tT + "/");
+							if (f.exists()) { // if was run for this transfer setting
 
-							ArrayList<String> testFiles = Utils.getDirectoryListing(testDir);
-							ArrayList<String> trainFiles = Utils.getDirectoryListing(trainDir);
+								// add transfer_type to expname instead of transfer_setting
+								String finalName = expName.replaceFirst(regex, tT.name());
 
-							String tempOutputDir = outputDirHouseDays + fT + "/" + tT + "/" + "tempOutput/";
-							double total = 0;
-							for (int fileNameIndex = 0; fileNameIndex < trainFiles.size(); fileNameIndex++) {
-								total += callSVM(trainDir, testDir, tempOutputDir, trainFiles.get(fileNameIndex), testFiles.get(fileNameIndex));
+								if (noDaysIndex == 0) {
+									resultsNames[houseNr].add(finalName);
+								}
+
+								String testDir = outputDirHouseExpDays + "/" + tT + "/" + WERenums.SET_TYPE.TEST + "/";
+								String trainDir = outputDirHouseExpDays + "/" + tT + "/" + WERenums.SET_TYPE.TRAIN + "/";
+
+								ArrayList<String> testFiles = Utils.getDirectoryListing(testDir);
+								ArrayList<String> trainFiles = Utils.getDirectoryListing(trainDir);
+
+								String tempOutputDir = outputDirHouseExpDays + "/" + tT + "/" + "tempOutput/";
+								double total = 0;
+								for (int fileNameIndex = 0; fileNameIndex < trainFiles.size(); fileNameIndex++) {
+									total += callSVM(trainDir, testDir, tempOutputDir, trainFiles.get(fileNameIndex), testFiles.get(fileNameIndex));
+								}
+								total /= trainFiles.size();
+
+								results[houseNr][noDaysIndex].add(total);
+
+								Utils.deleteDir(tempOutputDir);
 							}
-							total /= trainFiles.size();
-
-							results[houseNr][noDaysIndex][fT.index()][tT.index()] = total;
-
-							Utils.deleteDir(tempOutputDir);
 						}
 					}
 				}
 			}
 		}
-		System.out.println("Done evaluating using libSVM.");
+		System.out.println("Done evaluating using libSVM.\n");
 		//printEvaluationResults() ;
 	}
 
 	public void printEvaluationResults() {
+		System.out.println("\nResults:");
 		for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
 			System.out.println("House: " + houses[houseNr]);
 
@@ -482,13 +509,9 @@ public class WifiExperimentRunner {
 				int noDays = noDaysArray[noDaysIndex];
 				System.out.println("NoDays: " + noDays);
 
-				for (WERenums.MMF_TYPE fT : WERenums.MMF_TYPE.values()) {
-					System.out.println("FT: " + fT);
+				for (int resultIndex = 0; resultIndex < results[houseNr][noDaysIndex].size(); resultIndex++) {
+					System.out.println(resultsNames[houseNr].get(resultIndex) + ": " + results[houseNr][noDaysIndex].get(resultIndex));
 
-					for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
-						System.out.println("TT: " + tT);
-						System.out.println("Result:" + results[houseNr][noDaysIndex][fT.index()][tT.index()]);
-					}
 				}
 			}
 		}
@@ -518,6 +541,9 @@ public class WifiExperimentRunner {
 	}
 
 	public void evaluationResultsToMatlabPerHouse() {
+		
+		String regex = "[_]";
+		
 		String matlabDir = ROOT_DIR + "output/" + "matlab/";
 		String plotOutputDir = new File(matlabDir).getAbsolutePath();
 		Utils.createDirectory(matlabDir);
@@ -529,39 +555,35 @@ public class WifiExperimentRunner {
 				File file = new File(matlabDir + "dataHouse" + houses[houseNr] + ".m");
 				bw = new BufferedWriter(new FileWriter(file));
 
-				String dvString = "datavalues";
+				bw.write("exp = [];\n");
+				bw.write("expLegend={};\n");
+				bw.write("datapoints=[];\n");
 
-				for (WERenums.MMF_TYPE fT : WERenums.MMF_TYPE.values()) {
-					String ftString = fT == WERenums.MMF_TYPE.AUTO ? dvString + "_of" : dvString + "_hf";
+				for (int resultIndex = 0; resultIndex < resultsNames[houseNr].size(); resultIndex++) {
+					//	System.out.println(resultsNames[houseNr].get(resultIndex) + ": " + results[houseNr][noDaysIndex].get(resultIndex));
 
-					for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
-						String ttString = tT == WERenums.TRANSFER_TYPE.NOTRANSFER ? ftString + "_notr" : ftString + "_tr";
+					bw.write("expLegend{" + (resultIndex+1) + "}='" + resultsNames[houseNr].get(resultIndex).toString().replaceAll(regex, "\\_") + "';\n");
 
-						bw.write(ttString + "= [");
-						for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
-							if (noDaysArray[noDaysIndex] < maxDaysPlotPerHouse[houseNr]) {
-								// int noDays = noDaysArray[noDaysIndex];
-								bw.write(Double.toString(results[houseNr][noDaysIndex][fT.index()][tT.index()]));
+					for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
 
-								if (noDaysIndex < noDaysArray.length - 1) {
-									bw.write(", ");
-								}
-							}
+						if (noDaysArray[noDaysIndex] < maxDaysPlotPerHouse[houseNr]) {
+							
+//							System.out.println("houseNr:" + houseNr);
+//							System.out.println("resultIndex:"+ resultIndex);
+//							System.out.println("noDaysIndex:" + noDaysIndex);
+							
+							bw.write("exp(" + (resultIndex+1) + "," + (noDaysIndex+1) + ")=" + results[houseNr][noDaysIndex].get(resultIndex).toString() + ";\n");
+
+							bw.write("datapoints(" + (noDaysIndex+1) + ",1)=" + noDaysArray[noDaysIndex] + ";\n");
 						}
-						bw.write("];\n");
+						bw.write("\n");
 					}
+					bw.write("\n");
 				}
-				bw.write("datapoints = [");
-				for (int nD = 0; nD < noDaysArray.length && noDaysArray[nD] < maxDaysPlotPerHouse[houseNr]; nD++) {
-					if (noDaysArray[nD] < maxDaysPlotPerHouse[houseNr]) {
-						bw.write(Integer.toString(noDaysArray[nD] - 1));
-						bw.write(" ");
-					}
-				}
-				bw.write("];\n");
+				bw.write("\n");
 
 				bw.write("directory='" + plotOutputDir + "/';\n");
-				bw.write("housename=' " + houses[houseNr] + "';\n");
+				bw.write("houseName=' " + houses[houseNr] + "';\n");
 				bw.write("addpath ../../input/matlab/\n");
 				bw.write("run ../../input/matlab/saveplot;");
 
@@ -926,14 +948,14 @@ public class WifiExperimentRunner {
 
 		List<Map<String, Sensor>> sensorModelsAll = new ArrayList<Map<String, Sensor>>();
 
-	//	System.out.println("Combined for house " + house + ": ");
+		//	System.out.println("Combined for house " + house + ": ");
 		for (String sourceHouse : sourceDomains) {
 			String inputDirThisHouse = EXP_DIR + "houseInfo" + sourceHouse + "/" + experimentName + "/";
 
-			if (new File(inputDirThisHouse).exists()) {				
-				
-	//			System.out.println(inputDirThisHouse);
-				
+			if (new File(inputDirThisHouse).exists()) {
+
+				//			System.out.println(inputDirThisHouse);
+
 				String sensorFile_ = new File(inputDirThisHouse, "house" + sourceHouse + "-ss.txt").getAbsolutePath();
 				String actionFile_ = new File(inputDirThisHouse, "house" + sourceHouse + "-as.txt").getAbsolutePath();
 				String sensorMapFile_ = new File(inputDirThisHouse, "sensorMap" + sourceHouse + "-ids.txt").getAbsolutePath();
@@ -944,7 +966,7 @@ public class WifiExperimentRunner {
 				sensorModelsAll.add(sensorModels);
 			}
 		}
-	//	System.out.println();
+		//	System.out.println();
 		// NOTE: here sensor models are merged
 		mergeSensorModels(sensorModelsTarget, sensorModelsAll);
 	}

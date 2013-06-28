@@ -43,6 +43,13 @@ public class NormalDistribution
 		calculateCharacteristics(valuesDouble);
 	}
 	
+	private NormalDistribution(RealVector mu, RealVector sigma, RealMatrix covariance)
+	{
+		this.mu         = mu;
+		this.sigma      = sigma;
+		this.covariance = covariance;
+	}
+	
 	private void calculateCharacteristics(double[][] values)
 	{
 		int dimensions = values[0].length; // Number of dimensions of the future (multivariate) normal distribution.
@@ -101,21 +108,70 @@ public class NormalDistribution
 		
 		double determinantThis  = new LUDecomposition(this.covariance).getDeterminant();
 		double determinantOther = new LUDecomposition(other.covariance).getDeterminant();
-		
 				
 		RealMatrix covarianceInvOther;
-		try{	
+		
+		try
+		{	
 			covarianceInvOther = (new LUDecomposition(other.covariance)).getSolver().getInverse();
 		}
-		catch(SingularMatrixException a)
-		{			
-			if(mu.getEntry(0) == mu.getEntry(1))
+		catch (SingularMatrixException a)
+		{
+			// Remove dimensions having zero variance and try again:
+			
+			int[] variantDimensionsPseudo = new int[mu.getDimension()];
+			
+			int i = 0;
+			
+			for (int j = 0; j < mu.getDimension(); j++)
 			{
-				System.out.println("exact same distribution");
+				if (other.covariance.getColumnVector(j).getL1Norm() > EQ_THRESHOLD && other.covariance.getRowVector(j).getL1Norm() > EQ_THRESHOLD)
+				{
+					variantDimensionsPseudo[i++] = j;
+				}
+			}
+			
+			if (i != mu.getDimension())
+			{
+				// Some dimension(s) were effectively removed:
+				
+				int[] variantDimensions = new int[i];
+				
+				System.out.println(variantDimensions.length);
+				System.out.println(variantDimensionsPseudo.length);
+				for (int j = 0; j < mu.getDimension(); j++)
+				{
+					variantDimensions[j] = variantDimensionsPseudo[j];
+				}
+				
+				RealMatrix thisPseudoCovariance  = this.covariance.getSubMatrix(variantDimensions,  variantDimensions);
+				RealMatrix otherPseudoCovariance = other.covariance.getSubMatrix(variantDimensions, variantDimensions);
+				
+				RealVector thisPseudoMu  = (new Array2DRowRealMatrix(this.mu.toArray())).getSubMatrix(variantDimensions,  new int[] {0}).getColumnVector(0);
+				RealVector otherPseudoMu = (new Array2DRowRealMatrix(other.mu.toArray())).getSubMatrix(variantDimensions, new int[] {0}).getColumnVector(0);
+				
+				RealVector thisPseudoSigma  = (new Array2DRowRealMatrix(this.sigma.toArray())).getSubMatrix(variantDimensions,  new int[] {0}).getColumnVector(0);
+				RealVector otherPseudoSigma = (new Array2DRowRealMatrix(other.sigma.toArray())).getSubMatrix(variantDimensions, new int[] {0}).getColumnVector(0);
+				
+				NormalDistribution thisPseudo  = new NormalDistribution(thisPseudoMu,  thisPseudoSigma,  thisPseudoCovariance);
+				NormalDistribution otherPseudo = new NormalDistribution(otherPseudoMu, otherPseudoSigma, otherPseudoCovariance);
+				
+				return thisPseudo.KLDivergence(otherPseudo) * 1.5f;
+			}
+			else if (this.mu.getDistance(other.mu) <= EQ_THRESHOLD)
+			{
+				// Equal distributions:
+				
 				return 0.0f;
 			}
-			return Float.POSITIVE_INFINITY;
+			else
+			{
+				return Float.POSITIVE_INFINITY;
+			}
 		}
+		
+		// Actual KL-divergence implementation:
+		
 		output += covarianceInvOther.multiply(this.covariance).getTrace();
 		
 		RealMatrix diffMeans = new Array2DRowRealMatrix(other.mu.subtract(this.mu).toArray());

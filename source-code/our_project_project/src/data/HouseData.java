@@ -233,7 +233,9 @@ public class HouseData
 	public Integer[] sensorList()
 	{
 		Integer [] output = dataID[TYPE_DATA_SENSOR].keySet().toArray(new Integer[0]);
+		
 		Arrays.sort(output);
+		
 		return output;
 	}
 	
@@ -245,7 +247,9 @@ public class HouseData
 	public Integer[] activityList()
 	{
 		Integer[] output = dataID[TYPE_DATA_ACTIVITY].keySet().toArray(new Integer[0]);
+		
 		Arrays.sort(output);
+		
 		return output;
 	}
 	
@@ -283,21 +287,6 @@ public class HouseData
 		}
 		
 		return output;
-	}
-	
-	private int mapApply(int ID, int mappingLevel, int typeData)
-	{
-		NameContainer entity = indexID[typeData].get(ID);
-		
-		for (int l = 0; l < mappingLevel; l++)
-		{
-			if (entity.metacontainer != null)
-			{
-				entity = entity.metacontainer;
-			}
-		}
-		
-		return entity.ID;
 	}
 	
 	/**
@@ -523,7 +512,13 @@ public class HouseData
 			throw new IllegalArgumentException();
 		}
 		
+		System.out.println("sensorA:" + sensorContainer(sensorA).name);
+		System.out.println("sensorB:" + sensorContainer(sensorB).name);
+		
 		List<DataPoint> dataTarget = dataID[TYPE_DATA_SENSOR].get(sensorA);
+		
+		
+		System.out.println(dataTarget.size());
 		
 		double[][] values = new double[dataTarget.size()][1];
 		
@@ -545,6 +540,7 @@ public class HouseData
 			
 			values[i][0] = (double) minDiff;
 		}
+		
 		
 		return new NormalDistribution(values);
 	}
@@ -612,6 +608,32 @@ public class HouseData
 	}
 	
 	/**
+	 * Returns an array with the activity IDs present in the data for all houses.
+	 * @param mappingLevel Number of activity mapping levels to apply. MAPPING_LEVEL_* constants can be used for convenience.
+	 * @return An array with the activity IDs present in the data for all houses.
+	 */
+	public static Integer[] activityListAll(int mappingLevel)
+	{
+		Set<Integer> IDs = new HashSet<Integer>();
+		
+		for (int ID: indexID[TYPE_DATA_ACTIVITY].keySet())
+		{
+			int mappedID = mapApply(ID, mappingLevel, TYPE_DATA_ACTIVITY);
+			
+			if (!IDs.contains(mappedID))
+			{
+				IDs.add(mappedID);
+			}
+		}
+		
+		Integer[] output = IDs.toArray(new Integer[0]);
+		
+		Arrays.sort(output);
+		
+		return output;
+	}
+	
+	/**
 	 * Maps one sensor into another, so that the source sensor is from that moment on regarded as being the target sensor. The mapping cannot be undone.
 	 * @param sensorNameSource Name of the source sensor that will disappear.
 	 * @param sensorNameTarget Name of the target sensor that will be augmented. It will be created if it does not exist.
@@ -658,5 +680,20 @@ public class HouseData
 	public Integer sensorFiringFrequency(Integer ID)
 	{
 		return firingFrequencies.get(ID);
+	}
+	
+	private static int mapApply(int ID, int mappingLevel, int typeData)
+	{
+		NameContainer entity = indexID[typeData].get(ID);
+		
+		for (int l = 0; l < mappingLevel; l++)
+		{
+			if (entity.metacontainer != null)
+			{
+				entity = entity.metacontainer;
+			}
+		}
+		
+		return entity.ID;
 	}
 }

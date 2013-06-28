@@ -13,6 +13,7 @@ import data.HouseData;
 import art.framework.utils.*;
 import art.experiments.*;
 import art.experiments.WERenums.CLUSTER_TYPE;
+import art.experiments.WERenums.DISTANCE_MEASURE;
 import art.experiments.WERenums.PROFILE_TYPE;
 import art.experiments.wifi.data.processor.WifiUtils;
 
@@ -78,12 +79,13 @@ public class MetaFeatureMaker {
 		HouseData.mapActivities("Going-out-to-school", "leave-house");
 		HouseData.mapActivities("Going-out-for-entertainment", "leave-house");
 		HouseData.mapActivities("Going-out-for-shopping", "leave-house");
-
+		HouseData.mapActivities("Going-out-to-exercise", "leave-house");
+		
 		HouseData.mapActivities("Toileting", "use-toilet");
 
 		HouseData.mapActivities("Bathing", "take-shower");
 
-		HouseData.mapActivities("Grooming", "brush-teeth");
+		HouseData.mapActivities("Grooming", "brush-teeth"); // ?
 
 		HouseData.mapActivities("Sleeping", "go-to-bed");
 		HouseData.mapActivities("Resting", "go-to-bed");
@@ -99,17 +101,22 @@ public class MetaFeatureMaker {
 	}
 
 	public static void saveClassMapFile(String fileName) {
-		ArrayList<String> aa = HouseData.getAllActivities();
+		Integer[] activityIDList = HouseData.activityListAll(HouseData.MAPPING_LEVEL_METAMETAFEATURE);
 
 		BufferedWriter bf = null;
 
+		
 		try {
 			bf = new BufferedWriter(new FileWriter(fileName, false));
 
-			int nr = 0;
-			for (String activity : aa) {
-				bf.write(nr + "," + activity + "\n");
-				nr++;
+			for (int activityIndex=0; activityIndex < activityIDList.length; activityIndex++) {
+				Integer id = activityIDList[activityIndex ];
+				//System.out.println("activity ID: " + id);
+				String activityName = HouseData.activityContainer(id).name;
+				//System.out.println("activity name: " + activityName);
+				//String activityName = HouseData.indexID[HouseData.TYPE_DATA_ACTIVITY].get(id).name;
+				bf.write(activityIndex + "," + activityName + "\n");
+				
 			}
 		}
 		catch (IOException e) {
@@ -141,7 +148,7 @@ public class MetaFeatureMaker {
 	 * @param mfType
 	 */
 	public static void runForSubset(String rootOutputDir, int min_nr, int max_nr, WERenums.MF_TYPE mfType, WERenums.CLUSTER_TYPE clusterType, WERenums.PROFILE_TYPE profileType,
-			WERenums.TRANSFER_SETTINGS trSetting) {
+			WERenums.DISTANCE_MEASURE distanceMeasure,	WERenums.TRANSFER_SETTINGS trSetting) {
 
 
 		if (max_nr > nrAllHouses) {
@@ -155,7 +162,7 @@ public class MetaFeatureMaker {
 		int[] betas = Arrays.copyOfRange(betaAllHouses, min_nr, max_nr);
 		ArrayList<HouseData> housesData = getHousesData(houseNames);
 
-		System.out.println("Making metafeatures for houses: " + Arrays.toString(houseNames) + " (Experiment settings: " + mfType + "," + clusterType + ", " + profileType + ", " + trSetting + ")");
+		System.out.println("Making metafeatures for houses: " + Arrays.toString(houseNames) + " (Experiment settings: " + mfType + "," + clusterType + ", " + profileType + ", " + distanceMeasure + ", " +  trSetting + ")");
 
 		// map house D and E sensors (AFTER housesData has been made!)
 		makeMappingForHouseDandE();
@@ -193,19 +200,26 @@ public class MetaFeatureMaker {
 		}
 
 		//////// map metafeatures ////////
-		Meta_feature_mapping.Sensor_distance sd;
+		Meta_feature_mapping.Sensor_distance sd ;
 		// sensor distances (for mapping):  only sensor profile, or both sensor profile and relational profile
-		switch (profileType) {
-		case PR_SP:
+				
+		if (profileType == PROFILE_TYPE.PR_SP && distanceMeasure == DISTANCE_MEASURE.SSE) {
 			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE;
-			break;
-		case PR_BOTH:
+		}
+		else if (profileType == PROFILE_TYPE.PR_SP && distanceMeasure == DISTANCE_MEASURE.KL) {
+			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_KL;
+					
+		}
+		else if (profileType == PROFILE_TYPE.PR_BOTH && distanceMeasure == DISTANCE_MEASURE.SSE) {
 			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE_rel_OL;
-			break;
-		default:
-			System.err.println("No Meta_feature_mapping provided going with " + Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE);
+			
+		}
+		else if (profileType == PROFILE_TYPE.PR_BOTH && distanceMeasure == DISTANCE_MEASURE.KL) {
+			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_KL_rel_KL;
+		}
+		else {
+			System.err.println("No profile type and/or distance measure provided going with " + Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE);
 			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE;
-			break;
 		}
 
 		// for all specified houses
@@ -229,8 +243,8 @@ public class MetaFeatureMaker {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("Doing nothing.");
-		System.out.println("Better to invoke \"our_project_project.experiment.MetaFeatureMaker.java\" from package \"experiments.glue\".");
+		System.err.println("Doing nothing.");
+		System.err.println("Better to invoke \".experiment.MetaFeatureMaker.java\" from class \"ExperimentRunner.java\".");
 	}
 
 }
