@@ -204,7 +204,7 @@ public class WifiExperimentRunner {
 			ArrayList<String> experimentTypes = Utils.getSubDirectories(inputDirNameHouse);
 			int nrExperiments = experimentTypes.size();
 
-			System.out.println("read " + nrExperiments + " from " + inputDirNameHouse);
+			System.out.println("\nRead " + nrExperiments + " experiment settings from dir " + inputDirNameHouse);
 
 			for (int experimentType = 0; experimentType < nrExperiments; experimentType++) {
 

@@ -443,7 +443,7 @@ public class WifiAligner {
 		
 		for (String reading: list) {
 			//System.out.println("reading: " + reading);
-			if (!reading.isEmpty()){
+			if (reading.trim().length() > 0) {
 				String[] info = reading.split(",");
 				sensorMap.put(info[0].trim(), info[index].trim());
 			}
