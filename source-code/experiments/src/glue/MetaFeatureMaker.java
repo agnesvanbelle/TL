@@ -35,9 +35,9 @@ public class MetaFeatureMaker {
 	public static int one_hour = 60 * 60;
 
 	/* set the following to something resonable! */
-	public static final int[] alphaAllHouses = { 3, 3, 3, 5, 5 }; // TODO: read/set from something
-	public static double relativeAlpha = 0.3; // TODO: check with relative alpha
-	public static int[] betaAllHouses = { 14, 10, 10, 10, 12 }; // TODO: read/set from something
+	public static final int[] alphaAllHouses = { 10, 10, 10, 4, 4 }; // TODO: read/set from something
+	public static double relativeAlpha = 0.01; // TODO: check with relative alpha
+	public static int[] betaAllHouses = { 9, 9, 9, 6, 9 }; // TODO: read/set from something
 	/**/
 	public static int bin_width_start_time = one_hour * 2;
 	public static int nr_bins_duration = 5;
@@ -45,6 +45,30 @@ public class MetaFeatureMaker {
 
 	public static boolean diffent_meta_features = true; // for when handcrafted mf
 
+	
+	public static String getString() {
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("alphaAllHouses: ");
+		for (int alpha: MetaFeatureMaker.alphaAllHouses) {
+			sb.append(alpha + " ");
+		}
+		sb.append("\n");
+		sb.append("betaAllHouses: " );
+		for (int beta: MetaFeatureMaker.betaAllHouses) {
+			sb.append(beta + " ");
+		}
+		sb.append("\n");
+		sb.append("---\n");
+		sb.append("relativeAlpha: " + MetaFeatureMaker.relativeAlpha + "\n");
+		sb.append("---\n");
+		sb.append("bin_width_start_time: " + MetaFeatureMaker.bin_width_start_time + "\n");
+		sb.append("nr_bins_duration: " + MetaFeatureMaker.nr_bins_duration + "\n");
+		sb.append("max_length_duration: " + MetaFeatureMaker.max_length_duration + "\n");
+		sb.append("---\n");
+		sb.append("diffent_meta_features: " + MetaFeatureMaker.diffent_meta_features + "\n");
+		return sb.toString();
+	}
 	private static ArrayList<HouseData> getHousesData(String[] houseNames) {
 		ArrayList<HouseData> housesData = new ArrayList<HouseData>();
 

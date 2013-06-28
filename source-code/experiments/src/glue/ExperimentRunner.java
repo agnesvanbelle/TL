@@ -1,14 +1,15 @@
 package glue;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import data.HouseData;
 
 import art.framework.utils.*;
 import art.experiments.*;
-import art.experiments.wifi.data.processor.WifiUtils;
 
 /**
  * Runs the whole stuff: metafeature making + transfer algorithm resp. from
@@ -19,7 +20,7 @@ import art.experiments.wifi.data.processor.WifiUtils;
 public class ExperimentRunner {
 
 	private WifiExperimentRunner wer;
-	
+	 
 
 
 	public ExperimentRunner() {
@@ -59,8 +60,7 @@ public class ExperimentRunner {
 		// copy (part of) her original files to input dir
 		copyOriginalHCToWifiExperimentRunnerInput(subsetMin, subsetMax, WERenums.TRANSFER_SETTINGS.BOTH);
 		
-		
-		
+				
 		// make classMapFile (maps activity names (for all activities from all processed houses) to a number, is done for SVM classifier in WER)
 		MetaFeatureMaker.saveClassMapFile(WifiExperimentRunner.classMapFile);
 	}
@@ -72,14 +72,17 @@ public class ExperimentRunner {
 		int subsetMin = 0;
 		int subsetMax = 5;
 
+		System.out.println("\n------ MFM settings : ------");
+		System.out.println(MetaFeatureMaker.getString());
+		System.out.println("----------------------------\n");
 		
 		experiment1MakeMappings(subsetMin, subsetMax);
 		
 		wer = new WifiExperimentRunner();
 
 		wer.setSubset(subsetMin, subsetMax);
-		wer.set_NO_DATA_INSTANCES(100);
-		int[] noDaysConsidered = { 2, 3 ,4,6,11,16,21};
+		wer.set_NO_DATA_INSTANCES(10);
+		int[] noDaysConsidered = { 2, 3 ,6,11,14,21};
 		wer.setNoDaysArray(noDaysConsidered);
 		wer.turnLoggingOff();
 		wer.setWithRanges(true);
@@ -88,10 +91,43 @@ public class ExperimentRunner {
 		System.out.println(wer);
 		System.out.println("----------------------------\n");
 
+		settingsToFile();
+		
 		wer.run();
 
 	}
+	
 
+	public void settingsToFile() {
+		BufferedWriter bw = null;
+		try {
+			File file = new File(WifiExperimentRunner.OUTPUT_DIR + "settings.txt");
+			bw = new BufferedWriter(new FileWriter(file));
+
+
+			bw.write("\n------ MFM settings : ------");
+			bw.write(MetaFeatureMaker.getString());
+			bw.write("----------------------------\n");
+			bw.write("\n");
+			bw.write("\n------ WER settings : ------");
+			bw.write(wer.toString());
+			bw.write("----------------------------\n");
+			bw.write("\n");
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (bw != null) {
+				try {
+					bw.close();
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	public void copyOriginalHCToWifiExperimentRunnerInput(int subsetMin, int subsetMax, WERenums.TRANSFER_SETTINGS transferSettings){
 		
 		ArrayList<String> allHousesDir = Utils.getSubDirectories(WifiExperimentRunner.HC_MMF_DIR);
