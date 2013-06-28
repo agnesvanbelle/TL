@@ -20,8 +20,8 @@ public class Alpha_beta_search {
 	 */
 	public static void main(String[] args) {
 
-		Meta_feature_building.Alpha_beta_type alpha_style = Meta_feature_building.Alpha_beta_type.Absolute;
-//		Meta_feature_building.Alpha_beta_type alpha_style = Meta_feature_building.Alpha_beta_type.Relative;
+//		Meta_feature_building.Alpha_beta_type alpha_style = Meta_feature_building.Alpha_beta_type.Absolute;
+		Meta_feature_building.Alpha_beta_type alpha_style = Meta_feature_building.Alpha_beta_type.Relative;
 
 		int[] alphasA = {1, 2, 3, 4, 6, 8, 10 };
 		int[] betasA = { 3, 6, 9, 12, 15 };
@@ -158,7 +158,8 @@ public class Alpha_beta_search {
 						}
 					}
 				}
-
+				
+				System.out.println("Nr stats: " + stats_freq.length + " " + stats_freq[0].length);
 				// Write stats to file
 				try {
 					stats_writer = new FileWriter("Stats-" + house.houseName + suffix + ".txt");
@@ -248,7 +249,7 @@ public class Alpha_beta_search {
 						stats_writer.write("& Avg size nu-clusters");
 						break;
 					}
-					for (int i = 0; i < stats_freq[0].length; i++) {
+					for (int i = 0; i < stats_freq.length; i++) {
 						stats_writer.write(sep);
 						switch (k) {
 						case 2:
