@@ -3,7 +3,13 @@ package data;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.linear.*;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.linear.SingularMatrixException;
 import org.apache.commons.math3.special.Erf;
 import org.apache.commons.math3.stat.correlation.Covariance;
 
@@ -56,8 +62,18 @@ public class NormalDistribution
 		
 		RealMatrix valuesMatrix = new Array2DRowRealMatrix(values);
 		
-		// Distribution characteristics calculation:		
-		covariance = (new Covariance(valuesMatrix)).getCovarianceMatrix();
+		// Distribution characteristics calculation:
+		
+		try
+		{
+			covariance = (new Covariance(valuesMatrix)).getCovarianceMatrix();
+		}
+		catch (MathIllegalArgumentException ex)
+		{
+			// Not enough data -> Zero covariance:
+			
+			covariance = new Array2DRowRealMatrix(new double[dimensions][dimensions]);
+		}
 		
 		double[] muVector    = new double[dimensions];
 		double[] sigmaVector = new double[dimensions];
@@ -136,10 +152,8 @@ public class NormalDistribution
 				// Some dimension(s) were effectively removed:
 				
 				int[] variantDimensions = new int[i];
-				
-				System.out.println(variantDimensions.length);
-				System.out.println(variantDimensionsPseudo.length);
-				for (int j = 0; j < mu.getDimension(); j++)
+
+				for (int j = 0; j < i; j++)
 				{
 					variantDimensions[j] = variantDimensionsPseudo[j];
 				}
