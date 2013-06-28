@@ -145,7 +145,7 @@ public class WifiExperimentRunner {
 	public void runEvaluation() {
 		evaluateUsingSVM();
 		printEvaluationResults();
-		evaluationResultsToMatlabPerHouse();
+		evaluationResultsToMatlab();
 	}
 
 	public void init() {
@@ -540,7 +540,7 @@ public class WifiExperimentRunner {
 		return accuracy / 100.0;
 	}
 
-	public void evaluationResultsToMatlabPerHouse() {
+	public void evaluationResultsToMatlab() {
 
 		String regex = "[_]";
 
@@ -553,8 +553,9 @@ public class WifiExperimentRunner {
 		try {
 			File fileTotal = new File(matlabDir + "dataHouses.m");
 			bwTotal = new BufferedWriter(new FileWriter(fileTotal));
-			int minMaxDays = 100;
-			int minMaxDaysIndex = 0;
+			
+			int minMaxDaysIndex = noDaysArray.length-1;
+			int minMaxDays = noDaysArray[minMaxDaysIndex];
 
 			bwTotal.write("expLegend={};\n");
 
@@ -572,25 +573,32 @@ public class WifiExperimentRunner {
 					for (int resultIndex = 0; resultIndex < resultsNames[houseNr].size(); resultIndex++) {
 						//	System.out.println(resultsNames[houseNr].get(resultIndex) + ": " + results[houseNr][noDaysIndex].get(resultIndex));
 
-						bwPerHouse.write("expLegend{" + (resultIndex + 1) + "}='" + resultsNames[houseNr].get(resultIndex).toString().replaceAll(regex, "\\_") + "';\n");
+						bwPerHouse.write("expLegend{" + (resultIndex + 1) + "}='" + resultsNames[houseNr].get(resultIndex).toString().replaceAll(regex, "\\\\_") + "';\n");
 
 						if (houseNr == 0) {
-							bwTotal.write("expLegend{" + (resultIndex + 1) + "}='" + resultsNames[houseNr].get(resultIndex).toString().replaceAll(regex, "\\_") + "';\n");
+							bwTotal.write("expLegend{" + (resultIndex + 1) + "}='" + resultsNames[houseNr].get(resultIndex).toString().replaceAll(regex, "\\\\_") + "';\n");
 						}
 
 						for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
 
+							
+							
 							if (noDaysArray[noDaysIndex] < maxDaysPlotPerHouse[houseNr]) {
 
-								if (noDaysArray[noDaysIndex] < minMaxDays) {
-									minMaxDays = noDaysArray[noDaysIndex];
-									minMaxDaysIndex = noDaysIndex;
-								}
+								
 
 								bwTotal.write("exp" + houseNr + "(" + (resultIndex + 1) + "," + (noDaysIndex + 1) + ")=" + results[houseNr][noDaysIndex].get(resultIndex).toString() + ";\n");
 
 								bwPerHouse.write("exp(" + (resultIndex + 1) + "," + (noDaysIndex + 1) + ")=" + results[houseNr][noDaysIndex].get(resultIndex).toString() + ";\n");
 								bwPerHouse.write("datapoints(" + (noDaysIndex + 1) + ",1)=" + noDaysArray[noDaysIndex] + ";\n");
+							}
+							
+							else {
+								if (noDaysArray[noDaysIndex] < minMaxDays) {
+									System.out.println("minMaxDays = " + minMaxDays);
+									minMaxDays = noDaysArray[noDaysIndex];
+									minMaxDaysIndex = noDaysIndex;
+								}
 							}
 							bwPerHouse.write("\n");
 						}
@@ -666,7 +674,15 @@ public class WifiExperimentRunner {
 			}
 		}
 		System.out.println("\nWriting to Matlab files done.");
-		System.out.println("See directory " + matlabDir + " for the matlab scripts.");
+		
+		String dirString = matlabDir;
+		try {
+			dirString = new File(matlabDir).getCanonicalPath();
+		}
+		catch(Exception e ){
+			// just continue
+		}
+		System.out.println("See directory " +  dirString + " for the matlab scripts.");
 	}
 
 	/**

@@ -216,7 +216,7 @@ public class Meta_feature_mapping{
 				// Map remaining source clusters to target cluster with smallest distance
 				for(int id_source: cluster_indexes_source_house)
 				{
-					System.out.println("id_source: " + id_source);
+					//System.out.println("id_source: " + id_source);
 					float current_diff = -1.0f;
 					float smallest_diff = Float.POSITIVE_INFINITY;
 					int target_cluster = -1;
