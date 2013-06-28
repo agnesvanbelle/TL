@@ -541,64 +541,127 @@ public class WifiExperimentRunner {
 	}
 
 	public void evaluationResultsToMatlabPerHouse() {
-		
+
 		String regex = "[_]";
-		
+
 		String matlabDir = ROOT_DIR + "output/" + "matlab/";
 		String plotOutputDir = new File(matlabDir).getAbsolutePath();
 		Utils.createDirectory(matlabDir);
 
-		for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
+		BufferedWriter bwTotal = null;
 
-			BufferedWriter bw = null;
-			try {
-				File file = new File(matlabDir + "dataHouse" + houses[houseNr] + ".m");
-				bw = new BufferedWriter(new FileWriter(file));
+		try {
+			File fileTotal = new File(matlabDir + "dataHouses.m");
+			bwTotal = new BufferedWriter(new FileWriter(fileTotal));
+			int minMaxDays = 100;
+			int minMaxDaysIndex = 0;
 
-				bw.write("exp = [];\n");
-				bw.write("expLegend={};\n");
-				bw.write("datapoints=[];\n");
+			bwTotal.write("expLegend={};\n");
 
-				for (int resultIndex = 0; resultIndex < resultsNames[houseNr].size(); resultIndex++) {
-					//	System.out.println(resultsNames[houseNr].get(resultIndex) + ": " + results[houseNr][noDaysIndex].get(resultIndex));
+			for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
 
-					bw.write("expLegend{" + (resultIndex+1) + "}='" + resultsNames[houseNr].get(resultIndex).toString().replaceAll(regex, "\\_") + "';\n");
+				BufferedWriter bwPerHouse = null;
+				try {
+					File filePerHouse = new File(matlabDir + "dataHouse" + houses[houseNr] + ".m");
+					bwPerHouse = new BufferedWriter(new FileWriter(filePerHouse));
 
-					for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
+					bwPerHouse.write("exp = [];\n");
+					bwPerHouse.write("expLegend={};\n");
+					bwPerHouse.write("datapoints=[];\n");
 
-						if (noDaysArray[noDaysIndex] < maxDaysPlotPerHouse[houseNr]) {
-							
-//							System.out.println("houseNr:" + houseNr);
-//							System.out.println("resultIndex:"+ resultIndex);
-//							System.out.println("noDaysIndex:" + noDaysIndex);
-							
-							bw.write("exp(" + (resultIndex+1) + "," + (noDaysIndex+1) + ")=" + results[houseNr][noDaysIndex].get(resultIndex).toString() + ";\n");
+					for (int resultIndex = 0; resultIndex < resultsNames[houseNr].size(); resultIndex++) {
+						//	System.out.println(resultsNames[houseNr].get(resultIndex) + ": " + results[houseNr][noDaysIndex].get(resultIndex));
 
-							bw.write("datapoints(" + (noDaysIndex+1) + ",1)=" + noDaysArray[noDaysIndex] + ";\n");
+						bwPerHouse.write("expLegend{" + (resultIndex + 1) + "}='" + resultsNames[houseNr].get(resultIndex).toString().replaceAll(regex, "\\_") + "';\n");
+
+						if (houseNr == 0) {
+							bwTotal.write("expLegend{" + (resultIndex + 1) + "}='" + resultsNames[houseNr].get(resultIndex).toString().replaceAll(regex, "\\_") + "';\n");
 						}
-						bw.write("\n");
+
+						for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
+
+							if (noDaysArray[noDaysIndex] < maxDaysPlotPerHouse[houseNr]) {
+
+								if (noDaysArray[noDaysIndex] < minMaxDays) {
+									minMaxDays = noDaysArray[noDaysIndex];
+									minMaxDaysIndex = noDaysIndex;
+								}
+
+								bwTotal.write("exp" + houseNr + "(" + (resultIndex + 1) + "," + (noDaysIndex + 1) + ")=" + results[houseNr][noDaysIndex].get(resultIndex).toString() + ";\n");
+
+								bwPerHouse.write("exp(" + (resultIndex + 1) + "," + (noDaysIndex + 1) + ")=" + results[houseNr][noDaysIndex].get(resultIndex).toString() + ";\n");
+								bwPerHouse.write("datapoints(" + (noDaysIndex + 1) + ",1)=" + noDaysArray[noDaysIndex] + ";\n");
+							}
+							bwPerHouse.write("\n");
+						}
+						bwPerHouse.write("\n");
 					}
-					bw.write("\n");
+					bwPerHouse.write("\n");
+
+					bwPerHouse.write("directory='" + plotOutputDir + "/';\n");
+					bwPerHouse.write("houseName=' " + houses[houseNr] + "';\n");
+					bwPerHouse.write("addpath ../../input/matlab/\n");
+					bwPerHouse.write("run ../../input/matlab/saveplot;");
+
 				}
-				bw.write("\n");
-
-				bw.write("directory='" + plotOutputDir + "/';\n");
-				bw.write("houseName=' " + houses[houseNr] + "';\n");
-				bw.write("addpath ../../input/matlab/\n");
-				bw.write("run ../../input/matlab/saveplot;");
-
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
-			finally {
-				if (bw != null) {
-					try {
-						bw.close();
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+				finally {
+					if (bwPerHouse != null) {
+						try {
+							bwPerHouse.close();
+						}
+						catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
-					catch (Exception e) {
-						e.printStackTrace();
-					}
+				}
+			}
+			/// average across houses ///
+			// datapoints (x axis), take up to the limit of the ``smallest'' house
+			bwTotal.write("datapoints=[];\n");
+			for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length && noDaysIndex < minMaxDaysIndex; noDaysIndex++) {
+				bwTotal.write("datapoints(" + (noDaysIndex + 1) + ",1)=" + noDaysArray[noDaysIndex] + ";\n");
+			}
+
+			bwTotal.write("directory='" + plotOutputDir + "/';\n");
+
+			// for title
+			bwTotal.write("houseName='");
+			for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
+				if (houseNr > 0) {
+					bwTotal.write(", ");
+				}
+				bwTotal.write(houses[houseNr]);
+			}
+			bwTotal.write("';\n");
+
+			// add results for all houses,  take up to the limit of the ``smallest'' house
+			bwTotal.write("exp=");
+			for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
+				if (houseNr > 0) {
+					bwTotal.write(" + ");
+				}
+				bwTotal.write("exp" + houseNr + "(:,1:" + minMaxDaysIndex + ")");
+			}
+			bwTotal.write(";\n");
+			// divide by number houses
+			bwTotal.write("exp = exp./" + numberHouses + ";\n");
+
+			bwTotal.write("addpath ../../input/matlab/\n");
+			bwTotal.write("run ../../input/matlab/saveplot;");
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (bwTotal != null) {
+				try {
+					bwTotal.close();
+				}
+				catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}

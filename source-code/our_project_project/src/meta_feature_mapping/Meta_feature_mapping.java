@@ -384,7 +384,7 @@ public class Meta_feature_mapping{
 				{
 					data.NormalDistribution a_b = house_small.profileRelational(sensor_id_s, b);
 					data.NormalDistribution alpha_beta = house_large.profileRelational(sensor_id_l, beta);
-					System.out.println("small: " + house_small.houseName + ", large: " + house_large.houseName);
+					//System.out.println("small: " + house_small.houseName + ", large: " + house_large.houseName);
 					
 					switch(sensor_distance_type)
 					{
