@@ -99,7 +99,7 @@ public class ExperimentRunner {
 		
 		experiment1MakeMappings(subsetMin, subsetMax);
 		
-		experiment1RunWER(subsetMin, subsetMax);
+		//experiment1RunWER(subsetMin, subsetMax);
 		
 		
 		settingsToFile();
