@@ -253,7 +253,7 @@ public class MetaFeatureMaker {
 			map.map_metafeatures_one_to_one_heuristic(housesData, targetHouseIndex);
 
 			//WifiUtils.stop();
-			String outputSubDir = new String(rootOutputDir + HouseData.houseOutputDirPrefix + allHouseNames[targetHouseIndex + min_nr] + "/" + mfType + " " + clusterType + " " + profileType + " "
+			String outputSubDir = new String(rootOutputDir + HouseData.houseOutputDirPrefix + allHouseNames[targetHouseIndex + min_nr] + "/" + mfType + " " + clusterType + " " + profileType + " " + distanceMeasure + " "
 					+ trSetting + "/");
 			Utils.createDirectory(outputSubDir);
 			//System.out.println("outputSUbDir " + outputSubDir);
@@ -261,7 +261,7 @@ public class MetaFeatureMaker {
 			HouseData targetHouse = housesData.get(targetHouseIndex);
 			targetHouse.formatLena(outputSubDir, HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE);
 
-			System.out.println("Created metafeatures for house " + houseNames[targetHouseIndex]);
+			System.out.println("Created metafeatures for house " + houseNames[targetHouseIndex] + " in dir " + HouseData.outputDirName + outputSubDir);
 		}
 
 	}

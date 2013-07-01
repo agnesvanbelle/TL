@@ -190,7 +190,7 @@ public class Meta_feature_mapping{
 				int target_cluster = -1;
 				for(int i =0; i<best_candidate.length; i++)
 				{					
-					if(best_candidate_diff[i]<smallest_diff)
+					if(best_candidate_diff[i]<=smallest_diff)
 					{						
 						smallest_diff = best_candidate_diff[i];
 						source_cluster = best_candidate[i];
@@ -212,14 +212,17 @@ public class Meta_feature_mapping{
 			}
 			else
 			{
+				//System.out.println("Loop over id_source's");
 				// Map remaining source clusters to target cluster with smallest distance
 				for(int id_source: cluster_indexes_source_house)
 				{
+					//System.out.println("id_source: " + id_source);
 					float current_diff = -1.0f;
 					float smallest_diff = Float.POSITIVE_INFINITY;
 					int target_cluster = -1;
 					for(int index_target=0; index_target<clusters_target_house.length;index_target++)
 					{
+						//System.out.println("index_target:" + index_target);
 						if(diff[index_target][id_source] == -1.0)
 						{							
 							diff[index_target][id_source] = cluster_distance(clusters_target_house[index_target], clusters_source_house[id_source], target_house, source_house);							
@@ -227,12 +230,16 @@ public class Meta_feature_mapping{
 						current_diff = diff[index_target][id_source];
 						if(current_diff <= smallest_diff)
 						{
+							//System.out.println("(current_diff < smallest_diff)");
 							smallest_diff = current_diff;
 							target_cluster = index_target;
 						}
 						
 					}
+					
+					
 					String source_cluster_name = HouseData.sensorContainer(clusters_source_house[id_source].get(0)).metacontainer.name;					
+					//System.out.println("source_cluster_name: " + source_cluster_name + "\n");
 					String meta_meta_label = meta_meta_features_labels[target_cluster];
 					// Save mapping
 					mapping.put(source_cluster_name, meta_meta_label);

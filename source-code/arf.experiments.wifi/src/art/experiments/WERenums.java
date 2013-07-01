@@ -21,30 +21,7 @@ public class WERenums {
 	
 	}
 	
-//	public static class FEATURE_TYPE {
-//		
-//		public static TRANSFER_TYPE tT;
-//		
-//		public static class TRANSFER_TYPE {
-//			
-//		}
-//	}
 
-//	public static class Pair<L,R> {
-//		
-//		
-//	    private L l;
-//	    private R r;
-//	    public Pair(L l, R r){
-//	        this.l = l;
-//	        this.r = r;
-//	    }
-//	    public L getL(){ return l; }
-//	    public R getR(){ return r; }
-//	    public void setL(L l){ this.l = l; }
-//	    public void setR(R r){ this.r = r; }
-//	}
-	
 	
 	public static enum TRANSFER_TYPE { // used for folder names
 		TRANSFER(0), NOTRANSFER(1); // transfer, or no-transfer

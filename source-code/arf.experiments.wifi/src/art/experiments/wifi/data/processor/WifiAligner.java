@@ -442,8 +442,11 @@ public class WifiAligner {
 		Map<String,String> sensorMap = new HashMap<String, String>();
 		
 		for (String reading: list) {
-			String[] info = reading.split(",");
-			sensorMap.put(info[0].trim(), info[index].trim());
+			//System.out.println("reading: " + reading);
+			if (reading.trim().length() > 0) {
+				String[] info = reading.split(",");
+				sensorMap.put(info[0].trim(), info[index].trim());
+			}
 		}
 		
 		return sensorMap;

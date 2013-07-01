@@ -147,7 +147,7 @@ public class NormalDistribution
 				}
 			}
 			
-			if (i != mu.getDimension())
+			if (i != mu.getDimension() && i > 0)
 			{
 				// Some dimension(s) were effectively removed:
 				
@@ -157,6 +157,8 @@ public class NormalDistribution
 				{
 					variantDimensions[j] = variantDimensionsPseudo[j];
 				}
+				
+				//System.out.println(variantDimensions.length);
 				
 				RealMatrix thisPseudoCovariance  = this.covariance.getSubMatrix(variantDimensions,  variantDimensions);
 				RealMatrix otherPseudoCovariance = other.covariance.getSubMatrix(variantDimensions, variantDimensions);

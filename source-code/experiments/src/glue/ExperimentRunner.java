@@ -41,13 +41,16 @@ public class ExperimentRunner {
 		}
 		
 		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.SSE, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+
+		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.SSE, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
-
-		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
-				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.SSE, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
-
-		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
-				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+		
+//		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+//				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+//
+//		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+//				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 		
 		// copy our created experiment files to input dir
 		copyOutputToWifiExperimentRunnerInput(subsetMin, subsetMax, HouseData.outputDirName, WifiExperimentRunner.EXP_DIR);
@@ -58,11 +61,29 @@ public class ExperimentRunner {
 		copyActionListFilesToOriginalHC(subsetMin, subsetMax);
 		
 		// copy (part of) her original files to input dir
-		copyOriginalHCToWifiExperimentRunnerInput(subsetMin, subsetMax, WERenums.TRANSFER_SETTINGS.BOTH);
+		//copyOriginalHCToWifiExperimentRunnerInput(subsetMin, subsetMax, WERenums.TRANSFER_SETTINGS.BOTH);
 		
 				
 		// make classMapFile (maps activity names (for all activities from all processed houses) to a number, is done for SVM classifier in WER)
 		MetaFeatureMaker.saveClassMapFile(WifiExperimentRunner.classMapFile);
+	}
+	
+	public void experiment1RunWER(int subsetMin, int subsetMax) {
+		wer = new WifiExperimentRunner();
+
+		wer.setSubset(subsetMin, subsetMax);
+		wer.set_NO_DATA_INSTANCES(25);
+		int[] noDaysConsidered = { 2, 3, 6,11,21};
+		wer.setNoDaysArray(noDaysConsidered);
+		wer.turnLoggingOff();
+		wer.setWithRanges(true);
+
+		System.out.println("\n------ WER settings : ------");
+		System.out.println(wer);
+		System.out.println("----------------------------\n");
+
+			
+		wer.run();
 	}
 	
 	public void experiment1() {
@@ -78,22 +99,10 @@ public class ExperimentRunner {
 		
 		experiment1MakeMappings(subsetMin, subsetMax);
 		
-		wer = new WifiExperimentRunner();
-
-		wer.setSubset(subsetMin, subsetMax);
-		wer.set_NO_DATA_INSTANCES(1);
-		int[] noDaysConsidered = { 2, 3 ,6};
-		wer.setNoDaysArray(noDaysConsidered);
-		wer.turnLoggingOff();
-		wer.setWithRanges(true);
-
-		System.out.println("\n------ WER settings : ------");
-		System.out.println(wer);
-		System.out.println("----------------------------\n");
-
-		settingsToFile();
+		//experiment1RunWER(subsetMin, subsetMax);
 		
-		wer.run();
+		
+		settingsToFile();
 
 	}
 	
@@ -154,8 +163,6 @@ public class ExperimentRunner {
 		ArrayList<String> outputtedHousesDir = Utils.getSubDirectories(inputDirName);
 
 		
-		
-		
 		ArrayList<String> allHousesDirHC = Utils.getSubDirectories(WifiExperimentRunner.HC_MMF_DIR);
 		
 		for (int i=subsetMin; i < subsetMax; i ++) {
@@ -207,6 +214,7 @@ public class ExperimentRunner {
 	public static void main(String[] args) {
 		ExperimentRunner t = new ExperimentRunner();
 
+		
 		t.experiment1();
 	}
 

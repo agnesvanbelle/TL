@@ -12,4 +12,3 @@
 20,Washing machine,Kitchen
 23,Groceries Cupboard,KitchStor
 24,Hall-Bedroom door,SleepDoor
-
