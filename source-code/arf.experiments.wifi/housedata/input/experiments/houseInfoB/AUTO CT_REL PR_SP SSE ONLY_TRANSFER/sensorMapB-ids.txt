@@ -1,0 +1,18 @@
+22,toilet door-houseB,318
+23,fridge-houseB,318
+24,cupboard groceries-houseB,318
+25,toilet flush-houseB,318
+26,frontdoor-houseB,318
+27,cupboard plates-houseB,318
+28,Bedroom door-houseB,318
+29,press bed rechts-houseB,318
+30,press bed links-houseB,318
+31,kwik cutlary drawer-houseB,318
+32,kwik stove lid-houseB,318
+33,PIR slaapkamer-houseB,318
+34,kwik dresser-houseB,318
+35,PIR badkamer-houseB,318
+36,gootsteen float-houseB,318
+37,toaster-houseB,318
+38,magnetron-houseB,318
+39,PIR keuken-houseB,318

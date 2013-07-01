@@ -1,0 +1,15 @@
+
+------ MFM settings : ------alphaAllHouses: 10 10 10 4 4 
+betaAllHouses: 9 9 9 6 9 
+---
+relativeAlpha: 0.01
+---
+bin_width_start_time: 7200
+nr_bins_duration: 5
+max_length_duration: 200
+---
+diffent_meta_features: true
+----------------------------
+
+
+------ WER settings : ------

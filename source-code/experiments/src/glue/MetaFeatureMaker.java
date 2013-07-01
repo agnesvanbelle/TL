@@ -5,6 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import meta_feature_building.Meta_feature_building;
 import meta_feature_building.Meta_features_apply_handcrafted;
@@ -12,10 +15,6 @@ import meta_feature_mapping.Meta_feature_mapping;
 import data.HouseData;
 import art.framework.utils.*;
 import art.experiments.*;
-import art.experiments.WERenums.CLUSTER_TYPE;
-import art.experiments.WERenums.DISTANCE_MEASURE;
-import art.experiments.WERenums.PROFILE_TYPE;
-import art.experiments.wifi.data.processor.WifiUtils;
 
 /**
  * 
@@ -69,7 +68,9 @@ public class MetaFeatureMaker {
 		sb.append("diffent_meta_features: " + MetaFeatureMaker.diffent_meta_features + "\n");
 		return sb.toString();
 	}
-	private static ArrayList<HouseData> getHousesData(String[] houseNames) {
+	
+	
+	private synchronized ArrayList<HouseData> getHousesData(String[] houseNames) {
 		ArrayList<HouseData> housesData = new ArrayList<HouseData>();
 
 		for (String houseName : houseNames) {
@@ -88,7 +89,7 @@ public class MetaFeatureMaker {
 	 * @param max_length_duration : durations above this value are placed in the
 	 *            last max_duration bin
 	 */
-	public static void createMetaFeatures(ArrayList<HouseData> housesData, int targetHouseIndex, int bin_width_start_time, int nr_bins_duration, int max_length_duration) {
+	public synchronized void createMetaFeatures(ArrayList<HouseData> housesData, int targetHouseIndex, int bin_width_start_time, int nr_bins_duration, int max_length_duration) {
 
 		Meta_feature_mapping.Sensor_distance sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE;
 		Meta_feature_mapping map = new Meta_feature_mapping(bin_width_start_time, bin_width_start_time, max_length_duration, sd);
@@ -96,7 +97,7 @@ public class MetaFeatureMaker {
 
 	}
 
-	public static void makeMappingForHouseDandE() {
+	public synchronized void makeMappingForHouseDandE() {
 		HouseData.mapActivities("Going-out-to-work", "leave-house");
 		HouseData.mapActivities("Taking-out-the-trash", "leave-house");
 		HouseData.mapActivities("Lawnwork", "leave-house");
@@ -124,7 +125,7 @@ public class MetaFeatureMaker {
 
 	}
 
-	public static void saveClassMapFile(String fileName) {
+	public void saveClassMapFile(String fileName) {
 		Integer[] activityIDList = HouseData.activityListAll(HouseData.MAPPING_LEVEL_METAMETAFEATURE);
 
 		BufferedWriter bf = null;
@@ -171,7 +172,7 @@ public class MetaFeatureMaker {
 	 * @param clusterType
 	 * @param mfType
 	 */
-	public static void runForSubset(String rootOutputDir, int min_nr, int max_nr, WERenums.MF_TYPE mfType, WERenums.CLUSTER_TYPE clusterType, WERenums.PROFILE_TYPE profileType,
+	public  void runForSubset(String rootOutputDir, int min_nr, int max_nr, WERenums.MF_TYPE mfType, WERenums.CLUSTER_TYPE clusterType, WERenums.PROFILE_TYPE profileType,
 			WERenums.DISTANCE_MEASURE distanceMeasure,	WERenums.TRANSFER_SETTINGS trSetting) {
 
 
@@ -227,18 +228,18 @@ public class MetaFeatureMaker {
 		Meta_feature_mapping.Sensor_distance sd ;
 		// sensor distances (for mapping):  only sensor profile, or both sensor profile and relational profile
 				
-		if (profileType == PROFILE_TYPE.PR_SP && distanceMeasure == DISTANCE_MEASURE.SSE) {
+		if (profileType == WERenums.PROFILE_TYPE.PR_SP && distanceMeasure == WERenums.DISTANCE_MEASURE.SSE) {
 			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE;
 		}
-		else if (profileType == PROFILE_TYPE.PR_SP && distanceMeasure == DISTANCE_MEASURE.KL) {
+		else if (profileType == WERenums.PROFILE_TYPE.PR_SP && distanceMeasure == WERenums.DISTANCE_MEASURE.KL) {
 			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_KL;
 					
 		}
-		else if (profileType == PROFILE_TYPE.PR_BOTH && distanceMeasure == DISTANCE_MEASURE.SSE) {
+		else if (profileType == WERenums.PROFILE_TYPE.PR_BOTH && distanceMeasure == WERenums.DISTANCE_MEASURE.SSE) {
 			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE_rel_OL;
 			
 		}
-		else if (profileType == PROFILE_TYPE.PR_BOTH && distanceMeasure == DISTANCE_MEASURE.KL) {
+		else if (profileType == WERenums.PROFILE_TYPE.PR_BOTH && distanceMeasure == WERenums.DISTANCE_MEASURE.KL) {
 			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_KL_rel_KL;
 		}
 		else {
@@ -246,29 +247,90 @@ public class MetaFeatureMaker {
 			sd = Meta_feature_mapping.Sensor_distance.Profiles_individ_SSE;
 		}
 
+		int processors = Runtime.getRuntime().availableProcessors();
+		ExecutorService executor = Executors.newFixedThreadPool(processors);
+		TargetHouseMetaFeatureMaker[] mappingCalculators = new TargetHouseMetaFeatureMaker[max_nr-min_nr];
+		
 		// for all specified houses
 		for (int targetHouseIndex = 0; targetHouseIndex < max_nr - min_nr; targetHouseIndex++) {
 
-			Meta_feature_mapping map = new Meta_feature_mapping(bin_width_start_time, bin_width_start_time, max_length_duration, sd);
-			map.map_metafeatures_one_to_one_heuristic(housesData, targetHouseIndex);
+//			Meta_feature_mapping map = new Meta_feature_mapping(bin_width_start_time, bin_width_start_time, max_length_duration, sd);
+//			map.map_metafeatures_one_to_one_heuristic(housesData, targetHouseIndex);
 
 			//WifiUtils.stop();
 			String outputSubDir = new String(rootOutputDir + HouseData.houseOutputDirPrefix + allHouseNames[targetHouseIndex + min_nr] + "/" + mfType + " " + clusterType + " " + profileType + " " + distanceMeasure + " "
 					+ trSetting + "/");
-			Utils.createDirectory(outputSubDir);
-			//System.out.println("outputSUbDir " + outputSubDir);
-
-			HouseData targetHouse = housesData.get(targetHouseIndex);
-			targetHouse.formatLena(outputSubDir, HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE);
-
-			System.out.println("Created metafeatures for house " + houseNames[targetHouseIndex] + " in dir " + HouseData.outputDirName + outputSubDir);
+//			Utils.createDirectory(outputSubDir);
+//			//System.out.println("outputSUbDir " + outputSubDir);
+//
+//			HouseData targetHouse = housesData.get(targetHouseIndex);
+//			targetHouse.formatLena(outputSubDir, HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE);
+//
+//			System.out.println("Created metafeatures for house " + houseNames[targetHouseIndex] + " in dir " + outputSubDir);
+			
+			mappingCalculators[targetHouseIndex] =   new TargetHouseMetaFeatureMaker(targetHouseIndex, housesData, houseNames, outputSubDir, sd);
+			
+			executor.execute(mappingCalculators[targetHouseIndex]);
+			
 		}
+		executor.shutdown();
+		try {
+			executor.awaitTermination(48, TimeUnit.HOURS);
+		} 
+		catch (InterruptedException e) {
+			System.out.println("Interrupted");
+			e.printStackTrace();
+		}
+		
+		System.out.println("\nMFM instance is done\n");
+		
 
 	}
-
+	
+	
 	public static void main(String[] args) {
 		System.err.println("Doing nothing.");
 		System.err.println("Better to invoke \".experiment.MetaFeatureMaker.java\" from class \"ExperimentRunner.java\".");
+	}
+	
+	class TargetHouseMetaFeatureMaker implements Runnable {
+
+		private int houseIndex;
+		private ArrayList<HouseData> housesData ;
+		private   String[] houseNames;
+		private String outputSubDir;
+		private Meta_feature_mapping.Sensor_distance sd ;
+		
+		public TargetHouseMetaFeatureMaker(int targetHouseIndex,  ArrayList<HouseData> housesData, String[] houseNames, String outputSubDir, Meta_feature_mapping.Sensor_distance sd) {
+			this.houseIndex = targetHouseIndex;
+			this.housesData = housesData;
+			this.outputSubDir = outputSubDir;
+			this.sd = sd;
+			this.houseNames = houseNames;
+		}
+		@Override
+		public void run() {
+
+			doMapping();
+			
+			
+		}
+		
+		public void doMapping() {
+			Meta_feature_mapping map = new Meta_feature_mapping(bin_width_start_time, bin_width_start_time, max_length_duration, sd);
+			map.map_metafeatures_one_to_one_heuristic(housesData, houseIndex);
+
+			//WifiUtils.stop();
+			
+			Utils.createDirectory(outputSubDir);
+			//System.out.println("outputSUbDir " + outputSubDir);
+
+			HouseData targetHouse = housesData.get(houseIndex);
+			targetHouse.formatLena(outputSubDir, HouseData.MAPPING_LEVEL_METAMETAFEATURE, HouseData.MAPPING_LEVEL_METAMETAFEATURE);
+
+			System.out.println("Created metafeatures for house " + this.houseNames[houseIndex] + " in dir " + outputSubDir);
+		}
+		
 	}
 
 }

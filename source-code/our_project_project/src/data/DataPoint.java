@@ -12,7 +12,7 @@ public class DataPoint
 	
 	// Format for the human-readable version of the "start" field:
 	
-	private static final SimpleDateFormat startDateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
+	//private static final SimpleDateFormat startDateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
 	
 	// Private data fields:
 	
@@ -33,8 +33,9 @@ public class DataPoint
 	 * Returns the starting time of the event in a human-readable format.
 	 * @return The starting time of the event in a human-readable format.
 	 */
-	public String startDate()
+	public  String startDate()
 	{
+		SimpleDateFormat startDateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
 		startDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		
 		return startDateFormat.format(startDate);

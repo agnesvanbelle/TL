@@ -1,0 +1,14 @@
+0,Microwave-houseA,367
+1,Hall-Toilet door-houseA,370
+2,Hall-Bathroom door-houseA,370
+3,Cups cupboard-houseA,369
+4,Fridge-houseA,369
+5,Plates cupboard-houseA,368
+6,Front door-houseA,366
+7,Dishwasher-houseA,365
+8,Toilet Flush-houseA,370
+9,Freezer-houseA,364
+10,Pans Cupboard-houseA,363
+11,Washing machine-houseA,371
+12,Groceries Cupboard-houseA,368
+13,Hall-Bedroom door-houseA,370

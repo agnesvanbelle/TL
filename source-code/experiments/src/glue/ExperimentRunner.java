@@ -19,8 +19,8 @@ import art.experiments.*;
  */
 public class ExperimentRunner {
 
-	private WifiExperimentRunner wer;
-	 
+	private WifiExperimentRunner wer = null;
+	private MetaFeatureMaker mfm = null;
 
 
 	public ExperimentRunner() {
@@ -40,17 +40,32 @@ public class ExperimentRunner {
 			System.out.println("Created dir " + WifiExperimentRunner.EXP_DIR + HouseData.houseOutputDirPrefix + MetaFeatureMaker.allHouseNames[i]);
 		}
 		
-		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
-				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.SSE, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
-
-		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
-				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.SSE, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+		mfm = new MetaFeatureMaker();
 		
-//		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+//		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+//				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.SSE, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+//
+//		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+//				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.SSE, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+//		
+//		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+//				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.SSE, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+//
+//		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+//				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.SSE, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+//		
+//		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 //				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 //
-//		MetaFeatureMaker.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+//		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 //				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+//		
+		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+
+		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+		
 		
 		// copy our created experiment files to input dir
 		copyOutputToWifiExperimentRunnerInput(subsetMin, subsetMax, HouseData.outputDirName, WifiExperimentRunner.EXP_DIR);
@@ -65,7 +80,7 @@ public class ExperimentRunner {
 		
 				
 		// make classMapFile (maps activity names (for all activities from all processed houses) to a number, is done for SVM classifier in WER)
-		MetaFeatureMaker.saveClassMapFile(WifiExperimentRunner.classMapFile);
+		mfm.saveClassMapFile(WifiExperimentRunner.classMapFile);
 	}
 	
 	public void experiment1RunWER(int subsetMin, int subsetMax) {
@@ -110,18 +125,23 @@ public class ExperimentRunner {
 	public void settingsToFile() {
 		BufferedWriter bw = null;
 		try {
-			File file = new File(WifiExperimentRunner.OUTPUT_DIR + "settings.txt");
+			File file = new File(WifiExperimentRunner.ROOT_DIR + "settings.txt");
 			bw = new BufferedWriter(new FileWriter(file));
 
 
-			bw.write("\n------ MFM settings : ------");
-			bw.write(MetaFeatureMaker.getString());
-			bw.write("----------------------------\n");
-			bw.write("\n");
-			bw.write("\n------ WER settings : ------");
-			bw.write(wer.toString());
-			bw.write("----------------------------\n");
-			bw.write("\n");
+			if (mfm != null) {
+				bw.write("\n------ MFM settings : ------\n");
+				bw.write(MetaFeatureMaker.getString());
+				bw.write("\n----------------------------\n");
+				bw.write("\n");
+			}
+			
+			if (wer != null) {
+				bw.write("\n------ WER settings : ------\n");
+				bw.write(wer.toString());
+				bw.write("\n----------------------------\n");
+				bw.write("\n");
+			}
 		}
 		catch (IOException e) {
 			e.printStackTrace();
