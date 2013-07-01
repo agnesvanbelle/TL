@@ -225,7 +225,7 @@ public class Meta_feature_mapping{
 							diff[index_target][id_source] = cluster_distance(clusters_target_house[index_target], clusters_source_house[id_source], target_house, source_house);							
 						}
 						current_diff = diff[index_target][id_source];
-						if(current_diff < smallest_diff)
+						if(current_diff <= smallest_diff)
 						{
 							smallest_diff = current_diff;
 							target_cluster = index_target;
