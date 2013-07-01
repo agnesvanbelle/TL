@@ -42,6 +42,10 @@ public class ExperimentRunner {
 		
 		mfm = new MetaFeatureMaker();
 		
+		System.out.println("\n------ MFM settings : ------");
+		System.out.println(MetaFeatureMaker.getString());
+		System.out.println("----------------------------\n");
+		
 //		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 //				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.SSE, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 //
@@ -87,7 +91,7 @@ public class ExperimentRunner {
 		wer = new WifiExperimentRunner();
 
 		wer.setSubset(subsetMin, subsetMax);
-		wer.set_NO_DATA_INSTANCES(25);
+		wer.set_NO_DATA_INSTANCES(50);
 		int[] noDaysConsidered = { 2, 3, 6,11,21};
 		wer.setNoDaysArray(noDaysConsidered);
 		wer.turnLoggingOff();
@@ -108,13 +112,11 @@ public class ExperimentRunner {
 		int subsetMin = 0;
 		int subsetMax = 5;
 
-		System.out.println("\n------ MFM settings : ------");
-		System.out.println(MetaFeatureMaker.getString());
-		System.out.println("----------------------------\n");
 		
-		experiment1MakeMappings(subsetMin, subsetMax);
 		
-		//experiment1RunWER(subsetMin, subsetMax);
+		//experiment1MakeMappings(subsetMin, subsetMax);
+		
+		experiment1RunWER(subsetMin, subsetMax);
 		
 		
 		settingsToFile();

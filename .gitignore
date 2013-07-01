@@ -1,4 +1,5 @@
-#source-code/arf.experiments.wifi/housedata/output
+source-code/arf.experiments.wifi/housedata/output/
+source-code/arf.experiments.wifi/housedata/input/experiments/
 RemoteSystemsTempFiles/
 bin
 .metadata/
