@@ -100,7 +100,7 @@ public class Test
 		
 		System.out.println("\nExample 7:");
 		
-		float[][] profile = houseA.profileSensor(houseA.sensorList()[1], 3600, 4, 3600);
+		float[][] profile = houseA.profileSensor(houseA.sensorList()[1], 3600, 4, 200);
 		
 		for (int i = 0; i < profile.length; i++)
 		{

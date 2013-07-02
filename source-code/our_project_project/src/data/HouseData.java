@@ -467,19 +467,32 @@ public class HouseData
 		
 		float[][] output = new float[nr_start_time_bins][blockNumLength];
 		
-		double logBase = Math.pow(Math.E, Math.log(maxLength) / (blockNumLength - 1));
+		double logBase = Math.pow(Math.E, Math.log(maxLength + 1) / blockNumLength);
+		
+		/* Debug:
+		System.out.println(blockNumLength + ", " + maxLength + ", " + logBase);
+		
+		System.out.println((int) Math.floor((Math.log((maxLength)) / Math.log(logBase))));
+		
+		for (int i = 0; i < blockNumLength; i++)
+		{
+			System.out.println(i + ": " + (int) Math.floor(Math.pow(logBase, i)) + " - " + (int) Math.floor((Math.pow(logBase, i + 1) - 1)));
+		}*/
 		
 		long total = 0;
 		
 		for (DataPoint data: dataID[TYPE_DATA_SENSOR].get(ID))
 		{
 			// Logarithmic scale for the firing length mapping:
+			
 			int blockLength = 0;
-			if (data.length > 0) { // log(0) is undefined, but blockLength for data.length=0 should be 0 
-				blockLength = (int) (Math.log(Math.min(data.length, maxLength)) / Math.log(logBase));
+			
+			if (data.length > 0)
+			{
+				// log(0) is undefined, but blockLength for data.length = 0 should be 0:
+				
+				blockLength = (int) Math.floor((Math.log(Math.min(data.length, maxLength)) / Math.log(logBase)));
 			}
-			//System.out.println("Datapoint: " + data);
-			//System.out.println("Blocklength:" + blockLength);
 			
 			output[data.startBlock(blockSizeStart)][blockLength]++;
 			
