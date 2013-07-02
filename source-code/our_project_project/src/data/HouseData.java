@@ -454,7 +454,7 @@ public class HouseData
 			
 		for (int i = 0; i < data.size(); i++)
 		{
-			values[i][0] = data.get(i).startBlock(1);
+			values[i][0] = (double) data.get(i).startBlock(1) / DataPoint.TIME_BLOCK_SIZE_HOUR;
 			values[i][1] = data.get(i).length;
 		}		
 		
