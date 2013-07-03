@@ -9,7 +9,7 @@ colors = getColors(nrExperiments);
 
 lineStylesCell={'-','-.', '--',':'};
 markerStylesCell={'+', 'o', '.', 'x', '*', 's', 'd'};
-index=1;
+index=0;
 legendCell = {};
 
 for expNr=1:nrExperiments
@@ -21,18 +21,19 @@ for expNr=1:nrExperiments
         
         
         plotje = semilogx(datapoints, values);
-        set(plotje,'LineStyle',lineStylesCell{index});
-        set(plotje, 'Marker',markerStylesCell{index});
+        mod(index+1, length(markerStylesCell))
+        set(plotje,'LineStyle',lineStylesCell{mod(index, length(lineStylesCell))+1});
+        set(plotje, 'Marker',markerStylesCell{mod(index, length(markerStylesCell))+1});
         
-        set(plotje, 'MarkerFaceColor',colors(index,:));
+        set(plotje, 'MarkerFaceColor',colors(index+1,:));
         
-        set(plotje,'Color',colors(index,:),'LineWidth',2);
+        set(plotje,'Color',colors(index+1,:),'LineWidth',2);
         
         hold on;
         
         
         
-        legendCell{index} = expLegend{expNr};
+        legendCell{index+1} = expLegend{expNr};
         
         
         %update colors, legend, line style
@@ -66,10 +67,10 @@ set(y, 'FontSize', 12);
 set(y,'FontWeight','bold');
 
 % set legend
-l = legend(legendCell,'Location','SouthEast');
+l = legend(legendCell);
 set(l, 'FontSize', 10);
 set(l,'FontWeight','bold');
-
+set(l, 'Location','SouthEast');
 
 
 % title
@@ -83,6 +84,8 @@ box off
 
 %remove legend box
 legend boxoff
+
+axis tight
 
 % save plot
 fh = gcf; % get figure handle
