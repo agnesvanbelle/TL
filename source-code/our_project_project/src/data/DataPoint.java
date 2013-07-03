@@ -3,6 +3,10 @@ package data;
 import java.text.*;
 import java.util.*;
 
+/*
+ * Objects of this class represent a point within the data (either a sensor firing or an activity occurrence).
+ * This class also contains useful methods for manipulating the information within such data points.
+ */
 public class DataPoint
 {
 	// Example time block sizes:
@@ -10,14 +14,14 @@ public class DataPoint
 	public static final int TIME_BLOCK_SIZE_MINUTE = 60;
 	public static final int TIME_BLOCK_SIZE_HOUR   = 3600;
 	
-	// Format for the human-readable version of the "start" field:
-	
-	//private static final SimpleDateFormat startDateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
-	
-	// Private data fields:
+	// Data fields:
 	
 	public final int start, length, ID;
 	
+	// Format for the human-readable version of the "start" field:
+	
+	private static final SimpleDateFormat startDateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
+		
 	private final Date startDate;
 	
 	public DataPoint(int start, int length, int ID)
@@ -27,6 +31,8 @@ public class DataPoint
 		this.ID     = ID;
 		
 		startDate = new Date(start * 1000L);
+		
+		startDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 	}
 	
 	/**
@@ -35,9 +41,6 @@ public class DataPoint
 	 */
 	public  String startDate()
 	{
-		SimpleDateFormat startDateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
-		startDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-		
 		return startDateFormat.format(startDate);
 	}
 	
@@ -56,13 +59,15 @@ public class DataPoint
 		return secondsElapsedDay / blockSize;
 	}
 	
-	public String toString() {
+	public String toString()
+	{
 		StringBuilder s = new StringBuilder();
+		
 		s.append("Datapoint ID:" + ID);
 		s.append(", start: " + start);
 		s.append(", length: " + length);
 		s.append(", start date: " + startDate);
-		return s.toString();
 		
+		return s.toString();
 	}
 }
