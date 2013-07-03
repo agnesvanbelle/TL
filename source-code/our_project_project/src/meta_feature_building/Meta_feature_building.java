@@ -15,11 +15,18 @@ public class Meta_feature_building{
 	private double single_alpha;
 	private Alpha_beta_type ab_type;
 	
-	
+	/**
+	 * Build a default object with no parametr settings for alphas or betas
+	 */
 	public Meta_feature_building () {
 		
 	}
 	
+	/**
+	 * Constructor for using absolute alpha and beta
+	 * @param alphas absolute alphas for each house
+	 * @param betas absolute betas for each house
+	 */
 	public Meta_feature_building (int[] alphas, int[] betas)
 	{
 		this.alphas = alphas;
@@ -27,6 +34,11 @@ public class Meta_feature_building{
 		ab_type = Alpha_beta_type.Absolute;
 	}
 	
+	/**
+	 * Constructor for using relative alpha
+	 * @param alpha relative alpha
+	 * @param betas absolute betas for each house
+	 */
 	public Meta_feature_building (float alpha, int[] betas)
 	{
 		single_alpha = alpha;
@@ -34,37 +46,29 @@ public class Meta_feature_building{
 		ab_type = Alpha_beta_type.Relative;
 	}
 	
-	
-	public static enum Alpha_beta_type {Relative, Absolute};
 	/**
-	 * 
-	 * @param data
-	 * @param alphas (In a percentage in integers in case of a relative alpha)
-	 * @param betas in seconds
+	 * Enumeration listing the types that can be used for clustering
+	 * @author lyltje
+	 *
+	 */
+	public static enum Alpha_beta_type {Relative, Absolute};
+	
+	/**
+	 * Clusters sensors for each house in data
+	 * @param data arraylist with all data from the houses you wish to cluster
 	 */
 	public void alpha_beta_clustering(ArrayList<HouseData> data)
 	{
 		int index = 0;
 		
 		for(HouseData house: data){
-//			System.out.println("house: " + house.houseName);
-			// Get sensor names, alpha and beta for this house
 			 
 			int beta = betas[index];
+			// Get sensor names for the house
 			Integer[] sensors = house.sensorList();			
 			// Get frequencies for a time difference <beta
 			int[][] frequencies = house.profileAlphaBeta(beta);
-			
-			////////////DEBUGGING/////////////////////
-			//print_frequencies(frequencies);
-			Integer[] sensssors = house.sensorList();
-			int index2 =0;
-			for(Integer i: sensssors){
-				//System.out.println(index2+" " + HouseData.sensorContainer(i).name);
-				index2++;
-			}
-			////////////DEBUGGING/////////////////////
-			
+									
 			ConcurrentSkipListSet<Integer> sensorsSet = new ConcurrentSkipListSet<Integer>();
 			ArrayList<ConcurrentSkipListSet<Integer>> groups = new ArrayList<ConcurrentSkipListSet<Integer>>();
 			
@@ -82,7 +86,6 @@ public class Meta_feature_building{
 				else if(ab_type == Alpha_beta_type.Absolute)
 				{
 					alpha = alphas[index];
-//					System.out.println("relative alpha: " + alpha);
 				}
 				for(int j=i;j<sensors.length;j++)
 				{
@@ -147,33 +150,46 @@ public class Meta_feature_building{
 				String meta_feature_name = "metaFeature_" + house.houseName + "_" + group_index;
 				for(int sensor_index: groups.get(group_index))
 				{
-//					System.out.print("sensor" + HouseData.sensorContainer(sensors[sensor_index]).name + "\t\t");
 					HouseData.mapSensors(HouseData.sensorContainer(sensors[sensor_index]).name, meta_feature_name);
-//					System.out.println(HouseData.sensorContainer(sensors[sensor_index]).metacontainer.name);
 				}
-//				System.out.println(" ");
 			}
 			index++;
 		}		
 	}
 	
+	/**
+	 * switch type to relative alpha and set alpha
+	 * @param alpha relative alpha
+	 */
 	public void set_relative_alpha(double alpha)
 	{
 		single_alpha = alpha;
 		ab_type = Alpha_beta_type.Relative;
 	}
 	
+	/**
+	 * Switch type to absolute alphas and set alphas
+	 * @param alphas alpha for each house
+	 */
 	public void set_alphas(int[] alphas)
 	{
 		this.alphas = alphas;
 		ab_type = Alpha_beta_type.Absolute;
 	}
 	
+	/**
+	 * Set betas
+	 * @param betas betas for each house
+	 */
 	public void set_betas(int[] betas)
 	{
 		this.betas = betas;
 	}
 	
+	/**
+	 * Print the frequencies for some beta
+	 * @param freq the frequencies for some beta
+	 */
 	public void print_frequencies(int[][] freq)
 	{
 		for(int i = 0;i<freq.length;i++)

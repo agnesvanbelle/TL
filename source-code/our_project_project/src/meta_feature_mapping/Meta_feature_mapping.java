@@ -10,7 +10,12 @@ import data.NormalDistribution;
 
 public class Meta_feature_mapping{
 	
-	
+	/**
+	 * Enumeration listing the different combinations of profiles and representations 
+	 * (with their appropriate distance metric) that can be used for meta feature
+	 * mapping 
+	 * @author lyltje	 *
+	 */
 	public enum Sensor_distance {
 		Profiles_individ_KL,  // KL divergence distance measure, sensor profile
 		Profiles_individ_SSE,  //sum squared errors distance measure, sensor profile
@@ -24,6 +29,7 @@ public class Meta_feature_mapping{
 	public int blockNumLength;
 	public int maxLengthDuration;
 	public Sensor_distance distance_metric;
+	// Parameter for combining the two profile distances
 	public float profile_weight; 
 	
 	/**
@@ -44,7 +50,8 @@ public class Meta_feature_mapping{
 	
 	
 	/**
-	 * Maps meta-features of each house to a shared feature space (meta-meta-features). This mapping is stored inside HouseData 
+	 * Maps meta-features of all source houses to a shared feature space (meta-meta-features) 
+	 * depending on the target house. This mapping is stored inside HouseData. 
 	 * @param data = ArrayList containing the data for each house
 	 * @param target_house_index = index in the array of the target house
 	 */
@@ -94,12 +101,12 @@ public class Meta_feature_mapping{
 	}
 
 	/**
-	 * Returns the mapping from sensors CHECK to meta-meta-features
+	 * Returns the mapping from a source house to a target house
 	 * @param target_house = data of the target house
 	 * @param source_house = data of the source house
 	 * @param clusters_target_house = clusters in the target house
 	 * @param meta_meta_features_labels = labels of the meta-meta-features
-	 * @return the mapping from sensors CHECK to meta-meta-features in a HashMap from sensor label to meta-meta-feature label
+	 * @return The mapping from source house clusters to the target house clusters
 	 */
 	private HashMap<String, String> get_mapping_one_to_one_heuristic(HouseData target_house, HouseData source_house, 
 			List<Integer>[] clusters_target_house, String[]  meta_meta_features_labels) {
@@ -134,7 +141,6 @@ public class Meta_feature_mapping{
 		}
 		
 		int match = 0;
-		//System.out.println("\n\nhouse: " + source_house.houseName);
 		
 		// While there are unmapped source sensors
 		while(cluster_indexes_source_house.size()!=0) 
@@ -156,17 +162,11 @@ public class Meta_feature_mapping{
 					float current_diff = -1.0f;
 					float smallest_diff = Float.POSITIVE_INFINITY;
 					int candidate = -1;
-//					System.out.println("\tCandidates:");
 					for(int index_source: cluster_indexes_source_house)
 					{
-//						System.out.println("\t" + HouseData.sensorContainer(clusters_source_house[index_source].get(0)).metacontainer.name + " " +
-//										HouseData.sensorContainer(clusters_target_house[index_target].get(0)).metacontainer.name );
 						if(diff[index_target][index_source] == -1.0)
-						{
-							
-								diff[index_target][index_source] = cluster_distance(clusters_target_house[index_target], clusters_source_house[index_source], target_house, source_house);
-								//System.out.println("diff "+ index_target +" "+ index_source + " = " + diff[index_target][index_source]);
-														
+						{							
+								diff[index_target][index_source] = cluster_distance(clusters_target_house[index_target], clusters_source_house[index_source], target_house, source_house);														
 						}
 						current_diff = diff[index_target][index_source];
 						if(current_diff <= smallest_diff)
@@ -176,9 +176,7 @@ public class Meta_feature_mapping{
 						}
 						
 					}
-//					System.out.println("best match: " );
-//					System.out.println("\t" + HouseData.sensorContainer(clusters_source_house[candidate].get(0)).metacontainer.name + " " +
-//							HouseData.sensorContainer(clusters_target_house[index_target].get(0)).metacontainer.name );
+					
 					best_candidate_diff[array_index] = smallest_diff;
 					best_candidate[array_index] = candidate;
 					cluster_index[array_index] = index_target;
@@ -197,8 +195,8 @@ public class Meta_feature_mapping{
 						target_cluster = cluster_index[i];
 					}
 				}
-				// Put the mapping in the hash map
 				
+				// Put the mapping in the hash map				
 				String source_cluster_name = HouseData.sensorContainer(clusters_source_house[source_cluster].get(0)).metacontainer.name;
 				String meta_meta_label = meta_meta_features_labels[target_cluster];				
 				
@@ -212,17 +210,14 @@ public class Meta_feature_mapping{
 			}
 			else
 			{
-				//System.out.println("Loop over id_source's");
 				// Map remaining source clusters to target cluster with smallest distance
 				for(int id_source: cluster_indexes_source_house)
 				{
-					//System.out.println("id_source: " + id_source);
 					float current_diff = -1.0f;
 					float smallest_diff = Float.POSITIVE_INFINITY;
 					int target_cluster = -1;
 					for(int index_target=0; index_target<clusters_target_house.length;index_target++)
 					{
-						//System.out.println("index_target:" + index_target);
 						if(diff[index_target][id_source] == -1.0)
 						{							
 							diff[index_target][id_source] = cluster_distance(clusters_target_house[index_target], clusters_source_house[id_source], target_house, source_house);							
@@ -230,7 +225,6 @@ public class Meta_feature_mapping{
 						current_diff = diff[index_target][id_source];
 						if(current_diff <= smallest_diff)
 						{
-							//System.out.println("(current_diff < smallest_diff)");
 							smallest_diff = current_diff;
 							target_cluster = index_target;
 						}
@@ -238,8 +232,8 @@ public class Meta_feature_mapping{
 					}
 					
 					
-					String source_cluster_name = HouseData.sensorContainer(clusters_source_house[id_source].get(0)).metacontainer.name;					
-					//System.out.println("source_cluster_name: " + source_cluster_name + "\n");
+					String source_cluster_name = HouseData.sensorContainer(clusters_source_house[id_source].get(0)).metacontainer.name;				
+					
 					String meta_meta_label = meta_meta_features_labels[target_cluster];
 					// Save mapping
 					mapping.put(source_cluster_name, meta_meta_label);
@@ -253,15 +247,16 @@ public class Meta_feature_mapping{
 	}
 
 	/**
-	 * Calculates cluster distance as defined by Koen et al.
+	 * Calculates cluster distance as defined by Koen et al. using the 
+	 * distance measure for sensor distance as specified by the global
+	 * variable distance_metric
 	 * @param cluster_1 List of ID's of sensors belonging to cluster 1
 	 * @param cluster_2 List of ID's of sensors belonging to cluster 1
-	 * @return cluster distance
+	 * @return cluster distance 
 	 */
 	private float cluster_distance(List<Integer> cluster_1, List<Integer> cluster_2, HouseData house_1, HouseData house_2)
 	{
-		//Initialize variables	
-		
+		//Initialize variables		
 		List<Integer> small_cluster, large_cluster;
 		HouseData house_small, house_large;
 		float avg_min_divergence = 0.0f;
@@ -310,7 +305,7 @@ public class Meta_feature_mapping{
 						hist_s = house_small.profileSensor(sensor_id_s, blockSizeStart ,blockNumLength, maxLengthDuration);
 						hist_l = house_large.profileSensor(sensor_id_l, blockSizeStart ,blockNumLength, maxLengthDuration);
 						float sensor_profile_distance = sse_dist(hist_s, hist_l);		
-						float sensor_rel_distance = relative_distance(house_small, house_large, sensor_id_s, sensor_id_l, Sensor_distance.Profiles_individ_SSE_rel_OL);
+						float sensor_rel_distance = relative_distance(house_small, house_large, sensor_id_s, sensor_id_l);
 						current_min_div = (profile_weight*sensor_profile_distance)+( (1-profile_weight)*sensor_rel_distance);
 						break;
 					case Profiles_individ_KL:
@@ -321,12 +316,11 @@ public class Meta_feature_mapping{
 					case Profiles_individ_KL_rel_KL:
 						nd_s = house_small.profileSensor(sensor_id_s);
 						nd_l = house_large.profileSensor(sensor_id_l);
-//						System.out.println("ID1: " + sensor_id_l+" ID2: " + sensor_id_s);
 						float sensor_profile_distance_kl = nd_s.KLDivergence(nd_l);		
-						float sensor_rel_distance_kl = relative_distance(house_small, house_large, sensor_id_s, sensor_id_l, Sensor_distance.Profiles_individ_KL_rel_KL);
+						float sensor_rel_distance_kl = relative_distance(house_small, house_large, sensor_id_s, sensor_id_l);
 						current_min_div =  (profile_weight*sensor_profile_distance_kl)+( (1-profile_weight)*sensor_rel_distance_kl);
 						break;
-					default:							System.out.println("Unknown distance type"); break;					
+					default:	System.out.println("Unknown distance type"); break;					
 				}				
 			
 				// If it is the smallest difference so far
@@ -367,6 +361,12 @@ public class Meta_feature_mapping{
 		return (float) Math.sqrt(bcoeff);
 	}
 	
+	/**
+	 * Builds the names of the meta-meta-features based on the names of the
+	 * meta-features of the target house
+	 * @param clusters_target_house
+	 * @return labels
+	 */
 	private String[] build_labels(List<Integer>[] clusters_target_house) {
 		String base_name = "meta-meta-feature-";
 		String[] labels = new String [clusters_target_house.length];
@@ -377,29 +377,41 @@ public class Meta_feature_mapping{
 		return labels;
 	}
 	
-	private float relative_distance(HouseData house_small, HouseData house_large, Integer sensor_id_s, Integer sensor_id_l, Sensor_distance sensor_distance_type){
+	/**
+	 * Provides the distance in relational profile between two sensors
+	 * @param house_small house containing the first sensor
+	 * @param house_large house containing the second sensor
+	 * @param sensor_id_s Id of the first sensor
+	 * @param sensor_id_l Id of the second sensor
+	 * @return distance between relational profiles
+	 */
+	private float relative_distance(HouseData house_small, HouseData house_large, Integer sensor_id_s, Integer sensor_id_l){
 		
 		Integer[] sensors_b = house_small.sensorList();
 		Integer[] sensors_beta = house_large.sensorList();
 		float relative_dist = Float.POSITIVE_INFINITY;
 		float current_dist = -1.0f;
+		// For each sensor sensor_id_s could be related to
 		for(Integer b:sensors_b)
 		{
+			// For each sensor sensor_id_l could be related to
 			for(Integer beta: sensors_beta)
 			{
 				if((sensor_id_s.compareTo(b) != 0) && (sensor_id_l.compareTo(beta) != 0))
 				{
+					// Get the relational profiles of sensors sensor_id_s and b and of sensors sensor_id_l and beta
 					data.NormalDistribution a_b = house_small.profileRelational(sensor_id_s, b);
 					data.NormalDistribution alpha_beta = house_large.profileRelational(sensor_id_l, beta);
-					//System.out.println("small: " + house_small.houseName + ", large: " + house_large.houseName);
 					
-					switch(sensor_distance_type)
+					// Get the appropriate distance between the two relational profiles
+					switch(distance_metric)
 					{
 						case Profiles_individ_SSE_rel_OL: current_dist = a_b.overlapLevel(alpha_beta); break;
 						case Profiles_individ_KL_rel_KL: current_dist = a_b.KLDivergence(alpha_beta); break;
 						default:	System.out.println("Unusable distance metric for relative distance usage"); break;
 					}
 					
+					// See if it is smaller than the current minimum
 					if(current_dist < relative_dist)
 					{
 						relative_dist = current_dist; 
@@ -408,6 +420,7 @@ public class Meta_feature_mapping{
 					
 			}
 		}
+		// Return the minimum over b and beta for the relational profile distance
 		return relative_dist;
 	}
 	
