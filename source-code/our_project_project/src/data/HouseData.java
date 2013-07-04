@@ -3,11 +3,15 @@ package data;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Objects of this class provide the information contained within the database for one house.
+ * Static methods of this class provide useful algorithms involving data from all houses.
+ */
+@SuppressWarnings("unchecked")
 public class HouseData
 {
-	
 	public static final String outputDirName = "../our_project_project/output/";
-	public static final String inputDataDir = "../our_project_project/data/";
+	public static final String inputDataDir  = "../our_project_project/data/";
 	public static final String houseOutputDirPrefix = "houseInfo"; //TODO set via wer
 	
 	// Example mapping levels for sensorData() and activityData():
@@ -26,18 +30,19 @@ public class HouseData
 	private static final HashMap<Integer, NameContainer>[] indexID   = new HashMap[2]; // Index per IDs.
 	private static final HashMap<String,  NameContainer>[] indexName = new HashMap[2]; // Index per names.
 	
+	private final static HashMap<Integer, Integer> firingFrequencies = new HashMap<Integer, Integer>();
+	
 	// House data:
 	
 	public final String houseName;
-					
+	
 	private final ArrayList<DataPoint>[]                   dataTime = new ArrayList[2]; // Index per chronological order.
 	private final HashMap<Integer, ArrayList<DataPoint>>[] dataID   = new HashMap[2];   // Index per IDs.
 	
 	// Sensor profile cache:
 	
-	private final HashMap<Integer, float[][]> sensorProfiles_hist = new HashMap<Integer, float[][]>(); 
-	private final HashMap<Integer, NormalDistribution> sensorProfiles_nd = new HashMap<Integer, NormalDistribution>(); 
-	private final HashMap<Integer, Integer> firingFrequencies = new HashMap<Integer, Integer> ();
+	private final HashMap<Integer, float[][]>        sensorProfiles_hist = new HashMap<Integer, float[][]>(); 
+	private final HashMap<Integer, NormalDistribution> sensorProfiles_nd = new HashMap<Integer, NormalDistribution>();
 	
 	// Dynamic methods:
 	
@@ -103,6 +108,8 @@ public class HouseData
 					name += '-' + houseName;
 				}
 				
+				// Get the entity corresponding to this ID:
+				
 				NameContainer entity;
 
 				if (indexName[typeData].containsKey(name))
@@ -116,6 +123,8 @@ public class HouseData
 					indexName[typeData].put(entity.name, entity);
 					indexID[typeData].put(entity.ID, entity);
 				}
+				
+				// Create the inner, temporal ID mapping for this entity:
 				
 				mapping[typeData].put(ID, entity);
 			}
@@ -156,53 +165,57 @@ public class HouseData
 			
 			String line;
  
-			/////////////////////DEBUGGING/////////////////////
-			int lineNumber = 0;
-			/////////////////////DEBUGGING/////////////////////
 			while ((line = br.readLine()) != null)
 			{
-				/////////////////////DEBUGGING/////////////////////
-				lineNumber ++;
-				/////////////////////DEBUGGING/////////////////////
 				String[] columns = line.split("\t");
 				
 				int start  = Integer.parseInt(columns[0]);
 				int length = Integer.parseInt(columns[1]);
 				int ID     = Integer.parseInt(columns[2]);
 				
-				NameContainer entity = null;
+				// Get (and maybe create) the entity corresponding to this ID:
 				
-				if(ID==4 && typeData == TYPE_DATA_SENSOR)
-				{
-					ID = 7;
-				}
+				NameContainer entity;
 				
 				if (mapping[typeData].containsKey(ID))
 				{
 					entity = mapping[typeData].get(ID);
 				}
-				if(entity != null)
+				else
 				{
-					if(firingFrequencies.containsKey(entity.ID))
-					{
-						firingFrequencies.put(entity.ID, firingFrequencies.get(entity.ID)+1);
-					}
-					else
-					{
-						firingFrequencies.put(entity.ID, 1);
-					}
+					entity = new NameContainer();
 					
-					DataPoint data = new DataPoint(start, length, entity.ID);
+					indexName[typeData].put(entity.name, entity);
+					indexID[typeData].put(entity.ID, entity);
 					
-					dataTime[typeData].add(data);
+					// Create the inner, temporal ID mapping for this entity:
 					
-					if (!dataID[typeData].containsKey(entity.ID))
-					{
-						dataID[typeData].put(entity.ID, new ArrayList<DataPoint>());
-					}
-					
-					dataID[typeData].get(entity.ID).add(data);
+					mapping[typeData].put(ID, entity);
 				}
+				
+				// Possibly update the firing frequency of the sensor:
+				
+				if (typeData == TYPE_DATA_SENSOR && firingFrequencies.containsKey(entity.ID))
+				{
+					firingFrequencies.put(entity.ID, firingFrequencies.get(entity.ID) + 1);
+				}
+				else
+				{
+					firingFrequencies.put(entity.ID, 1);
+				}
+				
+				// Create and index the final data point:
+					
+				DataPoint data = new DataPoint(start, length, entity.ID);
+					
+				dataTime[typeData].add(data);
+				
+				if (!dataID[typeData].containsKey(entity.ID))
+				{
+					dataID[typeData].put(entity.ID, new ArrayList<DataPoint>());
+				}
+					
+				dataID[typeData].get(entity.ID).add(data);
 			} 
 		}
 		catch (IOException e)
@@ -294,7 +307,6 @@ public class HouseData
 	 * @param mappingLevel Number of sensor mapping levels to apply. MAPPING_LEVEL_* constants can be used for convenience.
 	 * @return An array of lists where each list contains the IDs of sensors present in one group after mapping.
 	 */
-	@SuppressWarnings("unchecked")
 	public List<Integer>[] sensorClusters(int mappingLevel)
 	{
 		HashMap<Integer, List<Integer>> output = new HashMap<Integer, List<Integer>>();
@@ -326,12 +338,7 @@ public class HouseData
 	{
 		String houseLetter = houseName.replaceAll("house", "");
 		
-//		File outputDir = new File(outputDirName);
-//		if (outputDir.exists()) {
-//			outputDir.delete();
-//		}
-//		outputDir.mkdir();
-		File houseOutputDir = new File(outputDirName + "/" );
+		File houseOutputDir = new File(outputDirName + "/");
 		houseOutputDir.mkdir();
 		
 		try
@@ -340,9 +347,6 @@ public class HouseData
 			
 			PrintWriter writer = new PrintWriter(houseOutputDir + "/" + houseName + "-ss.txt", "UTF-8");
 			
-			/* edited by Agnes - the *-ss.txt file needs raw feature sensor id as 3rd column 
-			 * (same as the first column in sensormap*-ids.txt) 
-			 */
 			for (DataPoint data: sensorData(MAPPING_LEVEL_FEATURE))
 			{
 				DataPoint temp = new DataPoint(data.start + data.length, data.length, data.ID); // temp.start = data.end
@@ -376,7 +380,7 @@ public class HouseData
 				String name  = indexID[TYPE_DATA_SENSOR].get(ID).name.replaceAll(",", "-");
 				// String group = indexID[TYPE_DATA_SENSOR].get(mappedID).name.replaceAll(",", "-");
 				
-				writer.println(ID + "," + name + "," + mappedID);
+				writer.println(ID + "," + name + "," + mappedID); // Alternative: print "group" instead of "mappedID".
 			}
 			
 			writer.close();
@@ -433,6 +437,11 @@ public class HouseData
 		return sensorProfiles_hist.get(ID);
 	}
 	
+	/**
+	 * Returns a representation of a sensor modeled as a normal distribution over the activation times and durations of the firings of the sensor.
+	 * @param ID Sensor ID whose profile will be calculated.
+	 * @return A normal distribution representing the sensor.
+	 */
 	public NormalDistribution profileSensor(int ID)
 	{
 		if (!sensorProfiles_nd.containsKey(ID))
@@ -469,30 +478,15 @@ public class HouseData
 		
 		double logBase = Math.pow(Math.E, Math.log(maxLength + 1) / blockNumLength);
 		
-		/* Debug:
-		System.out.println(blockNumLength + ", " + maxLength + ", " + logBase);
-		
-		System.out.println((int) Math.floor((Math.log((maxLength)) / Math.log(logBase))));
-		
-		for (int i = 0; i < blockNumLength; i++)
-		{
-			System.out.println(i + ": " + (int) Math.floor(Math.pow(logBase, i)) + " - " + (int) Math.floor((Math.pow(logBase, i + 1) - 1)));
-		}*/
-		
 		long total = 0;
 		
 		for (DataPoint data: dataID[TYPE_DATA_SENSOR].get(ID))
 		{
+			int length = Math.max(Math.min(data.length, maxLength), 1);
+			
 			// Logarithmic scale for the firing length mapping:
-			
-			int blockLength = 0;
-			
-			if (data.length > 0)
-			{
-				// log(0) is undefined, but blockLength for data.length = 0 should be 0:
-				
-				blockLength = (int) Math.floor((Math.log(Math.min(data.length, maxLength)) / Math.log(logBase)));
-			}
+
+			int blockLength = (int) Math.floor((Math.log(length) / Math.log(logBase)));
 			
 			output[data.startBlock(blockSizeStart)][blockLength]++;
 			
@@ -525,13 +519,7 @@ public class HouseData
 			throw new IllegalArgumentException();
 		}
 		
-		//System.out.println("sensorA:" + sensorContainer(sensorA).name);
-		//System.out.println("sensorB:" + sensorContainer(sensorB).name);
-		
 		List<DataPoint> dataTarget = dataID[TYPE_DATA_SENSOR].get(sensorA);
-		
-		
-		//System.out.println(dataTarget.size());
 		
 		double[][] values = new double[dataTarget.size()][1];
 		
@@ -666,8 +654,6 @@ public class HouseData
 		mapEntities(activityNameSource, activityNameTarget, TYPE_DATA_ACTIVITY);
 	}
 	
-
-	
 	private static void mapEntities(String entityNameSource, String entityNameTarget, int typeData)
 	{
 		if (indexName[typeData].containsKey(entityNameTarget) && indexName[typeData].containsKey(entityNameSource))
@@ -685,14 +671,23 @@ public class HouseData
 		}
 	}
 	
-	public static ArrayList<String> getAllActivities() {
+	/**
+	 * Returns a list containing the names of all known activities across houses.
+	 * @return A list containing the names of all known activities across houses.
+	 */
+	public static List<String> getAllActivities()
+	{
 		Set<String> names = indexName[TYPE_DATA_ACTIVITY].keySet();
-		ArrayList<String> namesList = new ArrayList<String>();
-		namesList.addAll(names);
-		return namesList;
+
+		return new ArrayList<String>(names);
 	}
 	
-	public Integer sensorFiringFrequency(Integer ID)
+	/**
+	 * Returns the absolute firing frequency of a given sensor.
+	 * @param ID The ID of the sensor.
+	 * @return The absolute firing frequency of the sensor.
+	 */
+	public static int sensorFiringFrequency(int ID)
 	{
 		return firingFrequencies.get(ID);
 	}

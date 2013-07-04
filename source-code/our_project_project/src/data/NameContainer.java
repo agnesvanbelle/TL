@@ -1,5 +1,9 @@
 package data;
 
+/*
+ * This class implements a generic container for IDs and names of activities and sensors.
+ * Objects of this class are only indexed and compared with other objects by their names, not by their IDs.
+ */
 public class NameContainer
 {
 	private static int ID_NEXT = 0;
