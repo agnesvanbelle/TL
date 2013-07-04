@@ -184,8 +184,7 @@ directory='/root/source-code/experiments/../arf.experiments.wifi/housedata/outpu
 houseName=' A, B, C, D, E (transfer)';
 exp=exp0(:,1:4) + exp1(:,1:4) + exp2(:,1:4) + exp3(:,1:4) + exp4(:,1:4);
 exp = exp./5;
-addpath ../../input/matlab/
-run ../../input/matlab/saveplot;
+run saveplot;
 
 
 set(gca,'YTick',[0:0.01:1])

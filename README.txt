@@ -131,6 +131,7 @@ NOTE: You need to install Apache Maven to compile.
       directory mahout-trunk. Only mahout-trunk/core, mahout-trunk/math 
       need to get compiled.
       Optionally you could use Eclipse's Maven plugin
+      (http://download.eclipse.org/technology/m2e/releases)
 
   mahout-trunk
   │
