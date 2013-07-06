@@ -3,7 +3,7 @@ figure('visible','on'); %set to off
 
 
 
-[nrExperiments, nrDays] =  size(exp);
+[nrDays, nrExperiments] =  size(exp);
 
 colors = getColors(nrExperiments);
 
@@ -32,7 +32,8 @@ for expNr=1:nrExperiments
         hold on;
         
         
-        
+        nrExperiments
+        index+1
         legendCell{index+1} = expLegend{expNr};
         
         
@@ -55,7 +56,7 @@ axis([min(datapoints),max(datapoints)+1,0,1])
 
 % set tickmarks
 set(gca,'XTick',datapoints)
-set(gca,'YTick',[0:0.1:1])
+set(gca,'YTick',[0:0.05:1])
 
 % set x and y axis labels
 x=xlabel('Number of labeled days');
@@ -85,11 +86,11 @@ box off
 %remove legend box
 legend boxoff
 
-%axis tight
+axis tight
 
 % save plot
 fh = gcf; % get figure handle
-saveas(gcf, strcat(strcat('plot',houseName,'nofit.pdf')));
+saveas(gcf, strcat(directory,strcat('plot',houseName,'.pdf')));
 clear fh;
 hold off;
 

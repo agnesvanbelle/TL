@@ -116,9 +116,8 @@ datapoints(1,1)=2;
 datapoints(2,1)=3;
 datapoints(3,1)=6;
 datapoints(4,1)=11;
-directory='/root/source-code1c/experiments/../arf.experiments.wifi/housedata/output/matlab/';
+directory='./';
 houseName=' A, B, C (transfer)';
 exp=exp0(:,1:4) + exp1(:,1:4) + exp2(:,1:4);
 exp = exp./3;
-addpath ../../input/matlab/
-run ../../input/matlab/saveplot;
+run saveplot;

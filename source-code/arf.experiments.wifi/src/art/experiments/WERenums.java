@@ -191,7 +191,8 @@ public class WERenums {
 			String[] v = new String[TRANSFER_SETTINGS.length()];
 			int i=0;
 			for (TRANSFER_SETTINGS pt : vs) {
-				v[i++]=pt.name();
+				v[i]=pt.name();
+				i++;
 			}
 			return v;
 		}

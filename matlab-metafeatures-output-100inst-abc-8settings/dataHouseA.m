@@ -138,7 +138,6 @@ datapoints(5,1)=21;
 
 
 
-directory='/root/source-code1c/experiments/../arf.experiments.wifi/housedata/output/matlab/';
+directory='./';
 houseName=' A (transfer)';
-addpath ../../input/matlab/
-run ../../input/matlab/saveplot;
+run saveplot;

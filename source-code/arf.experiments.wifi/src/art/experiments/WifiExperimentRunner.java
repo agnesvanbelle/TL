@@ -432,12 +432,12 @@ public class WifiExperimentRunner {
 		System.out.println("\nGoing to evaluate using libSVM...");
 
 		String[] patterns = TRANSFER_SETTINGS.valuesStr();
-		String regex = "(";
+		String regex = "[^\\_][";
 		for (int i = 0; i < patterns.length; i++) {
 			regex += patterns[i] + "|";
 		}
 		regex = regex.substring(0, regex.length() - 1);
-		regex += ")";
+		regex += "]";
 		//System.out.println("regex: " + regex);
 
 		for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
@@ -636,7 +636,7 @@ public class WifiExperimentRunner {
 			bwTotal.write("directory='" + plotOutputDir + "/';\n");
 
 			// for title
-			bwTotal.write("houseName='");
+			bwTotal.write("houseName=' ");
 			for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
 				if (houseNr > 0) {
 					bwTotal.write(", ");
