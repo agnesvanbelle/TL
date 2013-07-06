@@ -33,7 +33,7 @@ public class MetaFeatureMaker {
 	public static String outputDirName = HouseData.outputDirName;
 	public static int one_hour = 60 * 60;
 
-	/* set the following to something resonable! */
+	/* set the following to something reasonable! */
 	public static final int[] alphaAllHouses = { 10, 10, 10, 4, 4 }; // TODO: read/set from something
 	public static double relativeAlpha = 0.01; // TODO: check with relative alpha
 	public static int[] betaAllHouses = { 9, 9, 9, 6, 9 }; // TODO: read/set from something

@@ -64,12 +64,14 @@ public class ExperimentRunner {
 //		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 //				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 //		
-		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
-				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+//		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+//				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 
 		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 		
+		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
+				WERenums.MF_TYPE.HC, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 		
 		// copy our created experiment files to input dir
 		copyOutputToWifiExperimentRunnerInput(subsetMin, subsetMax, HouseData.outputDirName, WifiExperimentRunner.EXP_DIR);
@@ -80,7 +82,7 @@ public class ExperimentRunner {
 		copyActionListFilesToOriginalHC(subsetMin, subsetMax);
 		
 		// copy (part of) her original files to input dir
-		//copyOriginalHCToWifiExperimentRunnerInput(subsetMin, subsetMax, WERenums.TRANSFER_SETTINGS.BOTH);
+		copyOriginalHCToWifiExperimentRunnerInput(subsetMin, subsetMax, WERenums.TRANSFER_SETTINGS.BOTH);
 		
 				
 		// make classMapFile (maps activity names (for all activities from all processed houses) to a number, is done for SVM classifier in WER)
