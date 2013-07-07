@@ -3,7 +3,10 @@ figure('visible','on'); %set to off
 
 
 
-[nrExperiments,nrDays] =  size(exp);
+[nrExperiments, nrDays] =  size(exp);
+
+nrDays
+nrExperiments
 
 colors = getColors(nrExperiments);
 
@@ -63,7 +66,7 @@ x=xlabel('Number of labeled days');
 set(x, 'FontSize', 12);
 set(x,'FontWeight','bold');
 
-y=ylabel('Avg. Accuracy');
+y=ylabel('Avg. Avg. Accuracy');
 set(y, 'FontSize', 12);
 set(y,'FontWeight','bold');
 
@@ -86,11 +89,11 @@ box off
 %remove legend box
 legend boxoff
 
-axis tight
+%axis tight
 
 % save plot
 fh = gcf; % get figure handle
-saveas(gcf, strcat(directory,strcat('plot',houseName,'.pdf')));
+saveas(gcf, strcat(directory,strcat('plot',houseName,'nofit.pdf')));
 clear fh;
 hold off;
 
