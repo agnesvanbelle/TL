@@ -18,58 +18,60 @@ public class Test
 		
 		DataPoint[] data = houseA.sensorData(HouseData.MAPPING_LEVEL_FEATURE);
 		
-		// Example 1 (raw data retrieval):
+		// Example 1:
 		
-		System.out.println("Example 1:\n");
+//		System.out.println("Example 1:");
+//		
+//		for (DataPoint p: data)
+//		{
+//			System.out.println(p.startDate() + "\t" + p.length + "\t" + p.ID);
+//		}
 		
-		for (DataPoint p: data)
-		{
-			System.out.println(p.startDate() + "\t" + p.length + "\t" + p.ID);
-		}
+		// Example 2:
+//		
+//		System.out.println("Example 2:");
+//		
+//		HouseData.mapSensors("Hall-Bedroom door-houseA",  "New metafeature");
+//		HouseData.mapSensors("Hall-Toilet door-houseA",   "New metafeature");
+//		HouseData.mapSensors("Hall-Bathroom door-houseA", "New metafeature");
+//		
+//		data = houseA.sensorData(HouseData.MAPPING_LEVEL_METAFEATURE);
+//		
+//		for (DataPoint p: data)
+//		{
+//			System.out.println(p.startBlock(DataPoint.TIME_BLOCK_SIZE_MINUTE) + "\t" + p.length + "\t" + p.ID);
+//		}
 		
-		// Example 2 (meta-feature creation):
+		// Example 3:
+//		
+//		System.out.println("Example 3:");
+//		
+//		// frequency table
+//		// only needs beta
+//		int[][] alphaBetaMatrix = houseA.profileAlphaBeta(15); // <= 15s difference between sensor activations.
+//		
+//		for (int i = 0; i < alphaBetaMatrix.length; i++)
+//		{
+//			for (int j = 0; j < alphaBetaMatrix.length; j++)
+//			{
+//				System.out.print(alphaBetaMatrix[i][j] + " ");
+//			}
+//			
+//			System.out.println();
+//		}
 		
-		System.out.println("\nExample 2:\n");
+		// Example 4:
+//		
+//		System.out.println("Example 4:");
+//		
+//		for (int ID: houseE.sensorList())
+//		{
+//			System.out.println(ID + " --> " + HouseData.sensorContainer(ID).name);
+//		}
+//		
+		// Example 5:
 		
-		HouseData.mapSensors("Hall-Bedroom door-houseA",  "New metafeature");
-		HouseData.mapSensors("Hall-Toilet door-houseA",   "New metafeature");
-		HouseData.mapSensors("Hall-Bathroom door-houseA", "New metafeature");
-		
-		data = houseA.sensorData(HouseData.MAPPING_LEVEL_METAFEATURE);
-		
-		for (DataPoint p: data)
-		{
-			System.out.println(p.startBlock(DataPoint.TIME_BLOCK_SIZE_MINUTE) + "\t" + p.length + "\t" + p.ID);
-		}
-		
-		// Example 3 (alpha beta house profile):
-		
-		System.out.println("\nExample 3:\n");
-		
-		int[][] alphaBetaMatrix = houseA.profileAlphaBeta(15); // <= 15s difference between sensor activations.
-	
-		for (int i = 0; i < alphaBetaMatrix.length; i++)
-		{
-			for (int j = 0; j < alphaBetaMatrix.length; j++)
-			{
-				System.out.print(alphaBetaMatrix[i][j] + " ");
-			}
-			
-			System.out.println();
-		}
-		
-		// Example 4 (sensor name list):
-	
-		System.out.println("\nExample 4:\n");
-		
-		for (int ID: houseE.sensorList())
-		{
-			System.out.println(ID + " --> " + HouseData.sensorContainer(ID).name);
-		}
-		
-		// Example 5 (KL-divergence for relational profiles):
-		
-		System.out.println("\nExample 5:\n");
+		System.out.println("Example 5:");
 		
 		NormalDistribution r1 = houseA.profileRelational(1, 2); // Hall-Toilet door vs Hall-Bathroom door
 		NormalDistribution r2 = houseA.profileRelational(1, 8); // Hall-Toilet door vs Toilet Flush
@@ -77,9 +79,9 @@ public class Test
 		System.out.println(r1.KLDivergence(r2));
 		System.out.println(r2.KLDivergence(r1));
 		
-		// Example 6 (distance measures for normal distributions):
+		// Example 6:
 		
-		System.out.println("\nExample 6:\n");
+		System.out.println("\nExample 6:");
 		
 		double[][] dataA = {{1}, {2}, {3}};
 		double[][] dataB = {{1}, {3}, {5}};
@@ -94,9 +96,9 @@ public class Test
 		System.out.println(a.KLDivergence(b));
 		System.out.println(b.KLDivergence(a));
 		
-		// Example 7 (profile sensor as histogram):
+		// Example 7:
 		
-		System.out.println("\nExample 7:\n");
+		System.out.println("\nExample 7:");
 		
 		float[][] profile = houseA.profileSensor(houseA.sensorList()[1], 3600, 4, 200);
 		
@@ -114,7 +116,7 @@ public class Test
 			System.out.println();
 		}
 		
-		// Example 8 (activity mappings across houses):
+		// Example 8:
 		
 		HouseData.mapActivities("Going-out-to-work",           	"leave-house");
 		HouseData.mapActivities("Taking-out-the-trash",        	"leave-house");
@@ -139,6 +141,11 @@ public class Test
 		HouseData.mapActivities("Preparing-a-snack",	      	"prep-dinner");
 
 		HouseData.mapActivities("Preparing-a-beverage",        	"get-drink");
+		
+		//houseE.formatLena(HouseData.MAPPING_LEVEL_METAFEATURE, HouseData.MAPPING_LEVEL_METAFEATURE);
+	}
+}
+     	"get-drink");
 		
 		houseE.formatLena("output/example8", HouseData.MAPPING_LEVEL_METAFEATURE, HouseData.MAPPING_LEVEL_METAFEATURE);
 	}

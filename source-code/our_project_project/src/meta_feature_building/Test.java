@@ -20,7 +20,7 @@ public class Test
 		
 //		hand_crafted_clusters (house_letters);
 		
-		generate_clusters("houseA", "Absolute", 2, 5, 0.5f);
+		generate_clusters("houseA", "Absolute", 2, 5);
 		
 	}
 	
@@ -30,6 +30,7 @@ public class Test
 		List<Integer>[] clusters = house.sensorClusters(HouseData.MAPPING_LEVEL_METAFEATURE);
 		for(int i =0;i<clusters.length;i++)
 		{
+//			System.out.println(HouseData.sensorContainer(clusters[i].get(0)).name);
 			System.out.println("------------\ncluster: " + i + " " + HouseData.sensorContainer(clusters[i].get(0)).metacontainer.name );
 			for(int j = 0; j<clusters[i].size();j++)
 			{
@@ -39,21 +40,14 @@ public class Test
 		}
 	}
 	
-	/**
-	 * Does automatic clustering using the specified parameters
-	 * @param houseName house for which to do automatic clustering
-	 * @param alphaType can be "Absolute", "Relative" or "Both"
-	 * @param alfa_abs absolute alphas
-	 * @param beta_abs betas
-	 * @param relative_alpha relative alpha
-	 */
-	public static void generate_clusters(String houseName, String alphaType, int alfa_abs, int beta_abs, float relative_alpha)
+	public static void generate_clusters(String houseName, String alphaType, int alfa_abs, int beta_abs)
 	{
 		HouseData house = new HouseData(houseName);
 		ArrayList<HouseData> data = new ArrayList<HouseData>();
 		data.add(house);
 		int [] alpha = {alfa_abs};
 		int [] beta = {beta_abs};
+		float relative = 0.5f;
 		Meta_feature_building builder = new Meta_feature_building(alpha, beta);
 		
 		if(alphaType == "Absolute" || alphaType == "Both")
@@ -64,16 +58,12 @@ public class Test
 		
 		if(alphaType == "Relative" || alphaType == "Both")
 		{
-			builder.set_relative_alpha(relative_alpha);
+			builder.set_relative_alpha(relative);
 			builder.alpha_beta_clustering(data);
 			printClusters(house, "relative alpha");
 		}
 	}
 	
-	/**
-	 * Applies the hand crafted clustering and prints the results
-	 * @param houseLetters
-	 */
 	public static void hand_crafted_clusters (String[] houseLetters) 
 	{
 
@@ -87,6 +77,21 @@ public class Test
 		boolean diffent_meta_features = false;
 		Meta_features_apply_handcrafted mf_hc = new Meta_features_apply_handcrafted();
 		mf_hc.apply_hand_crafted_meta_features(data, diffent_meta_features);
+		for(HouseData house: data){
+			printClusters(house, "Hand crafted ");
+		}
+	}
+	
+	private static void replicate_clustering_Koehn_et_al()
+	{
+		// Reported result is in between the rollowing results:
+		generate_clusters("houseA", "Absolute", 2, 4);
+		generate_clusters("houseA", "Absolute", 2, 5);
+	}
+	
+	
+}
+t_meta_features);
 		for(HouseData house: data){
 			printClusters(house, "Hand crafted ");
 		}

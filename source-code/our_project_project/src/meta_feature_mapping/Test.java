@@ -23,7 +23,7 @@ public class Test{
 	public static void main(String[] args) 
 	{
 		// Replicate mapping results as described by Koehn et al (comment all stuff below first)
-//		replicate_mapping_Bonenkamp_et_al();
+//		replicate_mapping_Koehn_et_al();
 		
 		ArrayList<HouseData> housesData = new ArrayList<HouseData>();
 		
@@ -50,13 +50,7 @@ public class Test{
 	}
 	
 	
-	/**
-	 * Run mapping using hand made clusters (meta-features)
-	 * @param housesData
-	 * @param target_house_index
-	 * @param diffent_meta_features using the meta-features designed to be the same or designed to be somewhat different
-	 * @param distance_type the type of profiles and appropriate distance metric you would like to use for mapping
-	 */
+
 	private static void hand_made_clusters(ArrayList<HouseData> housesData, int target_house_index, boolean diffent_meta_features, Meta_feature_mapping.Sensor_distance distance_type)  {
 		Meta_features_apply_handcrafted mf_hc = new Meta_features_apply_handcrafted();
 		mf_hc.apply_hand_crafted_meta_features(housesData, diffent_meta_features);
@@ -65,12 +59,6 @@ public class Test{
 		map.map_metafeatures_one_to_one_heuristic(housesData, target_house_index); //2nd param. is index houseData 
 	}
 
-	/**
-	 * Run mapping using automatic clustering 
-	 * @param housesData 
-	 * @param target_house_index
-	 * @param distance_type the type of profiles and appropriate distance metric you would like to use for mapping
-	 */
 	private static void automatic_clustering(ArrayList<HouseData> housesData, int target_house_index, Meta_feature_mapping.Sensor_distance distance_type)
 	{
 		Meta_feature_building cluster_building = new Meta_feature_building(0.3f, beta);
@@ -82,11 +70,6 @@ public class Test{
 		map.map_metafeatures_one_to_one_heuristic(housesData, target_house_index); //2nd param. is index houseData 
 	}
 
-	/**
-	 * Prints the meta features that are found by mapping
-	 * @param houseData
-	 * @param meta_Features_check
-	 */
 	private static void print_metaFeatures(HouseData houseData, HashMap<String, String> meta_Features_check) {
 		System.out.println("\n\n"+houseData.houseName + "\n");
 		HashMap<String, String> mapping = new  HashMap<String, String>();
@@ -126,12 +109,9 @@ public class Test{
 		
 	}
 	
-	/**
-	 * Replicates the mapping described by Bonenkamp et al
-	 */
-	private static void replicate_mapping_Bonenkamp_et_al()
+	private static void replicate_mapping_Koehn_et_al()
 	{
-		// To replicate the results by Bonenkamp at all the accuracy needs to 
+		// To replicate the results by Koehn at all the accuracy needs to 
 		// be interpreted relaxed. E.g. bathroomdoor mapped to bathroom is considered
 		// correct. Secondly the mapping of A to B by our algorithm is interpreted as 
 		// the mapping of B to A in their implementation, because they map all target clusters
@@ -148,6 +128,26 @@ public class Test{
 		// Map B to A
 		int target_house = 0;	
 		hand_made_clusters(housesData, target_house, diffent_meta_features, Meta_feature_mapping.Sensor_distance.Profiles_individ_KL_rel_KL);
+		
+		HashMap<String, String> meta_Features_check = new  HashMap<String, String>();
+		get_extended_names(meta_Features_check, housesData.get(target_house));
+		
+		for (HouseData houseData : housesData) {
+			print_metaFeatures(houseData, meta_Features_check);
+		}
+		
+		// Map A to B
+		target_house = 1;			
+		hand_made_clusters(housesData, target_house, diffent_meta_features, Meta_feature_mapping.Sensor_distance.Profiles_individ_KL_rel_KL);
+		
+		meta_Features_check = new  HashMap<String, String>();
+		get_extended_names(meta_Features_check, housesData.get(target_house));
+		
+		for (HouseData houseData : housesData) {
+			print_metaFeatures(houseData, meta_Features_check);
+		}
+	}
+}_meta_features, Meta_feature_mapping.Sensor_distance.Profiles_individ_KL_rel_KL);
 		
 		HashMap<String, String> meta_Features_check = new  HashMap<String, String>();
 		get_extended_names(meta_Features_check, housesData.get(target_house));

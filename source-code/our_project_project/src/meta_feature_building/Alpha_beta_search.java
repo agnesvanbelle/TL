@@ -15,7 +15,6 @@ import data.HouseData;
 public class Alpha_beta_search {
 
 	/**
-	 * Provides cluster statistics for all houses for different values of alpha (relative or absolute) or beta
 	 * @param args
 	 * @throws IOException
 	 */
@@ -204,10 +203,7 @@ public class Alpha_beta_search {
 			}
 		}
 	}
-	
-	/**
-	 * Prints the statistics to file in a latex format
-	 */
+
 	private static void stats_to_file(float[][] stats_avg, int[][][] stats_freq, FileWriter stats_writer, int[] alphas, int[] betas, float[] single_alfas,
 			Meta_feature_building.Alpha_beta_type alpha_style) {
 		int nr_stats = 3;
@@ -278,6 +274,16 @@ public class Alpha_beta_search {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	private static double roundTwoDecimals(double d) {
+		DecimalFormat twoDForm = new DecimalFormat("#.##");
+		return Double.valueOf(twoDForm.format(d));
+	}
+
+}
+
 		}
 	}
 

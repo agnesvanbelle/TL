@@ -1,16 +1,18 @@
 package data;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.linear.*;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.linear.SingularMatrixException;
 import org.apache.commons.math3.special.Erf;
 import org.apache.commons.math3.stat.correlation.Covariance;
 
-/**
- * This class implements multivariate normal distributions having an arbitrary number of dimensions.
- * It also includes several, different methods for calculating the distance between two normal distributions.
- */
 public class NormalDistribution
 {
 	private final static double EQ_THRESHOLD = 0.001;
@@ -33,8 +35,7 @@ public class NormalDistribution
 	 */
 	public NormalDistribution(int[][] values)
 	{
-		// Value transformation into doubles:
-
+		// Value transformation into doubles:		
 		double[][] valuesDouble = new double[values.length][values[0].length];
 		
 		for (int i = 0; i < values.length; i++)
@@ -57,9 +58,7 @@ public class NormalDistribution
 	
 	private void calculateCharacteristics(double[][] values)
 	{
-		// Number of dimensions of the future (multivariate) normal distribution:
-		
-		int dimensions = values[0].length; 
+		int dimensions = values[0].length; // Number of dimensions of the future (multivariate) normal distribution.
 		
 		RealMatrix valuesMatrix = new Array2DRowRealMatrix(values);
 		
@@ -117,7 +116,7 @@ public class NormalDistribution
 	 * Calculates the Kullback-Leibler divergence from this normal distribution to another one.
 	 * Inspired from https://en.wikipedia.org/wiki/Multivariate_normal_distribution
 	 * @param other The normal distribution to compare this distribution with.
-	 * @return The KL-divergence from this normal distribution to another one.
+	 * @return The KL distance from this normal distribution to another one.
 	 */
 	public float KLDivergence(NormalDistribution other)
 	{
@@ -159,6 +158,8 @@ public class NormalDistribution
 					variantDimensions[j] = variantDimensionsPseudo[j];
 				}
 				
+				//System.out.println(variantDimensions.length);
+				
 				RealMatrix thisPseudoCovariance  = this.covariance.getSubMatrix(variantDimensions,  variantDimensions);
 				RealMatrix otherPseudoCovariance = other.covariance.getSubMatrix(variantDimensions, variantDimensions);
 				
@@ -185,7 +186,7 @@ public class NormalDistribution
 			}
 		}
 		
-		// Actual KL-divergence implementation (see reference link):
+		// Actual KL-divergence implementation:
 		
 		output += covarianceInvOther.multiply(this.covariance).getTrace();
 		
@@ -208,8 +209,6 @@ public class NormalDistribution
 	public float overlapLevel(NormalDistribution other)
 	{
 		double sum = 0;
-		
-		// Not an exact method: the overlap is calculated per dimension and not in the N-dimensional space.
 		
 		for (int i = 0; i < mu.getDimension(); i++)
 		{

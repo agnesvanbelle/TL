@@ -1,9 +1,5 @@
 package data;
 
-/*
- * This class implements a generic container for IDs and names of activities and sensors.
- * Objects of this class are only indexed and compared with other objects by their names, not by their IDs.
- */
 public class NameContainer
 {
 	private static int ID_NEXT = 0;
@@ -47,6 +43,16 @@ public class NameContainer
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+		NameContainer other = (NameContainer) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+}
+urn false;
 		NameContainer other = (NameContainer) obj;
 		if (name == null) {
 			if (other.name != null)
