@@ -67,8 +67,3 @@ public class DataPoint
 		
 	}
 }
-d(", start date: " + startDate);
-		
-		return s.toString();
-	}
-}

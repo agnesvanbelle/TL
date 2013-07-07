@@ -145,8 +145,3 @@ public class Test
 		//houseE.formatLena(HouseData.MAPPING_LEVEL_METAFEATURE, HouseData.MAPPING_LEVEL_METAFEATURE);
 	}
 }
-     	"get-drink");
-		
-		houseE.formatLena("output/example8", HouseData.MAPPING_LEVEL_METAFEATURE, HouseData.MAPPING_LEVEL_METAFEATURE);
-	}
-}

@@ -283,13 +283,3 @@ public class Alpha_beta_search {
 	}
 
 }
-
-		}
-	}
-
-	private static double roundTwoDecimals(double d) {
-		DecimalFormat twoDForm = new DecimalFormat("#.##");
-		return Double.valueOf(twoDForm.format(d));
-	}
-
-}

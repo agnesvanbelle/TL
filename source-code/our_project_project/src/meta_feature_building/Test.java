@@ -91,21 +91,3 @@ public class Test
 	
 	
 }
-t_meta_features);
-		for(HouseData house: data){
-			printClusters(house, "Hand crafted ");
-		}
-	}
-	
-	/**
-	 * Replicates clustering as been shown by Bonenkamp et al.
-	 */
-	private static void replicate_clustering_Bonenkamp_et_al()
-	{
-		// Reported result is in between the rollowing results:
-		generate_clusters("houseA", "Absolute", 2, 4, 0.1f);
-		generate_clusters("houseA", "Absolute", 2, 5, 0.1f);
-	}
-	
-	
-}

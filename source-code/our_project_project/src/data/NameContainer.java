@@ -52,13 +52,3 @@ public class NameContainer
 		return true;
 	}
 }
-urn false;
-		NameContainer other = (NameContainer) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
-}

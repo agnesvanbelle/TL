@@ -5,11 +5,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import data.HouseData;
 
 import art.framework.utils.*;
 import art.experiments.*;
+import art.experiments.WERenums.TRANSFER_SETTINGS;
+import art.experiments.WERenums.TRANSFER_TYPE;
 
 /**
  * Runs the whole stuff: metafeature making + transfer algorithm resp. from
@@ -48,7 +51,7 @@ public class ExperimentRunner {
 		
 //		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 //				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.SSE, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
-//
+
 //		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 //				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_ABS, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.SSE, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
 //		
@@ -66,9 +69,10 @@ public class ExperimentRunner {
 //		
 //		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 //				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_SP, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
-
+//
 		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 				WERenums.MF_TYPE.AUTO, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
+		
 		
 		mfm.runForSubset(HouseData.outputDirName, subsetMin, subsetMax, 
 				WERenums.MF_TYPE.HC, WERenums.CLUSTER_TYPE.CT_REL, WERenums.PROFILE_TYPE.PR_BOTH, WERenums.DISTANCE_MEASURE.KL, WERenums.TRANSFER_SETTINGS.ONLY_TRANSFER);
@@ -93,7 +97,7 @@ public class ExperimentRunner {
 		wer = new WifiExperimentRunner();
 
 		wer.setSubset(subsetMin, subsetMax);
-		wer.set_NO_DATA_INSTANCES(50);
+		wer.set_NO_DATA_INSTANCES(100);
 		int[] noDaysConsidered = { 2, 3, 6,11,21};
 		wer.setNoDaysArray(noDaysConsidered);
 		wer.turnLoggingOff();
@@ -112,10 +116,9 @@ public class ExperimentRunner {
 
 		// Note that subsetMax - subsetMin should be > 1  for transfer case
 		int subsetMin = 0;
-		int subsetMax = 5;
+		int subsetMax = 3;
 
-		
-		
+	
 		//experiment1MakeMappings(subsetMin, subsetMax);
 		
 		experiment1RunWER(subsetMin, subsetMax);
@@ -164,16 +167,23 @@ public class ExperimentRunner {
 	public void copyOriginalHCToWifiExperimentRunnerInput(int subsetMin, int subsetMax, WERenums.TRANSFER_SETTINGS transferSettings){
 		
 		ArrayList<String> allHousesDir = Utils.getSubDirectories(WifiExperimentRunner.HC_MMF_DIR);
+		ArrayList<String> outputtedHousesDir = Utils.getSubDirectories(MetaFeatureMaker.outputDirName);
 		
+		Collections.sort(allHousesDir);
+		Collections.sort(outputtedHousesDir);
 		
 		for (int i=subsetMin; i < subsetMax; i++) {
 			System.out.println(allHousesDir.get(i));
+			System.out.println(outputtedHousesDir.get(i));
 			
-
-			Utils.copyDirectory(new File(WifiExperimentRunner.HC_MMF_DIR + allHousesDir.get(i) + "/"),
-					new File(WifiExperimentRunner.EXP_DIR + allHousesDir.get(i) + "/" + 
-							WERenums.MMF_TYPE.HC_MMF + " " + transferSettings + "/"));
-
+			if (allHousesDir.get(i).compareTo(outputtedHousesDir.get(i))==0) {
+				
+				
+	
+				Utils.copyDirectory(new File(WifiExperimentRunner.HC_MMF_DIR + allHousesDir.get(i) + "/"),
+						new File(WifiExperimentRunner.EXP_DIR + allHousesDir.get(i) + "/" + 
+								WERenums.MMF_TYPE.HC_MMF + " " + transferSettings + "/"));
+			}
 		}
 		
 		
@@ -184,14 +194,15 @@ public class ExperimentRunner {
 
 		String inputDirName = MetaFeatureMaker.outputDirName;
 
-		ArrayList<String> outputtedHousesDir = Utils.getSubDirectories(inputDirName);
-
-		
+		ArrayList<String> outputtedHousesDir = Utils.getSubDirectories(inputDirName);		
 		ArrayList<String> allHousesDirHC = Utils.getSubDirectories(WifiExperimentRunner.HC_MMF_DIR);
 		
-		for (int i=subsetMin; i < subsetMax; i ++) {
+		Collections.sort(allHousesDirHC);
+		Collections.sort(outputtedHousesDir);
+		
+		for (int i=0; i < subsetMax-subsetMin; i++) {
 			
-			String houseDirActionFiles = outputtedHousesDir.get(i-subsetMin) ;
+			String houseDirActionFiles = outputtedHousesDir.get(i) ;
 			
 			System.out.println("houseDirActionFiles: " + houseDirActionFiles);
 			ArrayList<String> expDirs = Utils.getSubDirectories(HouseData.outputDirName + houseDirActionFiles + "/");

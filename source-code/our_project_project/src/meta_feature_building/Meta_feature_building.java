@@ -187,15 +187,4 @@ public class Meta_feature_building{
 	}
 	
 	
-}ngth;i++)
-		{
-			for(int j =0; j<freq[i].length;j++)
-			{
-				System.out.print(freq[i][j] + "\t");				
-			}
-			System.out.print("\n");
-		}
-	}
-	
-	
 }

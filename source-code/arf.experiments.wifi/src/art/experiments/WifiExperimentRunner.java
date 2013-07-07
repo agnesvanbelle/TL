@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -125,12 +126,24 @@ public class WifiExperimentRunner {
 
 	public void run() {
 
-		if (numberHouses <= 1) {
-			System.err.println("Number of houses not set, or set too low " + " (should be larger than 1 )");
-			System.exit(1);
+//		if (numberHouses <= 1) {
+//			System.err.println("Number of houses not set, or set too low " + " (should be larger than 1 )");
+//			System.exit(1);
+//		}
+		if (numberHouses == -1) {
+			numberHouses = Utils.getDirectorySize(EXP_DIR);
 		}
-		runTransferAlgorithm();
-		runEvaluation();
+		houses = new String[numberHouses];
+		maxDaysPlotPerHouse = new double[numberHouses];
+		for (int i = 0; i < numberHouses; i++) {
+			houses[i] = WifiUtils.intToString(i + startHouseNr);
+		}
+		maxDaysPlotPerHouse[0]=22;
+		maxDaysPlotPerHouse[1]=14;
+		maxDaysPlotPerHouse[2]=14;
+		//runTransferAlgorithm();		
+		runEvaluation(/*avgAccuracy=*/true);
+		
 	}
 
 	public void setSubset(int l, int h) {
@@ -142,8 +155,13 @@ public class WifiExperimentRunner {
 
 	}
 
-	public void runEvaluation() {
-		evaluateUsingSVM();
+	public void runEvaluation(boolean avgAccuracy) {
+		if (avgAccuracy) {
+			evaluateUsingSVMAvgAccuracy();
+		}
+		else {
+			evaluateUsingSVM();
+		}
 		printEvaluationResults();
 		evaluationResultsToMatlab();
 	}
@@ -432,12 +450,12 @@ public class WifiExperimentRunner {
 		System.out.println("\nGoing to evaluate using libSVM...");
 
 		String[] patterns = TRANSFER_SETTINGS.valuesStr();
-		String regex = "[^\\_][";
+		String regex = "\\w*(?<!_)("; 
 		for (int i = 0; i < patterns.length; i++) {
 			regex += patterns[i] + "|";
 		}
 		regex = regex.substring(0, regex.length() - 1);
-		regex += "]";
+		regex += ")";
 		//System.out.println("regex: " + regex);
 
 		for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
@@ -468,7 +486,7 @@ public class WifiExperimentRunner {
 							if (f.exists()) { // if was run for this transfer setting
 
 								// add transfer_type to expname instead of transfer_setting
-								String finalName = expName.replaceFirst(regex, tT.name());
+								String finalName = expName.replaceAll(regex, tT.name());
 
 								if (noDaysIndex == 0) {
 									resultsNames[houseNr].add(finalName);
@@ -480,14 +498,21 @@ public class WifiExperimentRunner {
 								ArrayList<String> testFiles = Utils.getDirectoryListing(testDir);
 								ArrayList<String> trainFiles = Utils.getDirectoryListing(trainDir);
 
+								Collections.sort(testFiles);
+								Collections.sort(trainFiles);
+								
 								String tempOutputDir = outputDirHouseExpDays + "/" + tT + "/" + "tempOutput/";
-								double total = 0;
+								double sumCorrect = 0;
+								double sumSampleSize = 0;
+								
 								for (int fileNameIndex = 0; fileNameIndex < trainFiles.size(); fileNameIndex++) {
-									total += callSVM(trainDir, testDir, tempOutputDir, trainFiles.get(fileNameIndex), testFiles.get(fileNameIndex));
+									double[] correctAndTotal = callSVM(trainDir, testDir, tempOutputDir, trainFiles.get(fileNameIndex), testFiles.get(fileNameIndex));
+									sumCorrect += correctAndTotal[0];
+									sumSampleSize += correctAndTotal[1];
 								}
-								total /= trainFiles.size();
+								double avgAccuracy = sumCorrect / sumSampleSize;
 
-								results[houseNr][noDaysIndex].add(total);
+								results[houseNr][noDaysIndex].add(avgAccuracy);
 
 								Utils.deleteDir(tempOutputDir);
 							}
@@ -499,6 +524,124 @@ public class WifiExperimentRunner {
 		System.out.println("Done evaluating using libSVM.\n");
 		//printEvaluationResults() ;
 	}
+	
+	public void evaluateUsingSVMAvgAccuracy() {
+
+		results = new ArrayList/* <Double> */[numberHouses][noDaysArray.length];
+
+		resultsNames = new ArrayList/* <String> */[numberHouses];
+
+		System.out.println("\nGoing to evaluate using libSVM...");
+
+		String[] patterns = TRANSFER_SETTINGS.valuesStr();
+		String regex = "\\w*(?<!_)("; 
+		for (int i = 0; i < patterns.length; i++) {
+			regex += patterns[i] + "|";
+		}
+		regex = regex.substring(0, regex.length() - 1);
+		regex += ")";
+		//System.out.println("regex: " + regex);
+
+		for (int houseNr = 0; houseNr < numberHouses; houseNr++) {
+
+			String outputDirHouse = OUTPUT_DIR + "houseInfo" + houses[houseNr] + "/";
+
+			ArrayList<String> experimentNames = Utils.getSubDirectories(outputDirHouse);
+
+			resultsNames[houseNr] = new ArrayList<String>();
+
+			
+			
+			for (int noDaysIndex = 0; noDaysIndex < noDaysArray.length; noDaysIndex++) {
+				int noDays = noDaysArray[noDaysIndex];
+
+				results[houseNr][noDaysIndex] = new ArrayList<Double>();
+
+				for (int expIndex = 0; expIndex < experimentNames.size(); expIndex++) {
+
+					String expName = experimentNames.get(expIndex);
+					String outputDirHouseExp = outputDirHouse + expName + "/";
+
+					if (maxDaysPlotPerHouse[houseNr] > noDays) {
+
+						String outputDirHouseExpDays = outputDirHouseExp + houses[houseNr] + noDays + "/";
+
+						for (WERenums.TRANSFER_TYPE tT : WERenums.TRANSFER_TYPE.values()) {
+
+							File f = new File(outputDirHouseExpDays + tT + "/");
+							if (f.exists()) { // if was run for this transfer setting
+
+								HashMap<Integer,Integer> classCorrect = new HashMap<Integer,Integer>();
+								HashMap<Integer,Integer> classTotal = new HashMap<Integer,Integer>();
+								
+								// add transfer_type to expname instead of transfer_setting
+								String finalName = expName.replaceAll(regex, tT.name());
+
+								if (noDaysIndex == 0) {
+									resultsNames[houseNr].add(finalName);
+								}
+
+								String testDir = outputDirHouseExpDays + "/" + tT + "/" + WERenums.SET_TYPE.TEST + "/";
+								String trainDir = outputDirHouseExpDays + "/" + tT + "/" + WERenums.SET_TYPE.TRAIN + "/";
+
+								ArrayList<String> testFiles = Utils.getDirectoryListing(testDir);
+								ArrayList<String> trainFiles = Utils.getDirectoryListing(trainDir);
+
+								Collections.sort(testFiles);
+								Collections.sort(trainFiles);
+								
+								String tempOutputDir = outputDirHouseExpDays + "/" + tT + "/" + "tempOutput/";
+														
+								
+								for (int fileNameIndex = 0; fileNameIndex < trainFiles.size(); fileNameIndex++) {
+									HashMap<Integer,Integer>[] correctAndTotal = callSVMAvgAccuracy(trainDir, testDir, tempOutputDir, trainFiles.get(fileNameIndex), testFiles.get(fileNameIndex));
+									
+								
+									for (Map.Entry<Integer, Integer> entry : correctAndTotal[0].entrySet()) {										
+										classCorrect.put(entry.getKey(), ( classCorrect.get(entry.getKey()) == null? 1 : classCorrect.get(entry.getKey())+ entry.getValue()));
+									   // System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+									}
+									
+									for (Map.Entry<Integer, Integer> entry : correctAndTotal[1].entrySet()) {										
+										classTotal.put(entry.getKey(), (classTotal.get(entry.getKey()) == null? 1 : classTotal.get(entry.getKey())+ entry.getValue()));
+									   // System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+									}
+								    
+								}
+								
+								double totalCorrect=0;
+								double sampleSize=0;
+								
+								for (Integer key : classCorrect.keySet()) {
+									
+									totalCorrect += classCorrect.get(key);
+								}
+								
+								for (Integer key : classTotal.keySet()) {
+									
+									sampleSize += classTotal.get(key);
+								   // System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+								}
+								
+								System.out.println("totalCorrect: " + totalCorrect);
+								System.out.println("sampleSize: " + sampleSize);
+								
+								double avgAccuracy = (double)totalCorrect / (double)sampleSize;
+
+								results[houseNr][noDaysIndex].add(avgAccuracy);
+								
+								System.out.println("Evaluation: House " + (houseNr+1) + ", days " + noDays + ", exp. setting " + finalName +   " done.");
+								Utils.deleteDir(tempOutputDir);
+							}
+						}
+					}
+				}
+			}
+		}
+		System.out.println("Done evaluating using libSVM.\n");
+		//printEvaluationResults() ;
+	}
+	
 
 	public void printEvaluationResults() {
 		System.out.println("\nResults:");
@@ -516,8 +659,8 @@ public class WifiExperimentRunner {
 			}
 		}
 	}
-
-	public double callSVM(String trainDir, String testDir, String tempOutputDir, String trainFile, String testFile) {
+	
+	public HashMap<Integer,Integer>[] callSVMAvgAccuracy(String trainDir, String testDir, String tempOutputDir, String trainFile, String testFile) {
 		// System.out.println("trainFile: " + trainFile);
 		Utils.createDirectory(tempOutputDir);
 
@@ -535,13 +678,39 @@ public class WifiExperimentRunner {
 		svmPredictorArgs.add(tempOutputDir + trainFile + "_outputtrainfile.txt");
 		svmPredictorArgs.add(tempOutputDir + testFile + "_outputtestfile.txt");
 		svm_predict svmPredictor = new svm_predict();
-		double accuracy = svmPredictor.run(svmPredictorArgs.toArray(new String[0]));
+		HashMap<Integer, Integer> correctAndTotal[] = svmPredictor.runAvgAccuracy(svmPredictorArgs.toArray(new String[0]));
 
-		return accuracy / 100.0;
+		return correctAndTotal;
+	}
+	
+
+	public double[] callSVM(String trainDir, String testDir, String tempOutputDir, String trainFile, String testFile) {
+		// System.out.println("trainFile: " + trainFile);
+		Utils.createDirectory(tempOutputDir);
+
+		// train
+		ArrayList<String> svmTrainerArgs = new ArrayList<String>();
+		svmTrainerArgs.add("-q"); // quiet mode
+		svmTrainerArgs.add(trainDir + trainFile);
+		svmTrainerArgs.add(tempOutputDir + trainFile + "_outputtrainfile.txt");
+		svm_train svmTrainer = new svm_train();
+		svmTrainer.run(svmTrainerArgs.toArray(new String[0]));
+
+		// test
+		ArrayList<String> svmPredictorArgs = new ArrayList<String>();
+		svmPredictorArgs.add(testDir + testFile);
+		svmPredictorArgs.add(tempOutputDir + trainFile + "_outputtrainfile.txt");
+		svmPredictorArgs.add(tempOutputDir + testFile + "_outputtestfile.txt");
+		svm_predict svmPredictor = new svm_predict();
+		double correctAndTotal[] = svmPredictor.run(svmPredictorArgs.toArray(new String[0]));
+
+		return correctAndTotal;
 	}
 
 	public void evaluationResultsToMatlab() {
 
+		System.out.println("Writing to matlab files...");
+		
 		String regex = "[_]";
 
 		String matlabDir = ROOT_DIR + "output/" + "matlab/";
@@ -868,7 +1037,7 @@ public class WifiExperimentRunner {
 	private void getTestAndTrainingSetsLeaveOneOut(int noDays, Map<String, List<String>> actionMap, Map<String, List<String>> sensorMap, List<String> allDates,
 			Map<String, List<String>> testActionInstances, Map<String, List<String>> testSensorInstances, Map<String, List<String>> trainActionInstances, Map<String, List<String>> trainSensorInstances) {
 
-		for (int k = 0; k < NO_DATA_INSTANCES && (k * noDays) < 300; k++) {
+		for (int k = 0; k < NO_DATA_INSTANCES; k++) {
 
 			List<String> instanceDates = new ArrayList<String>();
 

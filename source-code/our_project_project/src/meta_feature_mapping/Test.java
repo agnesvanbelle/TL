@@ -147,24 +147,4 @@ public class Test{
 			print_metaFeatures(houseData, meta_Features_check);
 		}
 	}
-}_meta_features, Meta_feature_mapping.Sensor_distance.Profiles_individ_KL_rel_KL);
-		
-		HashMap<String, String> meta_Features_check = new  HashMap<String, String>();
-		get_extended_names(meta_Features_check, housesData.get(target_house));
-		
-		for (HouseData houseData : housesData) {
-			print_metaFeatures(houseData, meta_Features_check);
-		}
-		
-		// Map A to B
-		target_house = 1;			
-		hand_made_clusters(housesData, target_house, diffent_meta_features, Meta_feature_mapping.Sensor_distance.Profiles_individ_KL_rel_KL);
-		
-		meta_Features_check = new  HashMap<String, String>();
-		get_extended_names(meta_Features_check, housesData.get(target_house));
-		
-		for (HouseData houseData : housesData) {
-			print_metaFeatures(houseData, meta_Features_check);
-		}
-	}
 }

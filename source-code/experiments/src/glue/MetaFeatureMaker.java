@@ -97,7 +97,7 @@ public class MetaFeatureMaker {
 
 	}
 
-	public synchronized void makeMappingForHouseDandE() {
+	public  void makeMappingForHouseDandE() {
 		HouseData.mapActivities("Going-out-to-work", "leave-house");
 		HouseData.mapActivities("Taking-out-the-trash", "leave-house");
 		HouseData.mapActivities("Lawnwork", "leave-house");
@@ -190,6 +190,8 @@ public class MetaFeatureMaker {
 		System.out.println("Making metafeatures for houses: " + Arrays.toString(houseNames) + " (Experiment settings: " + mfType + "," + clusterType + ", " + profileType + ", " + distanceMeasure + ", " +  trSetting + ")");
 
 		// map house D and E sensors (AFTER housesData has been made!)
+		
+		
 		makeMappingForHouseDandE();
 
 		//////// build metafeatures ////////
