@@ -1,0 +1,76 @@
+Foyer	Foyer,Closet
+Foyer	Foyer,Light switch
+Foyer	Foyer,Door	
+BathroomGeneral	Bathroom,Light switch
+BathroomGeneral	Bathroom,Door
+BathroomStorage	Bathroom,Cabinet B
+BathroomStorage	Bathroom,Cabinet A
+BathroomStorage	Bathroom,Medicine cabinet A
+BathroomStorage	Bathroom,Medicine cabinet B
+BathroomUtilities	Bathroom,Toilet Flush 
+BathroomUtilities	Bathroom,Sink faucet - hot
+BathroomUtilities	Bathroom,Sink faucet - cold
+BathroomUtilities	Bathroom,Shower faucet
+BathroomUtilities	Bathroom,Exhaust Fan	
+LivingRoom	Living room,DVD 
+LivingRoom	Living room,Light switch A
+LivingRoom	Living room,Light switch B
+LivingRoom	Living room,Lamp	
+Bedroom	Bedroom,Light switch
+Bedroom	Bedroom,Window
+Bedroom	Bedroom,Drawer E
+Bedroom	Bedroom,Drawer B
+Bedroom	Bedroom,Lamp
+Bedroom	Bedroom,Drawer A
+Bedroom	Bedroom,Jewelry box
+Bedroom	Bedroom,Drawer C
+Bedroom	Bedroom,Drawer D	
+Porch	Porch,Light switch	
+Office	Office/study,Drawer
+Office	Office/study,Light switch	
+KitchenGeneral	Kitchen,Light switch A
+KitchenGeneral	Kitchen,Light switch B
+KitchenGeneral	Kitchen,Door A
+KitchenGeneral	Kitchen,Door B
+KitchenGeneral	Kitchen,Window
+KitchenGeneral	Kitchen,Light switch C	
+KitchingLaundry	Kitchen,Washing Machine
+KitchingLaundry	Kitchen,Laundry Dryer	
+KitchenCoffee	Kitchen,Coffee machine	
+KitchenDishes	Kitchen,Dishwasher	
+KitchenCooling	Kitchen,Refrigerator A
+KitchenCooling	Kitchen,Refrigerator C
+KitchenCooling	Kitchen,Freezer
+KitchenCooling	Kitchen,Refrigerator B	
+KitchenGarbage	Kitchen,Containers
+KitchenGarbage	Kitchen,Garbage disposal	
+KitchenHeat	Kitchen,Burner A
+KitchenHeat	Kitchen,Burner B
+KitchenHeat	Kitchen,Toaster
+KitchenHeat	Kitchen,Microwave
+KitchenHeat	Kitchen,Oven
+KitchenHeat	Kitchen,Burner D
+KitchenHeat	Kitchen,Burner C	
+KitchenStorage	Kitchen,Drawer A
+KitchenStorage	Kitchen,Cabinet A
+KitchenStorage	Kitchen,Cabinet B
+KitchenStorage	Kitchen,Drawer B
+KitchenStorage	Kitchen,Cabinet C
+KitchenStorage	Kitchen,Cereal
+KitchenStorage	Kitchen,Cabinet D
+KitchenStorage	Kitchen,Drawer C
+KitchenStorage	Kitchen,Cabinet E
+KitchenStorage	Kitchen,Cabinet F
+KitchenStorage	Kitchen,Cabinet G
+KitchenStorage	Kitchen,Cabinet H
+KitchenStorage	Kitchen,Cabinet I
+KitchenStorage	Kitchen,Cabinet J
+KitchenStorage	Kitchen,Cabinet K
+KitchenStorage	Kitchen,Cabinet L
+KitchenStorage	Kitchen,Cabinet N
+KitchenStorage	Kitchen,Drawer F
+KitchenStorage	Kitchen,Drawer G
+KitchenStorage	Kitchen,Drawer D
+KitchenStorage	Kitchen,Drawer E
+KitchenStorage	Kitchen,Cabinet M
+KitchenStorage	Kitchen,Cabinet O

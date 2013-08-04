@@ -1,0 +1,8 @@
+use-toilet [exists(sensor,sensor.no-firings(1-2)), exists(sensor,sensor.sensor-type(318))]
+brush-teeth [exists(sensor,sensor.sensor-type(318))]
+prep-dinner [exists(sensor,sensor.no-firings(1-2)), exists(sensor,sensor.sensor-type(318))]
+take-shower [exists(sensor,and(sensor.act-duration(8-10),sensor.end-time(652-787),sensor.fire-duration(7-667),sensor.no-firings(1-1),sensor.sensor-type(318),sensor.start-time(330-837))), exists(sensor,sensor.act-duration(8-10)), exists(sensor,sensor.end-time(652-787)), exists(sensor,sensor.fire-duration(7-667)), exists(sensor,sensor.no-firings(1-1)), exists(sensor,sensor.sensor-type(318)), exists(sensor,sensor.start-time(330-837))]
+leave-house [exists(sensor,sensor.sensor-type(318))]
+get-drink [exists(sensor,sensor.fire-duration(1-2)), exists(sensor,sensor.sensor-type(318))]
+go-to-bed [exists(sensor,and(sensor.act-duration(365-475),sensor.end-time(223-416),sensor.fire-duration(1-4),sensor.no-firings(21-32),sensor.sensor-type(318),sensor.start-time(230-418))), exists(sensor,sensor.act-duration(365-475)), exists(sensor,sensor.end-time(223-416)), exists(sensor,sensor.fire-duration(1-4)), exists(sensor,sensor.no-firings(21-32)), exists(sensor,sensor.sensor-type(318)), exists(sensor,sensor.start-time(230-418))]
+prep-breakfast [exists(sensor,sensor.sensor-type(318))]

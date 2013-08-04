@@ -1,2 +1,0 @@
-P [for_all(amove,amove.val(0)), for_all(amove,bmove,followedBy(amove.val(0),bmove.val(1))), num-of-awins(0), num-of-bwins(2)]
-N [exists(amove,amove.val(0)), exists(amove,amove.val(1))]

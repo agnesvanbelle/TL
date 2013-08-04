@@ -1,0 +1,158 @@
+
+The Abstract Representation Framework (Transfer learning) part that
+runs the transfer part of the experiment and gets its input
+from arf.experiments.wifi/housedata/input.
+Also runs the final SVM evaluation part.
+Original by Lena Bayeva. Edited by us (mainly in WifiExperimentRunner.java).
+Dependent projects: arf.framework, libsvm_java, mahout-trunk/core
+Dependent jars: the jar file that results from compiling mahout-trunk/core (mahout-core-*.jar)
+
+  arf.experiments.wifi
+  │
+  └── art
+      └── experiments
+          ├── WERenums.java
+          ├── wifi
+          │   └── data
+          │       └── processor
+          │           ├── ActionInfo.java
+          │           ├── EventInfo.java
+          │           ├── Interval.java
+          │           ├── Sensor.java
+          │           ├── TimeInterval.java
+          │           ├── WifiAligner.java
+          │           └── WifiUtils.java
+          └── WifiExperimentRunner.java
+
+
+The Abstract Representation Framework (Transfer learning) part that
+creates the abstract (shared) features and makes svm training data 
+from predicate data.
+Original by Lena Bayeva. Only Utils.java edited by us.
+
+  arf.framework
+  │
+  └── art
+      └── framework
+          ├── example
+          │   ├── generator
+          │   │   ├── ConnectPredicateGenerate.java
+          │   │   ├── ObjectPredicateGenerate.java
+          │   │   ├── PredicateWriter.java
+          │   │   └── PropertyPredicateGenerate.java
+          │   └── parser
+          │       ├── AbstractPredicateWriter.java
+          │       ├── ConnectPredicateParse.java
+          │       ├── DataStats.java
+          │       ├── Example.java
+          │       ├── ObjectPredicateParse.java
+          │       ├── Predicate.java
+          │       ├── PredicateParser.java
+          │       ├── PropertyPredicateParse.java
+          │       ├── QualifierPredicate.java
+          │       ├── Value.java
+          │       └── ValueRange.java
+          └── utils
+              ├── AbstractPredicate.java
+              ├── Constants.java
+              └── Utils.java
+
+
+The main package that starts both the metametafeature creation 
+with certain parameter setttings, and the 
+transfer learning part.
+By us.
+Dependent projects: arf.experiments.wifi, our_project_project
+
+  experiments
+  │
+  └── glue
+      ├── ExperimentRunner.java
+      └── MetaFeatureMaker.java
+
+
+
+The metametafeature creation part.
+Divided in a building and mapping part.
+By us.
+Dependent jars: commons-math3-3.2.jar
+
+  our_project_project
+  │
+  ├── data
+  │   ├── data
+  │   ├── DataPoint.java
+  │   ├── HouseData.java
+  │   ├── NameContainer.java
+  │   ├── NormalDistribution.java
+  │   └── Test.java
+  ├── meta_feature_building
+  │   ├── Alpha_beta_search.java
+  │   ├── Build_test_data.java
+  │   ├── Meta_feature_building.java
+  │   ├── Meta_features_apply_handcrafted.java
+  │   └── Test.java
+  └── meta_feature_mapping
+      ├── Meta_feature_mapping.java
+      └── Test.java
+
+
+
+A svm java implementation. Used for
+running the final SVM evaluation part.
+Original from http://www.csie.ntu.edu.tw/~cjlin/libsvm/.
+Slightly edited by us for direct integration.
+
+  libsvm_java
+  │
+  ├── libsvm
+  │   ├── svm.java
+  │   ├── svm_model.java
+  │   ├── svm_node.java
+  │   ├── svm_parameter.java
+  │   ├── svm_print_interface.java
+  │   └── svm_problem.java
+  └── svmjava
+      ├── svm_predict.java
+      ├── svm_scale.java
+      ├── svm_toy.java
+      └── svm_train.java
+
+
+
+A modified version of Apache Mahout.
+The .java files it contains aren't shown in the tree below because
+there are very many of them.
+Original by http://mahout.apache.org/. Edited by Lena Bayeva (the 
+FP-Growth classes).
+NOTE: only import in Eclipse as projects: mahout-trunk/core, mahout-trunk/math
+NOTE: You need to install Apache Maven to compile. 
+      Run "mvn -Dmaven.test.skip=true clean install" in
+      directory mahout-trunk. Only mahout-trunk/core, mahout-trunk/math 
+      need to get compiled.
+      Optionally you could use Eclipse's Maven plugin
+      (http://download.eclipse.org/technology/m2e/releases)
+
+  mahout-trunk
+  │
+  ├── buildtools
+  │   └── src
+  ├── core
+  │   ├── src
+  │   └── target
+  ├── distribution
+  │   └── src
+  ├── eclipse
+  │   └── src
+  ├── examples
+  │   └── src
+  ├── math
+  │   ├── src
+  │   └── target
+  ├── src
+  │   ├── conf
+  │   └── main
+  ├── taste-web
+  │   └── src
+  └── utils
+      └── src

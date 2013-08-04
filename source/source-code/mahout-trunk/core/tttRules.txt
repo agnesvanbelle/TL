@@ -1,0 +1,7 @@
+[gte(amove-val,0), gte(num-of-awins,0), gte(num-of-bwins,0)]
+[all(amove-val,0), all(bmove-val,1), gte(num-of-bwins,2), has(num-of-awins,0)]
+[all(bmove-val,1), gte(amove-val,0), gte(num-of-awins,0), gte(num-of-bwins,0)]
+[all(amove-val,0), all(bmove-val,1), gte(num-of-bwins,2), has(amove,amove-pos(p3),amove-val(0)), has(amove-pos,p3), has(num-of-awins,0)]
+[all(amove-val,0), all(bmove-val,1), gte(num-of-bwins,2), has(amove,amove-pos(p7),amove-val(0)), has(amove-pos,p7), has(num-of-awins,0)]
+[all(amove-val,0), all(bmove-val,1), gte(num-of-bwins,2), has(amove,amove-pos(p1),amove-val(0)), has(amove-pos,p1), has(num-of-awins,0)]
+[all(amove-val,0), all(bmove-val,1), gte(num-of-bwins,2), has(amove,amove-pos(p5),amove-val(0)), has(amove-pos,p5), has(num-of-awins,0)]

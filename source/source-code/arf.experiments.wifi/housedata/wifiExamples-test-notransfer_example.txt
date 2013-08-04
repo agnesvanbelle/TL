@@ -1,0 +1,2 @@
+go-to-bed:sensor(act-duration(418-499),end-time(385-539),fire-duration(1-695),no-firings(2-4),sensor-type(SleepDoor),start-time(353-1051))
+go-to-bed:sensor(act-duration(1-1),end-time(329-481),fire-duration(1-1),no-firings(1-1),sensor-type(SleepDoor),start-time(333-482))

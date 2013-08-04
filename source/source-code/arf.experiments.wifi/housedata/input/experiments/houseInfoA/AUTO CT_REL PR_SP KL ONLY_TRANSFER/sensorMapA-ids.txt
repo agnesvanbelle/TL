@@ -1,0 +1,14 @@
+0,Microwave-houseA,326
+1,Hall-Toilet door-houseA,325
+2,Hall-Bathroom door-houseA,325
+3,Cups cupboard-houseA,326
+4,Fridge-houseA,326
+5,Plates cupboard-houseA,326
+6,Front door-houseA,319
+7,Dishwasher-houseA,324
+8,Toilet Flush-houseA,325
+9,Freezer-houseA,326
+10,Pans Cupboard-houseA,321
+11,Washing machine-houseA,323
+12,Groceries Cupboard-houseA,326
+13,Hall-Bedroom door-houseA,325

@@ -1,8 +1,0 @@
-use-toilet [exists(sensor,sensor.sensor-type(318))]
-prep-dinner [exists(sensor,sensor.no-firings(1-2)), exists(sensor,sensor.sensor-type(318))]
-prep-breakfast [exists(sensor,and(sensor.act-duration(6-15),sensor.end-time(599-689),sensor.fire-duration(1-434),sensor.no-firings(1-3),sensor.sensor-type(318),sensor.start-time(596-701))), exists(sensor,sensor.act-duration(6-15)), exists(sensor,sensor.end-time(599-689)), exists(sensor,sensor.fire-duration(1-434)), exists(sensor,sensor.no-firings(1-3)), exists(sensor,sensor.sensor-type(318)), exists(sensor,sensor.start-time(596-701))]
-brush-teeth [exists(sensor,sensor.sensor-type(318))]
-take-shower [exists(sensor,sensor.no-firings(1-1)), exists(sensor,sensor.sensor-type(318))]
-get-drink [exists(sensor,and(sensor.act-duration(48-123),sensor.end-time(644-1011),sensor.fire-duration(1-2),sensor.no-firings(1-2),sensor.sensor-type(318),sensor.start-time(646-1011))), exists(sensor,sensor.act-duration(48-123)), exists(sensor,sensor.end-time(644-1011)), exists(sensor,sensor.fire-duration(1-2)), exists(sensor,sensor.no-firings(1-2)), exists(sensor,sensor.sensor-type(318)), exists(sensor,sensor.start-time(646-1011))]
-leave-house [exists(sensor,sensor.sensor-type(318))]
-go-to-bed [exists(sensor,and(sensor.act-duration(393-477),sensor.end-time(222-419),sensor.fire-duration(1-4),sensor.no-firings(22-33),sensor.sensor-type(318),sensor.start-time(229-420))), exists(sensor,sensor.act-duration(393-477)), exists(sensor,sensor.end-time(222-419)), exists(sensor,sensor.fire-duration(1-4)), exists(sensor,sensor.no-firings(22-33)), exists(sensor,sensor.sensor-type(318)), exists(sensor,sensor.start-time(229-420))]

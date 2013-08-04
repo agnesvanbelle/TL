@@ -1,0 +1,18 @@
+BathroomDoor	toilet door
+KitchStor	fridge
+KitchStor	cupboard groceries
+Toilet	toilet flush
+Outside	frontdoor
+Kitchen	cupboard plates
+SleepDoor	Bedroom door
+Sleep	press bed rechts
+Sleep	press bed links
+Kitchen	kwik cutlary drawer
+KitchHeat	kwik stove lid
+Sleep	PIR slaapkamer
+Sleep	kwik dresser
+Bathroom	PIR badkamer
+Bathroom	gootsteen float
+KitchHeat	toaster
+KitchHeat	magnetron
+Kitchen	PIR keuken

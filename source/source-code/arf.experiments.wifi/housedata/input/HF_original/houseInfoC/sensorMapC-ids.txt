@@ -1,0 +1,21 @@
+5,mat bed right pressure mat,Sleep
+6,matt couch living room,Other	
+7,freezer drove,KitchStor
+8,toilet flush top flush,Toilet
+10,toilet flush bottom flush,Toilet
+15,keys,Kitchen
+16,bath lift left,BathroomDoor
+18,cutlery drawer mercury sensor,Kitchen
+20,table pans reed,Kitchen
+21,microwave reed,KitchHeat
+22,table scraps containers reed,Kitchen
+23,cabinet signs/herb reed,Kitchen
+25,door downstairs toilet,Toilet
+27,cabinet cups/bowl/ tuna reed,Kitchen
+28,front door reed,Outside
+29,bedroom door,SleepDoor
+30,refrigerator reed,KitchStor
+35,bathtub pir,Bathroom
+36,dresser pir,Sleep
+38,sink top flush,Bathroom
+39,bed mat left pressure mat,Sleep

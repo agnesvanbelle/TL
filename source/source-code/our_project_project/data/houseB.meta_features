@@ -1,0 +1,18 @@
+Toilet	toilet door
+Toilet	toilet flush	
+Bathroom	PIR badkamer	
+FrontDoor	frontdoor	
+SlaapKamer	press bed rechts
+SlaapKamer	press bed links
+SlaapKamer	Bedroom door
+SlaapKamer	PIR slaapkamer	
+SlaapKamer	kwik dresser	
+KeukenAlgemeen	PIR keuken
+KeukenAlgemeen	gootsteen float
+KeukenAlgemeen	fridge	
+KitchenHeat	kwik stove lid
+KitchenHeat	toaster
+KitchenHeat	magnetron	
+KitchenStore	cupboard groceries
+KitchenStore	cupboard plates
+KitchenStore	kwik cutlary drawer
