@@ -11,5 +11,7 @@ See README and Code_guide.pdf in there
 Authors
 ==
 Lydia Mennes
+
 Jorge Saez Gomez
+
 Agnes van Belle
